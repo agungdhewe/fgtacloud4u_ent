@@ -34,8 +34,8 @@ class DataSave extends WebAPI {
 		try {
 
 			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->ActionIsAllowedFor($this->reqinfo->moduleconfig->apis->delete, $userdata->groups)) {
-				throw new \Exception('[ERROR] Your group authority is not aloowed to do this action.');
+			if (!$this->RequestIsAllowedFor($this->reqinfo, "delete", $userdata->groups)) {
+				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
 			$result = new \stdClass; 
