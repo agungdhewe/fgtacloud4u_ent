@@ -35,11 +35,10 @@ class DataSave extends WebAPI {
 
 		try {
 
-			// // cek apakah user boleh mengeksekusi suatu API, selain api default
-			//$api_name_to_check = "insert";
-			//if (!$this->ActionIsAllowedFor($this->reqinfo->moduleconfig->apis->{$api_name_to_check}, $userdata->groups)) {
-			//	throw new \Exception('[ERROR] Your group authority is not allowed to execute $api_name_to_check API.');
-			//}
+			// cek apakah user boleh mengeksekusi API ini
+			if (!$this->RequestIsAllowedFor($this->reqinfo, "save", $userdata->groups)) {
+				throw new \Exception('your group authority is not allowed to do this action.');
+			}
 
 			$result = new \stdClass; 
 			

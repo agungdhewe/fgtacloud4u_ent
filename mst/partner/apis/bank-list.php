@@ -29,7 +29,7 @@ class DataList extends WebAPI {
 		$userdata = $this->auth->session_get_user();
 		
 		try {
-		
+
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[

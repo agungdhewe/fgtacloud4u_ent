@@ -31,6 +31,12 @@ class DataList extends WebAPI {
 
 		try {
 		
+			// cek apakah user boleh mengeksekusi API ini
+			if (!$this->RequestIsAllowedFor($this->reqinfo, "list", $userdata->groups)) {
+				throw new \Exception('your group authority is not allowed to do this action.');
+			}
+
+
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
