@@ -32,8 +32,8 @@ class DataList extends WebAPI {
 		try {
 		
 			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->ActionIsAllowedFor($this->reqinfo->moduleconfig->apis->list, $userdata->groups)) {
-				throw new \Exception('your group authority is not aloowed to do this action.');
+			if (!$this->RequestIsAllowedFor($this->reqinfo, "list", $userdata->groups)) {
+				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
 
