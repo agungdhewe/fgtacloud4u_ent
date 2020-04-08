@@ -17,3 +17,5 @@ COMMENT='Daftar Tipe Partner';
 
 
 
+
+
