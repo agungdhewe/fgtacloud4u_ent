@@ -54,9 +54,10 @@ export async function init(opt) {
 		returnpage: this_page_id,
 		api: $ui.apis.load_partner_country,
 		fieldValue: 'partner_country',
+		fieldValueMap: 'country_id',
 		fieldDisplay: 'country_name',
 		fields: [
-			{mapping: 'partner_country', text: 'partner_country'},
+			{mapping: 'country_id', text: 'country_id'},
 			{mapping: 'country_name', text: 'country_name'},
 		]
 	})				
