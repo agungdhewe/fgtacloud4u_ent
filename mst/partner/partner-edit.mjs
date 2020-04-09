@@ -67,6 +67,7 @@ export async function init(opt) {
 		returnpage: this_page_id,
 		api: $ui.apis.load_partnertype_id,
 		fieldValue: 'partnertype_id',
+		fieldValueMap: 'partnertype_id',
 		fieldDisplay: 'partnertype_name',
 		fields: [
 			{mapping: 'partnertype_id', text: 'partnertype_id'},
@@ -79,6 +80,7 @@ export async function init(opt) {
 		returnpage: this_page_id,
 		api: $ui.apis.load_partnerorg_id,
 		fieldValue: 'partnerorg_id',
+		fieldValueMap: 'partnerorg_id',
 		fieldDisplay: 'partnerorg_name',
 		fields: [
 			{mapping: 'partnerorg_id', text: 'partnerorg_id'},

@@ -58,6 +58,7 @@ export async function init(opt) {
 		returnpage: this_page_id,
 		api: $ui.apis.load_bank_id,
 		fieldValue: 'bank_id',
+		fieldValueMap: 'bank_id',
 		fieldDisplay: 'bank_name',
 		fields: [
 			{mapping: 'bank_id', text: 'bank_id'},
