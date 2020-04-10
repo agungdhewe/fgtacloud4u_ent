@@ -28,6 +28,7 @@ module.exports = {
 				
 				},
 				unit_id: {
+					suppresslist: true,
 					text:'Unit', type: dbtype.varchar(10), null:false, uppercase: true, 
 					options:{required:true,invalidMessage:'Unit harus diisi'},
 					comp: comp.Combo({
