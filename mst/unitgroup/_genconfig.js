@@ -17,6 +17,9 @@ module.exports = {
 				unitgroup_descr: {text:'Descr', type: dbtype.varchar(90), null:false, suppresslist: true},
 				unitgroup_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 			},
+
+			defaultsearch : ['unitgroup_id', 'unitgroup_name'],
+
 			uniques: {
 				'unitgroup_name' : ['unitgroup_name']
 			}
