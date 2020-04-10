@@ -51,6 +51,7 @@ export async function init(opt) {
 		returnpage: this_page_id,
 		api: $ui.apis.load_country_id,
 		fieldValue: 'country_id',
+		fieldValueMap: 'country_id',
 		fieldDisplay: 'country_name',
 		fields: [
 			{mapping: 'country_id', text: 'country_id'},

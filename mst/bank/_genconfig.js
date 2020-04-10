@@ -31,6 +31,9 @@ module.exports = {
 						api: 'ent/mst/country/list'})					
 				},				
 			},
+
+			defaultsearch: ['bank_id', 'bank_name'],
+
 			uniques: {
 				'bank_name' : ['bank_name']
 			}
