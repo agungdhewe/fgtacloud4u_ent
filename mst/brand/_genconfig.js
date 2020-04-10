@@ -39,6 +39,12 @@ module.exports = {
 				}				
 			},
 
+			defaultsearch : ['brand_id', 'brand_name'],
+
+			uniques: {
+				'brand_name' : ['brand_name']
+			},
+
 			values: [
 				{brand_id:'HBS', brand_name:'HUGOBOSS', brandtype_id:'MEN', unit_id:'HBS'},
 				{brand_id:'CAN', brand_name:'CANALI', brandtype_id:'MEN', unit_id:'CAN'},
@@ -48,11 +54,9 @@ module.exports = {
 				{brand_id:'FRG', brand_name:'FERRAGAMO', brandtype_id:'ACS', unit_id:'FRG'},
 				{brand_id:'FKP', brand_name:'FIND KAPOOR', brandtype_id:'ACS', unit_id:'FKP'},
 				{brand_id:'TOD', brand_name:'TODS', brandtype_id:'ACS', unit_id:'TOD'},
-			],
+			]
 
-			uniques: {
-				'brand_name' : ['brand_name']
-			}
+
 		},
 
 		'mst_brandpartner' : {
