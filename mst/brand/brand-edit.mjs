@@ -14,7 +14,8 @@ const obj = {
 	chk_brand_isdisabled: $('#pnl_edit-chk_brand_isdisabled'),
 	txt_brand_grouping01: $('#pnl_edit-txt_brand_grouping01'),
 	txt_brand_grouping02: $('#pnl_edit-txt_brand_grouping02'),
-	cbo_brandtype_id: $('#pnl_edit-cbo_brandtype_id')
+	cbo_brandtype_id: $('#pnl_edit-cbo_brandtype_id'),
+	cbo_unit_id: $('#pnl_edit-cbo_unit_id')
 }
 
 
@@ -53,6 +54,19 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'brandtype_id', text: 'brandtype_id'},
 			{mapping: 'brandtype_name', text: 'brandtype_name'},
+		]
+	})				
+				
+	new fgta4slideselect(obj.cbo_unit_id, {
+		title: 'Pilih unit_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_unit_id,
+		fieldValue: 'unit_id',
+		fieldValueMap: 'unit_id',
+		fieldDisplay: 'unit_name',
+		fields: [
+			{mapping: 'unit_id', text: 'unit_id'},
+			{mapping: 'unit_name', text: 'unit_name'},
 		]
 	})				
 				
@@ -127,6 +141,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(result.record)
 			.setValue(obj.cbo_brandtype_id, result.record.brandtype_id, result.record.brandtype_name)
+			.setValue(obj.cbo_unit_id, result.record.unit_id, result.record.unit_name)
 			.commit()
 			.setViewMode(viewmode)
 			.lock(false)

@@ -56,7 +56,7 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				brand_id, brand_name, brand_descr, brand_isdisabled, brand_grouping01, brand_grouping02, brandtype_id, _createby, _createdate, _modifyby, _modifydate 
+				brand_id, brand_name, brand_descr, brand_isdisabled, brand_grouping01, brand_grouping02, brandtype_id, unit_id, _createby, _createdate, _modifyby, _modifydate 
 				from mst_brand A
 			" . $where->sql . $limit);
 			$stmt->execute($where->params);
@@ -74,6 +74,7 @@ class DataList extends WebAPI {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'brandtype_name' => \FGTA4\utils\SqlUtility::Lookup($record['brandtype_id'], $this->db, 'mst_brandtype', 'brandtype_id', 'brandtype_name'),
+					'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 					 
 				]));
 			}

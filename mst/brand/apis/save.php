@@ -60,6 +60,7 @@ class DataSave extends WebAPI {
 			$obj->brand_grouping01 = strtoupper($obj->brand_grouping01);
 			$obj->brand_grouping02 = strtoupper($obj->brand_grouping02);
 			$obj->brandtype_id = strtoupper($obj->brandtype_id);
+			$obj->unit_id = strtoupper($obj->unit_id);
 
 
 
@@ -101,7 +102,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'brand_id', 'brand_name', 'brand_grouping01', 'brand_grouping02', 'brandtype_id', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'brand_id', 'brand_name', 'brand_grouping01', 'brand_grouping02', 'brandtype_id', 'unit_id', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -114,6 +115,7 @@ class DataSave extends WebAPI {
 			$result->dataresponse = (object) array_merge($dataresponse, [
 				// misalnya ada data yang perlu dilookup ditaruh disini
 				'brandtype_name' => \FGTA4\utils\SqlUtility::Lookup($data->brandtype_id, $this->db, 'mst_brandtype', 'brandtype_id', 'brandtype_name'),
+				'unit_name' => \FGTA4\utils\SqlUtility::Lookup($data->unit_id, $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 				
 			]);
 

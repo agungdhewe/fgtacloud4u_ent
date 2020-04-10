@@ -6,6 +6,7 @@ CREATE TABLE `mst_brand` (
 	`brand_grouping01` varchar(60)  , 
 	`brand_grouping02` varchar(60)  , 
 	`brandtype_id` varchar(10) NOT NULL , 
+	`unit_id` varchar(10) NOT NULL , 
 	`_createby` varchar(13) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(13)  , 
@@ -17,18 +18,20 @@ ENGINE=InnoDB
 COMMENT='Daftar Brand';
 
 ALTER TABLE `mst_brand` ADD KEY `brandtype_id` (`brandtype_id`);
+ALTER TABLE `mst_brand` ADD KEY `unit_id` (`unit_id`);
 
 ALTER TABLE `mst_brand` ADD CONSTRAINT `fk_mst_brand_mst_brandtype` FOREIGN KEY (`brandtype_id`) REFERENCES `mst_brandtype` (`brandtype_id`);
+ALTER TABLE `mst_brand` ADD CONSTRAINT `fk_mst_brand_mst_unit` FOREIGN KEY (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
 
 
-INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `_createby`, `_createdate`) VALUES ('HBS', 'HUGOBOSS', 'MEN', 'root', NOW());
-INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `_createby`, `_createdate`) VALUES ('CAN', 'CANALI', 'MEN', 'root', NOW());
-INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `_createby`, `_createdate`) VALUES ('GEX', 'GEOX', 'MEN', 'root', NOW());
-INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `_createby`, `_createdate`) VALUES ('EAG', 'AIGNER', 'ACS', 'root', NOW());
-INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `_createby`, `_createdate`) VALUES ('FLA', 'FURLA', 'ACS', 'root', NOW());
-INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `_createby`, `_createdate`) VALUES ('FRG', 'FERRAGAMO', 'ACS', 'root', NOW());
-INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `_createby`, `_createdate`) VALUES ('FKP', 'FIND KAPOOR', 'ACS', 'root', NOW());
-INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `_createby`, `_createdate`) VALUES ('TOD', 'TODS', 'ACS', 'root', NOW());
+INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `unit_id`, `_createby`, `_createdate`) VALUES ('HBS', 'HUGOBOSS', 'MEN', 'HBS', 'root', NOW());
+INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `unit_id`, `_createby`, `_createdate`) VALUES ('CAN', 'CANALI', 'MEN', 'CAN', 'root', NOW());
+INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `unit_id`, `_createby`, `_createdate`) VALUES ('GEX', 'GEOX', 'MEN', 'GEX', 'root', NOW());
+INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `unit_id`, `_createby`, `_createdate`) VALUES ('EAG', 'AIGNER', 'ACS', 'EAG', 'root', NOW());
+INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `unit_id`, `_createby`, `_createdate`) VALUES ('FLA', 'FURLA', 'ACS', 'FLA', 'root', NOW());
+INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `unit_id`, `_createby`, `_createdate`) VALUES ('FRG', 'FERRAGAMO', 'ACS', 'FRG', 'root', NOW());
+INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `unit_id`, `_createby`, `_createdate`) VALUES ('FKP', 'FIND KAPOOR', 'ACS', 'FKP', 'root', NOW());
+INSERT INTO mst_brand (`brand_id`, `brand_name`, `brandtype_id`, `unit_id`, `_createby`, `_createdate`) VALUES ('TOD', 'TODS', 'ACS', 'TOD', 'root', NOW());
 
 
 
