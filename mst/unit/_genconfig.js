@@ -26,7 +26,18 @@ module.exports = {
 			},
 			uniques: {
 				'unit_name' : ['unit_name']
-			}
+			},
+
+			values: [
+				{unit_id:'HBS', unit_name:'HUGOBOSS', unitgroup_id:'MEN'},
+				{unit_id:'CAN', unit_name:'CANALI', unitgroup_id:'MEN'},
+				{unit_id:'GEX', unit_name:'GEOX', unitgroup_id:'MEN'},
+				{unit_id:'EAG', unit_name:'AIGNER', unitgroup_id:'ACS'},
+				{unit_id:'FLA', unit_name:'FURLA', unitgroup_id:'ACS'},
+				{unit_id:'FRG', unit_name:'FERRAGAMO', unitgroup_id:'ACS'},
+				{unit_id:'FKP', unit_name:'FIND KAPOOR', unitgroup_id:'ACS'},
+				{unit_id:'TOD', unit_name:'TODS', unitgroup_id:'ACS'},
+			],			
 		},
 	},
 
