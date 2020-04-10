@@ -15,7 +15,9 @@ module.exports = {
 				brand_id: {text:'ID', type: dbtype.varchar(10), null:false, uppercase: true},
 				brand_name: {text:'Brand', type: dbtype.varchar(60), null:false, uppercase: true},
 				brand_descr: {text:'Descr', type: dbtype.varchar(90), null:false, suppresslist: true},
-				brand_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'}				
+				brand_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
+				brand_grouping01: {text:'Grouping 01', type: dbtype.varchar(60), null:false, uppercase: true},
+				brand_grouping02: {text:'Grouping 02', type: dbtype.varchar(60), null:false, uppercase: true},				
 			},
 			uniques: {
 				'brand_name' : ['brand_name']
