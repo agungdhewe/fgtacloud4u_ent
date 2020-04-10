@@ -46,6 +46,7 @@ export async function init(opt) {
 		returnpage: this_page_id,
 		api: $ui.apis.load_unitgroup_id,
 		fieldValue: 'unitgroup_id',
+		fieldValueMap: 'unitgroup_id',
 		fieldDisplay: 'unitgroup_name',
 		fields: [
 			{mapping: 'unitgroup_id', text: 'unitgroup_id'},

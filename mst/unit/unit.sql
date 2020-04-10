@@ -19,6 +19,14 @@ ALTER TABLE `mst_unit` ADD KEY `unitgroup_id` (`unitgroup_id`);
 ALTER TABLE `mst_unit` ADD CONSTRAINT `fk_mst_unit_mst_unitgroup` FOREIGN KEY (`unitgroup_id`) REFERENCES `mst_unitgroup` (`unitgroup_id`);
 
 
+INSERT INTO mst_unit (`unit_id`, `unit_name`, `unitgroup_id`, `_createby`, `_createdate`) VALUES ('HBS', 'HUGOBOSS', 'MEN', 'root', NOW());
+INSERT INTO mst_unit (`unit_id`, `unit_name`, `unitgroup_id`, `_createby`, `_createdate`) VALUES ('CAN', 'CANALI', 'MEN', 'root', NOW());
+INSERT INTO mst_unit (`unit_id`, `unit_name`, `unitgroup_id`, `_createby`, `_createdate`) VALUES ('GEX', 'GEOX', 'MEN', 'root', NOW());
+INSERT INTO mst_unit (`unit_id`, `unit_name`, `unitgroup_id`, `_createby`, `_createdate`) VALUES ('EAG', 'AIGNER', 'ACS', 'root', NOW());
+INSERT INTO mst_unit (`unit_id`, `unit_name`, `unitgroup_id`, `_createby`, `_createdate`) VALUES ('FLA', 'FURLA', 'ACS', 'root', NOW());
+INSERT INTO mst_unit (`unit_id`, `unit_name`, `unitgroup_id`, `_createby`, `_createdate`) VALUES ('FRG', 'FERRAGAMO', 'ACS', 'root', NOW());
+INSERT INTO mst_unit (`unit_id`, `unit_name`, `unitgroup_id`, `_createby`, `_createdate`) VALUES ('FKP', 'FIND KAPOOR', 'ACS', 'root', NOW());
+INSERT INTO mst_unit (`unit_id`, `unit_name`, `unitgroup_id`, `_createby`, `_createdate`) VALUES ('TOD', 'TODS', 'ACS', 'root', NOW());
 
 
 
