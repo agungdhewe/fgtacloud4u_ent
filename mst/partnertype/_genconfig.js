@@ -17,6 +17,9 @@ module.exports = {
 				partnertype_descr: {text:'Descr', type: dbtype.varchar(90), null:false, uppercase: false, suppresslist: true},
 				partnertype_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'}				
 			},
+
+			defaultsearch : ['partnertype_id', 'partnertype_name'],
+
 			uniques: {
 				'partnertype_name' : ['partnertype_name']
 			}
