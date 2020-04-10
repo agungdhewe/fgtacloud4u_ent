@@ -48,6 +48,9 @@ module.exports = {
 						api: 'ent/mst/partnerorg/list'})					
 				},
 			},
+
+			defaultsearch : ['partner_id', 'partner_name'],
+
 			uniques: {
 				'partner_name' : ['partner_name']
 			}
