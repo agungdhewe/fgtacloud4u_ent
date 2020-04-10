@@ -17,10 +17,14 @@ module.exports = {
 				curr_descr: {text:'Descr', type: dbtype.varchar(90), null:false},
 				curr_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 			},
+
+			defaultsearch : ['curr_id', 'curr_name'],
+
 			uniques: {
 				'curr_name' : ['curr_name']
 			}			
 		},
+
 
 		'mst_currrate' : {
 			primarykeys: ['currrate_id'],
@@ -31,6 +35,7 @@ module.exports = {
 				currrate_value: {text:'Value', type: dbtype.decimal(6,0), null:false, default:'0'},
 				curr_id: {text:'ID', type: dbtype.varchar(10), null:false, uppercase: true},
 			},
+
 			uniques: {
 				'currrate_date' : ['curr_id', 'currrate_date']
 			}			

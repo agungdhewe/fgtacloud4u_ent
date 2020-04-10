@@ -40,7 +40,7 @@ class DataList extends WebAPI {
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"search" => " A.curr_id LIKE CONCAT('%', :search, '%')"
+					"search" => " A.curr_id LIKE CONCAT('%', :search, '%') OR A.curr_name LIKE CONCAT('%', :search, '%') "
 				]
 			);
 
