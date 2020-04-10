@@ -1,7 +1,7 @@
 CREATE TABLE `mst_unit` (
 	`unit_id` varchar(10) NOT NULL , 
 	`unit_name` varchar(60) NOT NULL , 
-	`unit_descr` varchar(90) NOT NULL , 
+	`unit_descr` varchar(90)  , 
 	`unit_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`unitgroup_id` varchar(10) NOT NULL , 
 	`_createby` varchar(13) NOT NULL , 

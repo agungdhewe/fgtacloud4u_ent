@@ -14,7 +14,7 @@ module.exports = {
 			data: {
 				unit_id: {text:'ID', type: dbtype.varchar(10), null:false, uppercase: true},
 				unit_name: {text:'Unit', type: dbtype.varchar(60), null:false, uppercase: true},
-				unit_descr: {text:'Descr', type: dbtype.varchar(90), null:false, suppresslist: true},
+				unit_descr: {text:'Descr', type: dbtype.varchar(90), null:true, suppresslist: true},
 				unit_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				unitgroup_id: {
 					text:'Unit Group', type: dbtype.varchar(10), null:false, 
