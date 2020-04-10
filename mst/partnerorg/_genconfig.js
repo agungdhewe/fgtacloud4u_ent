@@ -18,6 +18,8 @@ module.exports = {
 				partnerorg_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'}				
 			},
 
+			defaultsearch : ['partnertype_id', 'partnertype_name'],
+
 			uniques: {
 				'partnerorg_name' : ['partnerorg_name']
 			},
