@@ -24,7 +24,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_country', 
 						field_value: 'country_id', field_display: 'country_name', 
-						api: 'ent/mst/country/list'})					
+						api: 'ent/general/country/list'})					
 				},
 				partner_phone: {text:'Phone', type: dbtype.varchar(30), null:false, uppercase: true, suppresslist: true, options:{required:true,invalidMessage:'Phone harus diisi'},},	
 				partner_mobilephone: {text:'HP', type: dbtype.varchar(30), null:false, uppercase: true, suppresslist: true},
@@ -36,7 +36,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_partnertype', 
 						field_value: 'partnertype_id', field_display: 'partnertype_name', 
-						api: 'ent/mst/partnertype/list'})					
+						api: 'ent/affiliation/partnertype/list'})					
 				
 				},	
 				partnerorg_id: {
@@ -45,7 +45,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_partnerorg', 
 						field_value: 'partnerorg_id', field_display: 'partnerorg_name', 
-						api: 'ent/mst/partnerorg/list'})					
+						api: 'ent/affiliation/partnerorg/list'})					
 				},
 			},
 
@@ -70,7 +70,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_bank', 
 						field_value: 'bank_id', field_display: 'bank_name', 
-						api: 'ent/mst/bank/list'})
+						api: 'ent/general/bank/list'})
 			
 				},
 				partner_id: {text:'Partner', type: dbtype.varchar(14), null:false, uppercase: true},

@@ -21,7 +21,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_unitgroup', 
 						field_value: 'unitgroup_id', field_display: 'unitgroup_name', 
-						api: 'ent/mst/unitgroup/list'})
+						api: 'ent/organisation/unitgroup/list'})
 				}				
 			},
 			uniques: {

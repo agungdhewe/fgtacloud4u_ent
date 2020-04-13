@@ -10,9 +10,9 @@ kemdian, di program bisa diakses dengan
 
 */
 
-export const load_partner_country = 'ent/mst/country/list'
-export const load_partnertype_id = 'ent/mst/partnertype/list'
-export const load_partnerorg_id = 'ent/mst/partnerorg/list'
-export const load_bank_id = 'ent/mst/bank/list'
+export const load_partner_country = 'ent/general/country/list'
+export const load_partnertype_id = 'ent/affiliation/partnertype/list'
+export const load_partnerorg_id = 'ent/affiliation/partnerorg/list'
+export const load_bank_id = 'ent/general/bank/list'
 
 

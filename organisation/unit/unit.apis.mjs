@@ -10,6 +10,6 @@ kemdian, di program bisa diakses dengan
 
 */
 
-export const load_unitgroup_id = 'ent/mst/unitgroup/list'
+export const load_unitgroup_id = 'ent/organisation/unitgroup/list'
 
 

@@ -53,7 +53,8 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'deptgroup_id', text: 'deptgroup_id'},
 			{mapping: 'deptgroup_name', text: 'deptgroup_name'},
-		]
+		],
+		OnDataLoaded: (result, options) => { cbo_deptgroup_parent_loaded(result, options)   }
 	})				
 				
 
@@ -276,3 +277,19 @@ async function form_deleted(result, options) {
 
 }
 
+
+
+
+function cbo_deptgroup_parent_loaded(result, options) {
+	var id = obj.txt_deptgroup_id.textbox('getText')
+	// console.log(result)
+	var i = 0;
+	var idx = 0
+	for (var d of result) {
+		if (d.deptgroup_id==id) {
+			idx = i;
+		}
+		i++;
+	}
+	result.splice(index, 1);
+}

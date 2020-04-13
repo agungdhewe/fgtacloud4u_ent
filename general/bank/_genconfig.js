@@ -28,7 +28,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_country', 
 						field_value: 'country_id', field_display: 'country_name', 
-						api: 'ent/mst/country/list'})					
+						api: 'ent/general/country/list'})					
 				},				
 			},
 

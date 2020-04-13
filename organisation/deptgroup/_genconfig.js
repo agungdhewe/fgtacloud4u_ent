@@ -20,7 +20,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_deptgroup', 
 						field_value: 'deptgroup_id', field_display: 'deptgroup_name', 
-						api: 'ent/mst/deptgroup/list'})					
+						api: 'ent/organisation/deptgroup/list'})					
 				},
 				deptgroup_pathid: {text:'PathId', type: dbtype.varchar(13), null:false, uppercase: false, suppresslist: true, options:{disabled:true}},
 				deptgroup_path: {text:'Path', type: dbtype.varchar(390), null:false, uppercase: false, suppresslist: true, options:{disabled:true}},
