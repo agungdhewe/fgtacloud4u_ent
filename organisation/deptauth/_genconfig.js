@@ -19,7 +19,7 @@ module.exports = {
 				
 				//TODO Buat modul HRMS, relasikan empl_id ke table mst_empl
 				empl_id: {
-					text:'Empl', type: dbtype.varchar(10), null:true, 
+					text:'Empl', type: dbtype.varchar(14), null:true, 
 					comp: comp.Combo({
 						table: 'mst_empl', 
 						field_value: 'empl_id', field_display: 'empl_name', 
