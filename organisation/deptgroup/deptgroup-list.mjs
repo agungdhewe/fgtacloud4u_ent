@@ -125,12 +125,10 @@ function grd_list_cellclick(td, ev) {
 }
 
 function grd_list_cellrender(td) {
-	// console.log(td)
-
 	// var text = td.innerHTML
-	// if (td.mapping == 'deptgroup_name') {
-	// // 	// $(td).css('background-color', 'red')
-	// // 	td.innerHTML = `<a href="javascript:void(0)">${text}</a>`
+	// if (td.mapping == 'id') {
+	// 	// $(td).css('background-color', 'red')
+	// 	td.innerHTML = `<a href="javascript:void(0)">${text}</a>`
 	// }
 }
 
@@ -145,15 +143,12 @@ function grd_list_rowrender(tr) {
 			var indent = record.deptgroup_level * 15;
 			$(td).css("padding-left", `${indent}px`);
 		}
-
-
+		
 		if (record.disabled=="1" || record.disabled==true) {
 			td.classList.add('fgtable-row-disabled')
 		} else {
 			td.classList.remove('fgtable-row-disabled')
 		}
-
-
 	})
 }
 

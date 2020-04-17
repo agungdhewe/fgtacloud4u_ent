@@ -56,14 +56,9 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				deptgroup_id, deptgroup_name, deptgroup_descr, deptgroup_parent, deptgroup_pathid, deptgroup_path, deptgroup_level, _createby, _createdate, _modifyby, _modifydate 
+				deptgroup_id, deptgroup_name, deptgroup_descr, deptgroup_parent, deptgroup_pathid, deptgroup_path, deptgroup_level, depttype_id, _createby, _createdate, _modifyby, _modifydate 
 				from mst_deptgroup A
-			" 
-			. $where->sql
-
-			. "ORDER BY deptgroup_path, deptgroup_pathid"
-			
-			. $limit);
+			" . $where->sql . " ORDER BY deptgroup_path, deptgroup_pathid " . $limit);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
@@ -79,6 +74,7 @@ class DataList extends WebAPI {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'deptgroup_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_parent'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
+					'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
 					 
 				]));
 			}

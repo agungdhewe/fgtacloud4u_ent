@@ -14,7 +14,8 @@ const obj = {
 	cbo_deptgroup_parent: $('#pnl_edit-cbo_deptgroup_parent'),
 	txt_deptgroup_pathid: $('#pnl_edit-txt_deptgroup_pathid'),
 	txt_deptgroup_path: $('#pnl_edit-txt_deptgroup_path'),
-	txt_deptgroup_level: $('#pnl_edit-txt_deptgroup_level')
+	txt_deptgroup_level: $('#pnl_edit-txt_deptgroup_level'),
+	cbo_depttype_id: $('#pnl_edit-cbo_depttype_id')
 }
 
 
@@ -54,7 +55,55 @@ export async function init(opt) {
 			{mapping: 'deptgroup_id', text: 'deptgroup_id'},
 			{mapping: 'deptgroup_name', text: 'deptgroup_name'},
 		],
-		OnDataLoaded: (result, options) => { cbo_deptgroup_parent_loaded(result, options)   }
+		//OnDataLoading: (criteria) => {},
+		OnDataLoaded : (result, options) => {
+			// hapus group parent yang sama dengan group ini
+			var id = obj.txt_deptgroup_id.textbox('getText')
+			var i = 0; var idx = -1;
+			for (var d of result.records) {
+				if (d.deptgroup_id==id) { idx = i; }
+				i++;
+			}
+			if (idx>=0) { result.records.splice(idx, 1); }
+			result.records.unshift({deptgroup_id:'--NULL--', deptgroup_name:'NONE'});
+		},
+		OnSelected: (value, display, record) => {
+			var selected_depttype_id = obj.cbo_depttype_id.combobox('getValue');
+			if (selected_depttype_id=="0" || selected_depttype_id=="") {
+				// langsung di set
+				if (record.deptgroup_id!='--NULL--') {
+					form.setValue(obj.cbo_depttype_id, record.depttype_id, record.depttype_name)
+				}
+			} else {
+				// sebelumnya sudah dipilih
+				if (record.depttype_id!=selected_depttype_id) {
+					$ui.ShowMessage('[QUESTION]Apakah anda akan mengubah tipe?', {
+						"Ya" : () => {
+							if (record.deptgroup_id!='--NULL--') {
+								form.setValue(obj.cbo_depttype_id, record.depttype_id, record.depttype_name)
+							} else {
+								form.setValue(obj.cbo_depttype_id, '0', '-- PILIH --')
+							}
+						},
+						"Tidak" : () => {
+						}
+					})
+				}
+			}
+		}
+	})				
+				
+	new fgta4slideselect(obj.cbo_depttype_id, {
+		title: 'Pilih depttype_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_depttype_id,
+		fieldValue: 'depttype_id',
+		fieldValueMap: 'depttype_id',
+		fieldDisplay: 'depttype_name',
+		fields: [
+			{mapping: 'depttype_id', text: 'depttype_id'},
+			{mapping: 'depttype_name', text: 'depttype_name'},
+		]
 	})				
 				
 
@@ -128,6 +177,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(result.record)
 			.setValue(obj.cbo_deptgroup_parent, result.record.deptgroup_parent, result.record.deptgroup_parent_name)
+			.setValue(obj.cbo_depttype_id, result.record.depttype_id, result.record.depttype_name)
 			.commit()
 			.setViewMode(viewmode)
 			.lock(false)
@@ -229,16 +279,14 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-
 	options.skipmappingresponse = ["deptgroup_parent"];
+
 }
 
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
 	console.log(err)
-
-	
 }
 
 
@@ -256,8 +304,6 @@ async function form_datasaved(result, options) {
 	// 	console.log('update grid')
 	// }
 
-
-	console.log(result)
 
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
@@ -277,19 +323,3 @@ async function form_deleted(result, options) {
 
 }
 
-
-
-
-function cbo_deptgroup_parent_loaded(result, options) {
-	var id = obj.txt_deptgroup_id.textbox('getText')
-	// console.log(result)
-	var i = 0;
-	var idx = 0
-	for (var d of result) {
-		if (d.deptgroup_id==id) {
-			idx = i;
-		}
-		i++;
-	}
-	result.splice(index, 1);
-}

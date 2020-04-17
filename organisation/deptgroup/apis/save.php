@@ -58,18 +58,12 @@ class DataSave extends WebAPI {
 			$obj->deptgroup_id = strtoupper($obj->deptgroup_id);
 			$obj->deptgroup_name = strtoupper($obj->deptgroup_name);
 			$obj->deptgroup_parent = strtoupper($obj->deptgroup_parent);
-
+			$obj->depttype_id = strtoupper($obj->depttype_id);
 
 			$obj->deptgroup_level = 0;	
-
-			if ($obj->deptgroup_parent==$obj->deptgroup_id) {
-				$obj->deptgroup_parent = "--NULL--";
-			} 
-			
-			if ($obj->deptgroup_parent=="") {
+			if ($obj->deptgroup_parent=="" || $obj->deptgroup_parent=="--NULL--") {
 				unset($obj->deptgroup_parent);
 			}
-
 
 			$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
 			$this->db->beginTransaction();
@@ -108,7 +102,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'deptgroup_id', 'deptgroup_name', 'deptgroup_parent', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'deptgroup_id', 'deptgroup_name', 'deptgroup_parent', 'depttype_id', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -118,11 +112,10 @@ class DataSave extends WebAPI {
 			foreach ($row as $key => $value) {
 				$dataresponse[$key] = $value;
 			}
-
-			$deptgroup_parent_id = property_exists($obj, 'deptgroup_parent') ? $obj->deptgroup_parent : $data->deptgroup_parent;
 			$result->dataresponse = (object) array_merge($dataresponse, [
 				// misalnya ada data yang perlu dilookup ditaruh disini
-				'deptgroup_parent_name' => \FGTA4\utils\SqlUtility::Lookup($deptgroup_parent_id , $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
+				'deptgroup_parent_name' => \FGTA4\utils\SqlUtility::Lookup($data->deptgroup_parent, $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
+				'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($data->depttype_id, $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
 				
 			]);
 

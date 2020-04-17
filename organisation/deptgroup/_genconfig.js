@@ -17,14 +17,23 @@ module.exports = {
 				deptgroup_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
 				deptgroup_parent: {
 					text:'Parent', type: dbtype.varchar(10), null:true, uppercase: true, suppresslist: true,
+					options:{prompt:'-- PILIH --'},
 					comp: comp.Combo({
 						table: 'mst_deptgroup', 
-						field_value: 'deptgroup_id', field_display: 'deptgroup_name', 
+						field_value: 'deptgroup_id', field_display: 'deptgroup_name', field_display_name: 'deptgroup_parent_name', 
 						api: 'ent/organisation/deptgroup/list'})					
 				},
 				deptgroup_pathid: {text:'PathId', type: dbtype.varchar(13), null:false, uppercase: false, suppresslist: true, options:{disabled:true}},
 				deptgroup_path: {text:'Path', type: dbtype.varchar(390), null:false, uppercase: false, suppresslist: true, options:{disabled:true}},
-				deptgroup_level: {text:'Level', type: dbtype.int(2), null:false, default:'0', uppercase: false, suppresslist: true, options:{disabled:true}}			
+				deptgroup_level: {text:'Level', type: dbtype.int(2), null:false, default:'0', uppercase: false, suppresslist: true, options:{disabled:true}},
+				depttype_id: {
+					text:'Type', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
+					options:{required:true,invalidMessage:'Type Group harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_depttype', 
+						field_value: 'depttype_id', field_display: 'depttype_name', 
+						api: 'ent/organisation/depttype/list'})				
+				},
 			},
 
 			defaultsearch: ['deptgroup_id', 'deptgroup_name'],
