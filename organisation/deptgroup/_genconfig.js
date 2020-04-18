@@ -41,7 +41,10 @@ module.exports = {
 			uniques: {
 				'deptgroup_name' : ['deptgroup_name'],
 				'deptgroup_path' : ['deptgroup_path', 'deptgroup_pathid'],
-            }
+			},
+			
+			values : [
+			]
 			
 		},
 	},
