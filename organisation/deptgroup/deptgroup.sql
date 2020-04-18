@@ -74,11 +74,11 @@ DELIMITER ;
 
 
 
-DROP TRIGGER IF EXISTS kalistadb.mst_group_before_update;
+DROP TRIGGER IF EXISTS kalistadb.mst_deptgroup_before_update;
 
 DELIMITER $$
 $$
-CREATE DEFINER=`root`@`localhost` TRIGGER `mst_group_before_update` BEFORE UPDATE ON `mst_deptgroup` FOR EACH ROW BEGIN
+CREATE DEFINER=`root`@`localhost` TRIGGER `mst_deptgroup_before_update` BEFORE UPDATE ON `mst_deptgroup` FOR EACH ROW BEGIN
 
 
 	DECLARE CHILDCOUNT INT;
