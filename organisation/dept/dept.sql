@@ -31,4 +31,59 @@ ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_deptauth` FOREIGN KEY (`d
 
 
 
+DROP TRIGGER IF EXISTS mst_dept_before_insert; 
+
+DELIMITER $$
+$$
+
+CREATE DEFINER=`root`@`localhost` TRIGGER mst_dept_before_insert
+BEFORE INSERT
+   ON mst_dept FOR EACH ROW
+   
+BEGIN
+
+	DECLARE DEPT_PATH VARCHAR(390);
+	DECLARE DEPT_LEVEL INT(2);
+
+	SELECT deptgroup_path, deptgroup_level 
+	INTO DEPT_PATH, DEPT_LEVEL
+	FROM mst_deptgroup WHERE deptgroup_id = NEW.deptgroup_id;	
+
+	SET NEW.dept_path = DEPT_PATH;
+	SET NEW.dept_level = DEPT_LEVEL+1;
+
+END;
+
+$$
+DELIMITER ;
+
+
+
+
+DROP TRIGGER IF EXISTS mst_dept_before_update; 
+
+DELIMITER $$
+$$
+
+CREATE DEFINER=`root`@`localhost` TRIGGER mst_dept_before_update
+BEFORE UPDATE
+   ON mst_dept FOR EACH ROW
+   
+BEGIN
+
+	DECLARE DEPT_PATH VARCHAR(390);
+	DECLARE DEPT_LEVEL INT(2);
+
+	SELECT deptgroup_path, deptgroup_level 
+	INTO DEPT_PATH, DEPT_LEVEL
+	FROM mst_deptgroup WHERE deptgroup_id = NEW.deptgroup_id;	
+
+	SET NEW.dept_path = DEPT_PATH;
+	SET NEW.dept_level = DEPT_LEVEL+1;
+
+END;
+
+$$
+DELIMITER ;
+
 

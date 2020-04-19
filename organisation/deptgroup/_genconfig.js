@@ -92,7 +92,7 @@ BEGIN
 		INTO PARENT_PATHID, PARENT_PATH
 		FROM mst_deptgroup WHERE deptgroup_id = NEW.deptgroup_parent;	
 			
-		SET NEW.deptgroup_path = CONCAT(PARENT_PATH, PARENT_PATHID);
+		SET NEW.deptgroup_path = CONCAT(PARENT_PATH, PATHID);
 		SET NEW.deptgroup_level = (LENGTH(NEW.deptgroup_path) / 13) - 1;
 	
 	END IF;
@@ -115,11 +115,12 @@ $$
 CREATE DEFINER=`root`@`localhost` TRIGGER `mst_deptgroup_before_update` BEFORE UPDATE ON `mst_deptgroup` FOR EACH ROW BEGIN
 
 
+	DECLARE PATHID VARCHAR(13);
 	DECLARE CHILDCOUNT INT;
 	DECLARE PARENT_PATHID VARCHAR(13);
 	DECLARE PARENT_PATH VARCHAR(390);
 
-
+	SET PATHID = OLD.deptgroup_pathid;
 	SET NEW.deptgroup_id = OLD.deptgroup_id;
 	SET NEW.deptgroup_pathid = OLD.deptgroup_pathid;
 
@@ -151,7 +152,7 @@ CREATE DEFINER=`root`@`localhost` TRIGGER `mst_deptgroup_before_update` BEFORE U
 		INTO PARENT_PATHID, PARENT_PATH
 		FROM mst_deptgroup WHERE deptgroup_id = NEW.deptgroup_parent;	
 			
-		SET NEW.deptgroup_path = CONCAT(PARENT_PATH, PARENT_PATHID);
+		SET NEW.deptgroup_path = CONCAT(PARENT_PATH, PATHID);
 		SET NEW.deptgroup_level = (LENGTH(NEW.deptgroup_path) / 13) - 1;
 	
 	END IF;
