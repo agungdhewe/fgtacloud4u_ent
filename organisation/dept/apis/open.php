@@ -46,7 +46,7 @@ class DataOpen extends WebAPI {
 			);
 
 			$sql = \FGTA4\utils\SqlUtility::Select('mst_dept', [
-				'dept_id', 'dept_name', 'dept_descr', 'dept_path', 'dept_level', 'deptgroup_id', 'depttype_id', 'deptauth_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
+				'dept_id', 'dept_name', 'dept_descr', 'dept_path', 'dept_level', 'deptgroup_id', 'dept_parent', 'depttype_id', 'deptauth_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
 			], $where->sql);
 
 			$stmt = $this->db->prepare($sql);
@@ -66,6 +66,7 @@ class DataOpen extends WebAPI {
 				//'gendername' => $record['gender']
 				
 				'deptgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_id'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
+				'dept_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_parent'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 				'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
 				'deptauth_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptauth_id'], $this->db, 'mst_deptauth', 'deptauth_id', 'deptauth_name'),
 

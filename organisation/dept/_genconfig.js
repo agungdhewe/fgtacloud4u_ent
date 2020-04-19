@@ -28,6 +28,15 @@ module.exports = {
 						api: 'ent/organisation/deptgroup/list'})				
 				},
 
+				dept_parent: {
+					text:'Parent', type: dbtype.varchar(30), null:true, uppercase: true, suppresslist: true,
+					options:{prompt:'NONE'},
+					comp: comp.Combo({
+						table: 'mst_dept', 
+						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'dept_parent_name', 
+						api: 'ent/organisation/dept/list'})					
+				},
+
 				depttype_id: {
 					text:'Type', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
 					options:{required:true,invalidMessage:'Type Department harus diisi', prompt:'-- PILIH --'},

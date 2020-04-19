@@ -58,9 +58,13 @@ class DataSave extends WebAPI {
 			$obj->dept_id = strtoupper($obj->dept_id);
 			$obj->dept_name = strtoupper($obj->dept_name);
 			$obj->deptgroup_id = strtoupper($obj->deptgroup_id);
+			$obj->dept_parent = strtoupper($obj->dept_parent);
 			$obj->depttype_id = strtoupper($obj->depttype_id);
 			$obj->deptauth_id = strtoupper($obj->deptauth_id);
 
+
+			if ($obj->dept_descr=='--NULL--') { unset($obj->dept_descr); }
+			if ($obj->dept_parent=='--NULL--') { unset($obj->dept_parent); }
 
 
 
@@ -101,7 +105,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'dept_id', 'dept_name', 'dept_path', 'dept_level', 'deptgroup_id', 'depttype_id', 'deptauth_id', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'dept_id', 'dept_name', 'dept_descr', 'dept_path', 'dept_level', 'deptgroup_id', 'dept_parent', 'depttype_id', 'deptauth_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -114,6 +118,7 @@ class DataSave extends WebAPI {
 			$result->dataresponse = (object) array_merge($dataresponse, [
 				// misalnya ada data yang perlu dilookup ditaruh disini
 				'deptgroup_name' => \FGTA4\utils\SqlUtility::Lookup($data->deptgroup_id, $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
+				'dept_parent_name' => \FGTA4\utils\SqlUtility::Lookup($data->dept_parent, $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 				'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($data->depttype_id, $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
 				'deptauth_name' => \FGTA4\utils\SqlUtility::Lookup($data->deptauth_id, $this->db, 'mst_deptauth', 'deptauth_id', 'deptauth_name'),
 				

@@ -56,7 +56,7 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				dept_id, dept_name, dept_descr, dept_path, dept_level, deptgroup_id, depttype_id, deptauth_id, _createby, _createdate, _modifyby, _modifydate 
+				dept_id, dept_name, dept_descr, dept_path, dept_level, deptgroup_id, dept_parent, depttype_id, deptauth_id, _createby, _createdate, _modifyby, _modifydate 
 				from mst_dept A
 			" . $where->sql . $limit);
 			$stmt->execute($where->params);
@@ -74,6 +74,7 @@ class DataList extends WebAPI {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'deptgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_id'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
+					'dept_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_parent'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 					'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
 					'deptauth_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptauth_id'], $this->db, 'mst_deptauth', 'deptauth_id', 'deptauth_name'),
 					 

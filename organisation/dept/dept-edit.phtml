@@ -1,6 +1,6 @@
 <div id="pnl_edit">
 	<div class="fgta-page-title" style="display: flex; align-items: center ">
-		<div>Edit Department</div>
+		<div>Edit Department Group</div>
 		<a id="pnl_edit-btn_edit" href="javascript:void(0)" class="easyui-linkbutton" style="margin-left:10px;" data-options="plain:true,iconCls:'fgta-icon-edit'">edit</a>
 	</div>
 
@@ -46,6 +46,13 @@
 			<div class="form_label_col">Group</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-cbo_deptgroup_id" class="easyui-combo" style="width: 400px" mapping="deptgroup_id" display="deptgroup_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Group harus diisi', prompt: '-- PILIH --'">
+			</div>
+		</div>
+
+		<div class="form_row">
+			<div class="form_label_col">Parent</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_dept_parent" class="easyui-combo" style="width: 400px" mapping="dept_parent" display="dept_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'">
 			</div>
 		</div>
 
