@@ -67,7 +67,7 @@ module.exports = {
 	},
 
 	schema: {
-		title: 'Department Group',
+		title: 'Department',
 		header: 'mst_dept',
 		detils: {}
 	}
