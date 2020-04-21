@@ -11,6 +11,7 @@ const obj = {
 	txt_dept_id: $('#pnl_edit-txt_dept_id'),
 	txt_dept_name: $('#pnl_edit-txt_dept_name'),
 	txt_dept_descr: $('#pnl_edit-txt_dept_descr'),
+	chk_dept_isdisabled: $('#pnl_edit-chk_dept_isdisabled'),
 	txt_dept_path: $('#pnl_edit-txt_dept_path'),
 	txt_dept_level: $('#pnl_edit-txt_dept_level'),
 	cbo_deptgroup_id: $('#pnl_edit-cbo_deptgroup_id'),

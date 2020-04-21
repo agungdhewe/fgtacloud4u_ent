@@ -105,7 +105,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'dept_id', 'dept_name', 'dept_descr', 'dept_path', 'dept_level', 'deptgroup_id', 'dept_parent', 'depttype_id', 'deptauth_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'dept_id', 'dept_name', 'dept_descr', 'dept_isdisabled', 'dept_path', 'dept_level', 'deptgroup_id', 'dept_parent', 'depttype_id', 'deptauth_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
