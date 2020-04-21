@@ -137,12 +137,12 @@ function grd_list_rowrender(tr) {
 	var record = grd_list.DATA[dataid]
 
 	$(tr).find('td').each((i, td) => {
-		// var mapping = td.getAttribute('mapping')
-		// if (mapping=='id') {
-		// 	if (!record.disabled) {
-		// 		td.classList.add('fgtable-rowred')
-		// 	}
-		// }
+		var mapping = td.getAttribute('mapping')
+		if (mapping=='dept_name') {
+			var indent = record.deptparent_level * 15;
+			$(td).css("padding-left", `${indent}px`);
+		}
+
 		if (record.disabled=="1" || record.disabled==true) {
 			td.classList.add('fgtable-row-disabled')
 		} else {
