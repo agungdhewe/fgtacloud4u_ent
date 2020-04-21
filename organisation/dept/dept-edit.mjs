@@ -11,6 +11,7 @@ const obj = {
 	txt_dept_id: $('#pnl_edit-txt_dept_id'),
 	txt_dept_name: $('#pnl_edit-txt_dept_name'),
 	txt_dept_descr: $('#pnl_edit-txt_dept_descr'),
+	chk_dept_isparent: $('#pnl_edit-chk_dept_isparent'),
 	chk_dept_isdisabled: $('#pnl_edit-chk_dept_isdisabled'),
 	txt_dept_path: $('#pnl_edit-txt_dept_path'),
 	txt_dept_level: $('#pnl_edit-txt_dept_level'),
@@ -93,7 +94,9 @@ export async function init(opt) {
 			{mapping: 'dept_id', text: 'dept_id'},
 			{mapping: 'dept_name', text: 'dept_name'},
 		],
-		OnDataLoading: (criteria) => {},
+		OnDataLoading: (criteria) => {
+			criteria['isparent'] = 1
+		},
 		OnDataLoaded : (result, options) => {
 			
 			// hapus pilihan yang sama dengan data saat ini

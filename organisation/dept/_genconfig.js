@@ -16,6 +16,7 @@ module.exports = {
 				dept_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true, options:{required:true,invalidMessage:'ID Group harus diisi'}},
 				dept_name: {text:'Dept Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Group harus diisi'}},
 				dept_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
+				dept_isparent: {text:'Parent Dept', type: dbtype.boolean, null:false, default:'0'},
 				dept_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				dept_path: {text:'Path', type: dbtype.varchar(390), null:false, uppercase: false, suppresslist: true, options:{disabled:true}},
 				dept_level: {text:'Level', type: dbtype.int(2), null:false, default:'0', uppercase: false, suppresslist: true, options:{disabled:true}},

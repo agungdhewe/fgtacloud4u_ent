@@ -40,7 +40,8 @@ class DataList extends WebAPI {
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"search" => " A.dept_id LIKE CONCAT('%', :search, '%') OR A.dept_name LIKE CONCAT('%', :search, '%') "
+					"search" => " A.dept_id LIKE CONCAT('%', :search, '%') OR A.dept_name LIKE CONCAT('%', :search, '%') ",
+					"isparent" => " A.dept_isparent = :isparent "
 				]
 			);
 
@@ -56,7 +57,7 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-					dept_id, dept_name, dept_descr, dept_isdisabled, dept_path, dept_level, deptgroup_id, dept_parent, depttype_id, deptauth_id, 
+					dept_id, dept_name, dept_descr, dept_isparent, dept_isdisabled, dept_path, dept_level, deptgroup_id, dept_parent, depttype_id, deptauth_id, 
 					(select dept_path from mst_dept where dept_id=A.dept_parent) deptparent_path,
 					COALESCE((select dept_level from mst_dept where dept_id=A.dept_parent),0) deptparent_level,				
 					_createby, _createdate, _modifyby, _modifydate 

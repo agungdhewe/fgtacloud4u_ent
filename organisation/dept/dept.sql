@@ -2,6 +2,7 @@ CREATE TABLE `mst_dept` (
 	`dept_id` varchar(30) NOT NULL , 
 	`dept_name` varchar(60) NOT NULL , 
 	`dept_descr` varchar(90)  , 
+	`dept_isparent` tinyint(1) NOT NULL DEFAULT 0, 
 	`dept_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`dept_path` varchar(390) NOT NULL , 
 	`dept_level` int(2) NOT NULL DEFAULT 0, 
