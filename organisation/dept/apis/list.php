@@ -61,7 +61,7 @@ class DataList extends WebAPI {
 					COALESCE((select dept_level from mst_dept where dept_id=A.dept_parent),0) deptparent_level,				
 					_createby, _createdate, _modifyby, _modifydate 
 				from mst_dept A
-			" . $where->sql . " ORDER BY dept_level, deptparent_path, dept_id " . $limit);
+			" . $where->sql . " ORDER BY dept_path, deptparent_path, dept_id " . $limit);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
