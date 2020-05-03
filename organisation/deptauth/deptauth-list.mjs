@@ -143,7 +143,7 @@ function grd_list_rowrender(tr) {
 		// 		td.classList.add('fgtable-rowred')
 		// 	}
 		// }
-		if (record.disabled=="1" || record.disabled==true) {
+		if (record.deptauth_isdisabled=="1" || record.deptauth_isdisabled==true) {
 			td.classList.add('fgtable-row-disabled')
 		} else {
 			td.classList.remove('fgtable-row-disabled')
