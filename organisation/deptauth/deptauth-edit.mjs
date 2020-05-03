@@ -11,6 +11,7 @@ const obj = {
 	txt_deptauth_id: $('#pnl_edit-txt_deptauth_id'),
 	txt_deptauth_name: $('#pnl_edit-txt_deptauth_name'),
 	txt_deptauth_descr: $('#pnl_edit-txt_deptauth_descr'),
+	chk_deptauth_isdisabled: $('#pnl_edit-chk_deptauth_isdisabled'),
 	cbo_empl_id: $('#pnl_edit-cbo_empl_id')
 }
 

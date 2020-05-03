@@ -46,7 +46,7 @@ class DataOpen extends WebAPI {
 			);
 
 			$sql = \FGTA4\utils\SqlUtility::Select('mst_deptauth', [
-				'deptauth_id', 'deptauth_name', 'deptauth_descr', 'empl_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
+				'deptauth_id', 'deptauth_name', 'deptauth_descr', 'deptauth_isdisabled', 'empl_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
 			], $where->sql);
 
 			$stmt = $this->db->prepare($sql);

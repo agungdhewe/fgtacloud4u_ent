@@ -147,7 +147,10 @@ export async function init(opt) {
 			{mapping: 'deptauth_id', text: 'deptauth_id'},
 			{mapping: 'deptauth_name', text: 'deptauth_name'},
 		],
-		OnDataLoading: (criteria) => {},
+		OnDataLoading: (criteria) => {
+			criteria['disabled'] = 0
+		},
+
 		OnDataLoaded : (result, options) => {
 				
 		},

@@ -40,7 +40,8 @@ class DataList extends WebAPI {
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"search" => " A.deptauth_id LIKE CONCAT('%', :search, '%') OR A.deptauth_name LIKE CONCAT('%', :search, '%') "
+					"search" => " A.deptauth_id LIKE CONCAT('%', :search, '%') OR A.deptauth_name LIKE CONCAT('%', :search, '%') ",
+					"disabled" => " A.deptauth_isdisabled = :disabled  "
 				]
 			);
 
@@ -56,7 +57,7 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				deptauth_id, deptauth_name, deptauth_descr, empl_id, _createby, _createdate, _modifyby, _modifydate 
+				deptauth_id, deptauth_name, deptauth_descr, deptauth_isdisabled, empl_id, _createby, _createdate, _modifyby, _modifydate 
 				from mst_deptauth A
 			" . $where->sql . $limit);
 			$stmt->execute($where->params);
