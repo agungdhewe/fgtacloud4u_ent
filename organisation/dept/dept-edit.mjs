@@ -58,7 +58,12 @@ export async function init(opt) {
 			{mapping: 'deptgroup_id', text: 'deptgroup_id'},
 			{mapping: 'deptgroup_name', text: 'deptgroup_name'},
 		],
-		OnDataLoading: (criteria) => {},
+
+		OnDataLoading: (criteria) => {
+			criteria['isexselect'] = 0
+		},
+
+
 		OnDataLoaded : (result, options) => {},
 		OnSelected: (value, display, record) => {
 			var selected_depttype_id = obj.cbo_depttype_id.combobox('getValue');
