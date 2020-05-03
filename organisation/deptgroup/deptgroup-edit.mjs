@@ -10,6 +10,7 @@ const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_deptgroup_id: $('#pnl_edit-txt_deptgroup_id'),
 	txt_deptgroup_name: $('#pnl_edit-txt_deptgroup_name'),
+	chk_deptgroup_isexselect: $('#pnl_edit-chk_deptgroup_isexselect'),
 	txt_deptgroup_descr: $('#pnl_edit-txt_deptgroup_descr'),
 	cbo_deptgroup_parent: $('#pnl_edit-cbo_deptgroup_parent'),
 	txt_deptgroup_pathid: $('#pnl_edit-txt_deptgroup_pathid'),

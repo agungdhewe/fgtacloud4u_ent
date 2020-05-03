@@ -46,7 +46,7 @@ class DataOpen extends WebAPI {
 			);
 
 			$sql = \FGTA4\utils\SqlUtility::Select('mst_deptgroup', [
-				'deptgroup_id', 'deptgroup_name', 'deptgroup_descr', 'deptgroup_parent', 'deptgroup_pathid', 'deptgroup_path', 'deptgroup_level', 'depttype_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
+				'deptgroup_id', 'deptgroup_name', 'deptgroup_descr', 'deptgroup_isexselect', 'deptgroup_parent', 'deptgroup_pathid', 'deptgroup_path', 'deptgroup_level', 'depttype_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
 			], $where->sql);
 
 			$stmt = $this->db->prepare($sql);
