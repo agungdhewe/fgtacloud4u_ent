@@ -57,7 +57,10 @@ class DataSave extends WebAPI {
 
 			$obj->unit_id = strtoupper($obj->unit_id);
 			$obj->unit_name = strtoupper($obj->unit_name);
+			$obj->dept_id = strtoupper($obj->dept_id);
 
+
+			if ($obj->unit_descr=='--NULL--') { unset($obj->unit_descr); }
 
 
 
@@ -98,7 +101,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'unit_id', 'unit_name', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'unit_id', 'unit_name', 'unit_descr', 'unit_isdisabled', 'unitgroup_id', 'dept_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -111,6 +114,7 @@ class DataSave extends WebAPI {
 			$result->dataresponse = (object) array_merge($dataresponse, [
 				// misalnya ada data yang perlu dilookup ditaruh disini
 				'unitgroup_name' => \FGTA4\utils\SqlUtility::Lookup($data->unitgroup_id, $this->db, 'mst_unitgroup', 'unitgroup_id', 'unitgroup_name'),
+				'dept_name' => \FGTA4\utils\SqlUtility::Lookup($data->dept_id, $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 				
 			]);
 

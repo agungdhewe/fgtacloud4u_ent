@@ -41,7 +41,8 @@ class DataList extends WebAPI {
 				$options->criteria,
 				[
 					"search" => " A.dept_id LIKE CONCAT('%', :search, '%') OR A.dept_name LIKE CONCAT('%', :search, '%') ",
-					"isparent" => " A.dept_isparent = :isparent "
+					"isparent" => " A.dept_isparent = :isparent ",
+					"isdisabled" => " A.dept_isdisabled = :isdisabled "
 				]
 			);
 

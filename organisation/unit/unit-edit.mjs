@@ -12,7 +12,8 @@ const obj = {
 	txt_unit_name: $('#pnl_edit-txt_unit_name'),
 	txt_unit_descr: $('#pnl_edit-txt_unit_descr'),
 	chk_unit_isdisabled: $('#pnl_edit-chk_unit_isdisabled'),
-	cbo_unitgroup_id: $('#pnl_edit-cbo_unitgroup_id')
+	cbo_unitgroup_id: $('#pnl_edit-cbo_unitgroup_id'),
+	cbo_dept_id: $('#pnl_edit-cbo_dept_id')
 }
 
 
@@ -51,7 +52,33 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'unitgroup_id', text: 'unitgroup_id'},
 			{mapping: 'unitgroup_name', text: 'unitgroup_name'},
-		]
+		],
+		OnDataLoading: (criteria) => {},
+		OnDataLoaded : (result, options) => {
+				
+		},
+		OnSelected: (value, display, record) => {}
+	})				
+				
+	new fgta4slideselect(obj.cbo_dept_id, {
+		title: 'Pilih dept_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_dept_id,
+		fieldValue: 'dept_id',
+		fieldValueMap: 'dept_id',
+		fieldDisplay: 'dept_name',
+		fields: [
+			{mapping: 'dept_id', text: 'dept_id'},
+			{mapping: 'dept_name', text: 'dept_name'},
+		],
+		OnDataLoading: (criteria) => {
+			criteria['isdisabled'] = 0;
+		},
+
+		OnDataLoaded : (result, options) => {
+				
+		},
+		OnSelected: (value, display, record) => {}
 	})				
 				
 
@@ -122,9 +149,12 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 	var fn_dataopened = async (result, options) => {
 
+
+
 		form
 			.fill(result.record)
 			.setValue(obj.cbo_unitgroup_id, result.record.unitgroup_id, result.record.unitgroup_name)
+			.setValue(obj.cbo_dept_id, result.record.dept_id, result.record.dept_name)
 			.commit()
 			.setViewMode(viewmode)
 			.lock(false)
@@ -164,6 +194,12 @@ export function createnew() {
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
+
+			data.unitgroup_id = '0'
+			data.unitgroup_name = '-- PILIH --'
+			data.dept_id = '0'
+			data.dept_name = '-- PILIH --'
+
 
 
 		options.OnCanceled = () => {
@@ -254,6 +290,8 @@ async function form_datasaved(result, options) {
 
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
+
+
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
 }
 

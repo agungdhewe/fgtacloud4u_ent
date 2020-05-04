@@ -40,7 +40,7 @@ class DataList extends WebAPI {
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"search" => " A.unit_id LIKE CONCAT('%', :search, '%')"
+					"search" => " A.unit_id LIKE CONCAT('%', :search, '%') "
 				]
 			);
 
@@ -56,7 +56,7 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				unit_id, unit_name, unit_descr, unit_isdisabled, unitgroup_id, _createby, _createdate, _modifyby, _modifydate 
+				unit_id, unit_name, unit_descr, unit_isdisabled, unitgroup_id, dept_id, _createby, _createdate, _modifyby, _modifydate 
 				from mst_unit A
 			" . $where->sql . $limit);
 			$stmt->execute($where->params);
@@ -74,6 +74,7 @@ class DataList extends WebAPI {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'unitgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['unitgroup_id'], $this->db, 'mst_unitgroup', 'unitgroup_id', 'unitgroup_name'),
+					'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 					 
 				]));
 			}

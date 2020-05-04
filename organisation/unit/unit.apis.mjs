@@ -11,5 +11,6 @@ kemdian, di program bisa diakses dengan
 */
 
 export const load_unitgroup_id = 'ent/organisation/unitgroup/list'
+export const load_dept_id = 'ent/organisation/dept/list'
 
 
