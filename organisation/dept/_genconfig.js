@@ -48,13 +48,13 @@ module.exports = {
 						api: 'ent/organisation/depttype/list'})				
 				},
 
-				deptauth_id: {
-					text:'Auth', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
+				auth_id: {
+					text:'Authorisasi', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
 					options:{required:true,invalidMessage:'Authorisasi harus diisi', prompt:'-- PILIH --'},
 					comp: comp.Combo({
 						table: 'mst_deptauth', 
-						field_value: 'deptauth_id', field_display: 'deptauth_name', 
-						api: 'ent/organisation/deptauth/list'})				
+						field_value: 'auth_id', field_display: 'auth_name', 
+						api: 'ent/organisation/auth/list'})				
 				},
 			},
 

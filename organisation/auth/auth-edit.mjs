@@ -8,17 +8,10 @@ const btn_delete = $('#pnl_edit-btn_delete')
 
 const pnl_form = $('#pnl_edit-form')
 const obj = {
-	txt_dept_id: $('#pnl_edit-txt_dept_id'),
-	txt_dept_name: $('#pnl_edit-txt_dept_name'),
-	txt_dept_descr: $('#pnl_edit-txt_dept_descr'),
-	chk_dept_isparent: $('#pnl_edit-chk_dept_isparent'),
-	chk_dept_isdisabled: $('#pnl_edit-chk_dept_isdisabled'),
-	txt_dept_path: $('#pnl_edit-txt_dept_path'),
-	txt_dept_level: $('#pnl_edit-txt_dept_level'),
-	cbo_deptgroup_id: $('#pnl_edit-cbo_deptgroup_id'),
-	cbo_dept_parent: $('#pnl_edit-cbo_dept_parent'),
-	cbo_depttype_id: $('#pnl_edit-cbo_depttype_id'),
-	cbo_auth_id: $('#pnl_edit-cbo_auth_id')
+	txt_auth_id: $('#pnl_edit-txt_auth_id'),
+	txt_auth_name: $('#pnl_edit-txt_auth_name'),
+	txt_auth_descr: $('#pnl_edit-txt_auth_descr'),
+	cbo_empl_id: $('#pnl_edit-cbo_empl_id')
 }
 
 
@@ -29,9 +22,9 @@ export async function init(opt) {
 
 
 	form = new global.fgta4form(pnl_form, {
-		primary: obj.txt_dept_id,
+		primary: obj.txt_auth_id,
 		autoid: false,
-		logview: 'mst_dept',
+		logview: 'mst_auth',
 		btn_edit: btn_edit,
 		btn_save: btn_save,
 		btn_delete: btn_delete,		
@@ -47,112 +40,20 @@ export async function init(opt) {
 
 
 
-	new fgta4slideselect(obj.cbo_deptgroup_id, {
-		title: 'Pilih deptgroup_id',
+	new fgta4slideselect(obj.cbo_empl_id, {
+		title: 'Pilih empl_id',
 		returnpage: this_page_id,
-		api: $ui.apis.load_deptgroup_id,
-		fieldValue: 'deptgroup_id',
-		fieldValueMap: 'deptgroup_id',
-		fieldDisplay: 'deptgroup_name',
+		api: $ui.apis.load_empl_id,
+		fieldValue: 'empl_id',
+		fieldValueMap: 'empl_id',
+		fieldDisplay: 'empl_name',
 		fields: [
-			{mapping: 'deptgroup_id', text: 'deptgroup_id'},
-			{mapping: 'deptgroup_name', text: 'deptgroup_name'},
-		],
-
-		OnDataLoading: (criteria) => {
-			criteria['isexselect'] = 0
-		},
-
-
-		OnDataLoaded : (result, options) => {},
-		OnSelected: (value, display, record) => {
-			var selected_depttype_id = obj.cbo_depttype_id.combobox('getValue');
-			if (selected_depttype_id=="0") {
-				// langsung isi
-				form.setValue(obj.cbo_depttype_id, record.depttype_id, record.depttype_name)
-			} else {
-				if (record.depttype_id!=selected_depttype_id) {
-					$ui.ShowMessage('[QUESTION]Apakah anda akan mengubah tipe?', {
-						"Ya" : () => {
-							if (record.deptgroup_id!='--NULL--') {
-								form.setValue(obj.cbo_depttype_id, record.depttype_id, record.depttype_name)
-							} else {
-								form.setValue(obj.cbo_depttype_id, '0', '-- PILIH --')
-							}
-						},
-						"Tidak" : () => {
-						}
-					});
-				}
-			}			
-		}
-	})				
-				
-	new fgta4slideselect(obj.cbo_dept_parent, {
-		title: 'Pilih dept_parent',
-		returnpage: this_page_id,
-		api: $ui.apis.load_dept_parent,
-		fieldValue: 'dept_parent',
-		fieldValueMap: 'dept_id',
-		fieldDisplay: 'dept_name',
-		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'},
-		],
-		OnDataLoading: (criteria) => {
-			criteria['isparent'] = 1
-		},
-		OnDataLoaded : (result, options) => {
-			
-			// hapus pilihan yang sama dengan data saat ini
-			var id = obj.txt_dept_id.textbox('getText')
-			var i = 0; var idx = -1;
-			for (var d of result.records) {
-				if (d.dept_id==id) { idx = i; }
-				i++;
-			}
-			if (idx>=0) { result.records.splice(idx, 1); }					
-			
-			result.records.unshift({dept_id:'--NULL--', dept_name:'NONE'});	
-		},
-		OnSelected: (value, display, record) => {}
-	})				
-				
-	new fgta4slideselect(obj.cbo_depttype_id, {
-		title: 'Pilih depttype_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_depttype_id,
-		fieldValue: 'depttype_id',
-		fieldValueMap: 'depttype_id',
-		fieldDisplay: 'depttype_name',
-		fields: [
-			{mapping: 'depttype_id', text: 'depttype_id'},
-			{mapping: 'depttype_name', text: 'depttype_name'},
+			{mapping: 'empl_id', text: 'empl_id'},
+			{mapping: 'empl_name', text: 'empl_name'},
 		],
 		OnDataLoading: (criteria) => {},
 		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
-	})				
-				
-	new fgta4slideselect(obj.cbo_auth_id, {
-		title: 'Pilih auth_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_auth_id,
-		fieldValue: 'auth_id',
-		fieldValueMap: 'auth_id',
-		fieldDisplay: 'auth_name',
-		fields: [
-			{mapping: 'auth_id', text: 'auth_id'},
-			{mapping: 'auth_name', text: 'auth_name'},
-		],
-		OnDataLoading: (criteria) => {
-			criteria['disabled'] = 0
-		},
-
-		OnDataLoaded : (result, options) => {
-				
+			result.records.unshift({empl_id:'--NULL--', empl_name:'NONE'});	
 		},
 		OnSelected: (value, display, record) => {}
 	})				
@@ -225,15 +126,12 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 	var fn_dataopened = async (result, options) => {
 
-		if (result.record.dept_parent==null) { result.record.dept_parent='--NULL--'; result.record.dept_parent_name='NONE'; }
+		if (result.record.empl_id==null) { result.record.empl_id='--NULL--'; result.record.empl_name='NONE'; }
 
 
 		form
 			.fill(result.record)
-			.setValue(obj.cbo_deptgroup_id, result.record.deptgroup_id, result.record.deptgroup_name)
-			.setValue(obj.cbo_dept_parent, result.record.dept_parent, result.record.dept_parent_name)
-			.setValue(obj.cbo_depttype_id, result.record.depttype_id, result.record.depttype_name)
-			.setValue(obj.cbo_auth_id, result.record.auth_id, result.record.auth_name)
+			.setValue(obj.cbo_empl_id, result.record.empl_id, result.record.empl_name)
 			.commit()
 			.setViewMode(viewmode)
 			.lock(false)
@@ -273,16 +171,9 @@ export function createnew() {
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
-			data.dept_level = 0
 
-			data.deptgroup_id = '0'
-			data.deptgroup_name = '-- PILIH --'
-			data.dept_parent = '--NULL--'
-			data.dept_parent_name = 'NONE'
-			data.depttype_id = '0'
-			data.depttype_name = '-- PILIH --'
-			data.auth_id = '0'
-			data.auth_name = '-- PILIH --'
+			data.empl_id = '--NULL--'
+			data.empl_name = 'NONE'
 
 
 
@@ -317,7 +208,7 @@ function form_viewmodechanged(viewmode) {
 }
 
 function form_idsetup(options) {
-	var objid = obj.txt_dept_id
+	var objid = obj.txt_auth_id
 	switch (options.action) {
 		case 'fill' :
 			objid.textbox('disable') 
@@ -347,7 +238,6 @@ async function form_datasaving(data, options) {
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
 
-	options.skipmappingresponse = ["dept_parent"];
 
 }
 
@@ -376,7 +266,6 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 
-	form.setValue(obj.cbo_dept_parent, result.dataresponse.dept_parent, result.dataresponse.dept_parent_name!=='--NULL--'?result.dataresponse.dept_parent_name:'NONE')
 
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
 }
