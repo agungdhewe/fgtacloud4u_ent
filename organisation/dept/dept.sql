@@ -9,6 +9,7 @@ CREATE TABLE `mst_dept` (
 	`deptgroup_id` varchar(10) NOT NULL , 
 	`dept_parent` varchar(30)  , 
 	`depttype_id` varchar(10) NOT NULL , 
+	`deptmodel_id` varchar(10) NOT NULL , 
 	`auth_id` varchar(10) NOT NULL , 
 	`_createby` varchar(13) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
@@ -23,11 +24,13 @@ COMMENT='Daftar Departement';
 ALTER TABLE `mst_dept` ADD KEY `deptgroup_id` (`deptgroup_id`);
 ALTER TABLE `mst_dept` ADD KEY `dept_parent` (`dept_parent`);
 ALTER TABLE `mst_dept` ADD KEY `depttype_id` (`depttype_id`);
+ALTER TABLE `mst_dept` ADD KEY `deptmodel_id` (`deptmodel_id`);
 ALTER TABLE `mst_dept` ADD KEY `auth_id` (`auth_id`);
 
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_deptgroup` FOREIGN KEY (`deptgroup_id`) REFERENCES `mst_deptgroup` (`deptgroup_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_dept` FOREIGN KEY (`dept_parent`) REFERENCES `mst_dept` (`dept_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_depttype` FOREIGN KEY (`depttype_id`) REFERENCES `mst_depttype` (`depttype_id`);
+ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_deptmodel` FOREIGN KEY (`deptmodel_id`) REFERENCES `mst_deptmodel` (`deptmodel_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_auth` FOREIGN KEY (`auth_id`) REFERENCES `mst_auth` (`auth_id`);
 
 

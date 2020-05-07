@@ -40,9 +40,7 @@ class DataList extends WebAPI {
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"search" => " A.dept_id LIKE CONCAT('%', :search, '%') OR A.dept_name LIKE CONCAT('%', :search, '%') ",
-					"isparent" => " A.dept_isparent = :isparent ",
-					"isdisabled" => " A.dept_isdisabled = :isdisabled "
+					"search" => " A.deptmodel_id LIKE CONCAT('%', :search, '%') OR A.deptmodel_name LIKE CONCAT('%', :search, '%') "
 				]
 			);
 
@@ -50,7 +48,7 @@ class DataList extends WebAPI {
 			$maxrow = 30;
 			$offset = (property_exists($options, 'offset')) ? $options->offset : 0;
 
-			$stmt = $this->db->prepare("select count(*) as n from mst_dept A" . $where->sql);
+			$stmt = $this->db->prepare("select count(*) as n from mst_deptmodel A" . $where->sql);
 			$stmt->execute($where->params);
 			$row  = $stmt->fetch(\PDO::FETCH_ASSOC);
 			$total = (float) $row['n'];
@@ -58,12 +56,9 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-					dept_id, dept_name, dept_descr, dept_isparent, dept_isdisabled, dept_path, dept_level, deptgroup_id, dept_parent, depttype_id, deptmodel_id, auth_id, 
-					(select dept_path from mst_dept where dept_id=A.dept_parent) deptparent_path,
-					COALESCE((select dept_level from mst_dept where dept_id=A.dept_parent),0) deptparent_level,				
-					_createby, _createdate, _modifyby, _modifydate 
-				from mst_dept A
-			" . $where->sql . " ORDER BY dept_path, deptparent_path, dept_name " . $limit);
+				deptmodel_id, deptmodel_name, deptmodel_descr, deptmodel_isdisabled, _createby, _createdate, _modifyby, _modifydate 
+				from mst_deptmodel A
+			" . $where->sql . $limit);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
@@ -78,11 +73,6 @@ class DataList extends WebAPI {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
-					'deptgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_id'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
-					'dept_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_parent'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
-					'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
-					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
-					'auth_name' => \FGTA4\utils\SqlUtility::Lookup($record['auth_id'], $this->db, 'mst_auth', 'auth_id', 'auth_name'),
 					 
 				]));
 			}

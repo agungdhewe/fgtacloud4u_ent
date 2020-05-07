@@ -48,6 +48,15 @@ module.exports = {
 						api: 'ent/organisation/depttype/list'})				
 				},
 
+				deptmodel_id: {
+					text:'Model', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
+					options:{required:true,invalidMessage:'Model Department harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_deptmodle', 
+						field_value: 'deptmodel_id', field_display: 'deptmodel_name', 
+						api: 'ent/organisation/deptmodel/list'})				
+				},
+
 				auth_id: {
 					text:'Authorisasi', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
 					options:{required:true,invalidMessage:'Authorisasi harus diisi', prompt:'-- PILIH --'},
