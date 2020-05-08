@@ -12,11 +12,12 @@ module.exports = {
 			primarykeys: ['city_id'],
 			comment: 'Daftar City',
 			data: {
-				city_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true},
-				city_name: {text:'Area Name', type: dbtype.varchar(60), null:false, uppercase: true},
+				city_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true, options:{required:true,invalidMessage:'ID harus diisi'}},
+				city_name: {text:'City Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Kota harus diisi'}},
 				city_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				prov_id: {
 					suppresslist: true,
+					options:{required:true,invalidMessage:'Propinsi harus diisi', prompt:'-- PILIH --'},
 					text:'Propinsi', type: dbtype.varchar(30), null:false, 
 					comp: comp.Combo({
 						table: 'mst_prov', 
