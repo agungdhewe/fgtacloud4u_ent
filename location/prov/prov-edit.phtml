@@ -10,14 +10,14 @@
 		<div class="form_row">
 			<div class="form_label_col">ID</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_prov_id" class="easyui-textbox" mapping="prov_id" uppercase="true" maxlength="30" style="width: 400px" data-options="multiline: false  ">
+				<input id="pnl_edit-txt_prov_id" class="easyui-textbox" mapping="prov_id" uppercase="true" maxlength="30" style="width: 400px" data-options="multiline: false , required: true, invalidMessage: 'ID harus diisi' ">
 			</div>
 		</div>
 
 		<div class="form_row">
 			<div class="form_label_col">Area Name</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_prov_name" class="easyui-textbox" mapping="prov_name" uppercase="true" maxlength="60" style="width: 400px" data-options="multiline: false  ">
+				<input id="pnl_edit-txt_prov_name" class="easyui-textbox" mapping="prov_name" uppercase="true" maxlength="60" style="width: 400px" data-options="multiline: false , required: true, invalidMessage: 'Nama Propinsi harus diisi' ">
 			</div>
 		</div>
 
@@ -31,7 +31,7 @@
 		<div class="form_row">
 			<div class="form_label_col">Area</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_area_id" class="easyui-combo" style="width: 400px" mapping="area_id" display="area_name" data-options="editable:false, valueField:'id', textField:'text' ">
+				<input id="pnl_edit-cbo_area_id" class="easyui-combo" style="width: 400px" mapping="area_id" display="area_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Area harus diisi', prompt: '-- PILIH --'">
 			</div>
 		</div>
 
