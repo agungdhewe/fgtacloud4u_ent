@@ -12,8 +12,8 @@ module.exports = {
 			primarykeys: ['area_id'],
 			comment: 'Master Area',
 			data: {
-				area_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true},
-				area_name: {text:'Area Name', type: dbtype.varchar(60), null:false, uppercase: true},
+				area_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true, options:{required:true,invalidMessage:'ID harus diisi'}},
+				area_name: {text:'Area Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Area harus diisi'}},
 				area_descr: {text:'Descr', type: dbtype.varchar(90), null:true, suppresslist: true}
 			},
 
