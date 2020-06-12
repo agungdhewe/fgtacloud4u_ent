@@ -1,5 +1,6 @@
 {
 	"title" : "Partner Type",
+	"icon" : "icon-partnertype-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {
