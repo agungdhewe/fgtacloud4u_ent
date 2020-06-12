@@ -1,5 +1,6 @@
 {
 	"title" : "Currency",
+	"icon" : "icon-currencies-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {
