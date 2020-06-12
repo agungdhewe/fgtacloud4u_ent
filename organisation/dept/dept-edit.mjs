@@ -49,7 +49,7 @@ export async function init(opt) {
 
 
 	new fgta4slideselect(obj.cbo_deptgroup_id, {
-		title: 'Pilih deptgroup_id',
+		title: 'Pilih Group Department',
 		returnpage: this_page_id,
 		api: $ui.apis.load_deptgroup_id,
 		fieldValue: 'deptgroup_id',
@@ -90,7 +90,7 @@ export async function init(opt) {
 	})				
 				
 	new fgta4slideselect(obj.cbo_dept_parent, {
-		title: 'Pilih dept_parent',
+		title: 'Pilih Parent Department',
 		returnpage: this_page_id,
 		api: $ui.apis.load_dept_parent,
 		fieldValue: 'dept_parent',
@@ -120,7 +120,7 @@ export async function init(opt) {
 	})				
 				
 	new fgta4slideselect(obj.cbo_depttype_id, {
-		title: 'Pilih depttype_id',
+		title: 'Pilih Type Department',
 		returnpage: this_page_id,
 		api: $ui.apis.load_depttype_id,
 		fieldValue: 'depttype_id',
@@ -139,7 +139,7 @@ export async function init(opt) {
 
 	
 	new fgta4slideselect(obj.cbo_deptmodel_id, {
-		title: 'Pilih deptmodel_id',
+		title: 'Pilih Model Department',
 		returnpage: this_page_id,
 		api: $ui.apis.load_deptmodel_id,
 		fieldValue: 'deptmodel_id',
@@ -157,7 +157,7 @@ export async function init(opt) {
 	})	
 
 	new fgta4slideselect(obj.cbo_auth_id, {
-		title: 'Pilih auth_id',
+		title: 'Pilih Authorisasi',
 		returnpage: this_page_id,
 		api: $ui.apis.load_auth_id,
 		fieldValue: 'auth_id',
@@ -394,7 +394,7 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 
-	form.setValue(obj.cbo_dept_parent, result.dataresponse.dept_parent, result.dataresponse.dept_parent_name!=='--NULL--'?result.dataresponse.dept_parent_name:'NONE')
+	form.setValue(obj.cbo_dept_parent, result.dataresponse.dept_parent_name!=='--NULL--'?result.dataresponse.dept_parent:'--NULL--', result.dataresponse.dept_parent_name!=='--NULL--'?result.dataresponse.dept_parent_name:'NONE')
 
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
 }
