@@ -1,6 +1,6 @@
 {
 	"title" : "Country",
-	"icon" : "icon-bank-white.png",
+	"icon" : "icon-country-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {
