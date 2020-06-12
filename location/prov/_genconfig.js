@@ -13,8 +13,8 @@ module.exports = {
 			comment: 'Daftar Propinsi',
 			data: {
 				prov_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true, options:{required:true,invalidMessage:'ID harus diisi'}},
-				prov_name: {text:'Area Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Propinsi harus diisi'}},
-				prov_capital: {text:'Descr', type: dbtype.varchar(60), null:false, suppresslist: true},
+				prov_name: {text:'Propinsi Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Propinsi harus diisi'}},
+				prov_capital: {text:'Capital City', type: dbtype.varchar(60), null:false, suppresslist: true},
 				area_id: {
 					suppresslist: true,
 					options:{required:true,invalidMessage:'Area harus diisi', prompt:'-- PILIH --'},
