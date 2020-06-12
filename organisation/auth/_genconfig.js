@@ -18,6 +18,16 @@ module.exports = {
 				auth_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				auth_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
 				
+				authlevel_id: {
+					text:'Level', type: dbtype.varchar(10), null:false, uppercase: true,
+					// options:{prompt:'NONE'},
+					comp: comp.Combo({
+						table: 'mst_authlevel', 
+						field_value: 'authlevel_id', field_display: 'authlevel_name', 
+						api: 'ent/orgnisation/authlevel/list'})
+				},	
+
+
 				//TODO Buat modul HRMS, relasikan empl_id ke table mst_empl
 				empl_id: {
 					text:'Empl', type: dbtype.varchar(14), null:true, uppercase: true,

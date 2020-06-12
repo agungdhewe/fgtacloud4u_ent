@@ -1,6 +1,6 @@
 var this_page_id;
 
-import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
+
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
@@ -8,12 +8,10 @@ const btn_delete = $('#pnl_edit-btn_delete')
 
 const pnl_form = $('#pnl_edit-form')
 const obj = {
-	txt_auth_id: $('#pnl_edit-txt_auth_id'),
-	txt_auth_name: $('#pnl_edit-txt_auth_name'),
-	chk_auth_isdisabled: $('#pnl_edit-chk_auth_isdisabled'),
-	txt_auth_descr: $('#pnl_edit-txt_auth_descr'),
-	cbo_authlevel_id: $('#pnl_edit-cbo_authlevel_id'),
-	cbo_empl_id: $('#pnl_edit-cbo_empl_id')
+	txt_authlevel_id: $('#pnl_edit-txt_authlevel_id'),
+	txt_authlevel_name: $('#pnl_edit-txt_authlevel_name'),
+	txt_authlevel_descr: $('#pnl_edit-txt_authlevel_descr'),
+	txt_authlevel_order: $('#pnl_edit-txt_authlevel_order')
 }
 
 
@@ -24,9 +22,9 @@ export async function init(opt) {
 
 
 	form = new global.fgta4form(pnl_form, {
-		primary: obj.txt_auth_id,
+		primary: obj.txt_authlevel_id,
 		autoid: false,
-		logview: 'mst_auth',
+		logview: 'mst_authlevel',
 		btn_edit: btn_edit,
 		btn_save: btn_save,
 		btn_delete: btn_delete,		
@@ -42,44 +40,6 @@ export async function init(opt) {
 
 
 
-	new fgta4slideselect(obj.cbo_authlevel_id, {
-		title: 'Pilih Level',
-		returnpage: this_page_id,
-		api: $ui.apis.load_authlevel_id,
-		fieldValue: 'authlevel_id',
-		fieldValueMap: 'authlevel_id',
-		fieldDisplay: 'authlevel_name',
-		fields: [
-			{mapping: 'authlevel_id', text: 'authlevel_id'},
-			{mapping: 'authlevel_name', text: 'authlevel_name'},
-		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-			// result.records.unshift({empl_id:'--NULL--', empl_name:'NONE'});	
-		},
-		OnSelected: (value, display, record) => {}
-	})
-
-
-
-	new fgta4slideselect(obj.cbo_empl_id, {
-		title: 'Pilih empl_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_empl_id,
-		fieldValue: 'empl_id',
-		fieldValueMap: 'empl_id',
-		fieldDisplay: 'empl_name',
-		fields: [
-			{mapping: 'empl_id', text: 'empl_id'},
-			{mapping: 'empl_name', text: 'empl_name'},
-		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-			result.records.unshift({empl_id:'--NULL--', empl_name:'NONE'});	
-		},
-		OnSelected: (value, display, record) => {}
-	})				
-				
 
 
 
@@ -148,12 +108,10 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 	var fn_dataopened = async (result, options) => {
 
-		if (result.record.empl_id==null) { result.record.empl_id='--NULL--'; result.record.empl_name='NONE'; }
 
 
 		form
 			.fill(result.record)
-			.setValue(obj.cbo_empl_id, result.record.empl_id, result.record.empl_name)
 			.commit()
 			.setViewMode(viewmode)
 			.lock(false)
@@ -193,9 +151,8 @@ export function createnew() {
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
+			data.authlevel_order = 0
 
-			data.empl_id = '--NULL--'
-			data.empl_name = 'NONE'
 
 
 
@@ -230,7 +187,7 @@ function form_viewmodechanged(viewmode) {
 }
 
 function form_idsetup(options) {
-	var objid = obj.txt_auth_id
+	var objid = obj.txt_authlevel_id
 	switch (options.action) {
 		case 'fill' :
 			objid.textbox('disable') 
@@ -259,7 +216,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	options.skipmappingresponse = ["empl_id"];
+
 
 }
 
@@ -288,7 +245,6 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 
-	form.setValue(obj.cbo_empl_id, result.dataresponse.empl_name!=='--NULL--'?result.dataresponse.empl_id:'--NULL--', result.dataresponse.empl_name!=='--NULL--'?result.dataresponse.empl_name:'NONE')
 
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
 }

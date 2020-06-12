@@ -10,6 +10,5 @@ kemdian, di program bisa diakses dengan
 
 */
 
-export const load_empl_id = 'hrms/master/empl/list'
-export const load_authlevel_id = 'ent/organisation/authlevel/list'
+
 

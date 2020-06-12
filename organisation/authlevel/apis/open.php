@@ -41,12 +41,12 @@ class DataOpen extends WebAPI {
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"auth_id" => " auth_id = :auth_id "
+					"authlevel_id" => " authlevel_id = :authlevel_id "
 				]
 			);
 
-			$sql = \FGTA4\utils\SqlUtility::Select('mst_auth', [
-				'auth_id', 'auth_name', 'auth_isdisabled', 'auth_descr', 'authlevel_id',  'empl_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
+			$sql = \FGTA4\utils\SqlUtility::Select('mst_authlevel', [
+				'authlevel_id', 'authlevel_name', 'authlevel_descr', 'authlevel_order', '_createby', '_createdate', '_modifyby', '_modifydate' 
 			], $where->sql);
 
 			$stmt = $this->db->prepare($sql);
@@ -65,8 +65,6 @@ class DataOpen extends WebAPI {
 				//'tanggal' => date("d/m/Y", strtotime($record['tanggal'])),
 				//'gendername' => $record['gender']
 				
-				'empl_name' => \FGTA4\utils\SqlUtility::Lookup($record['empl_id'], $this->db, 'mst_empl', 'empl_id', 'empl_name'),
-				'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($record['authlevel_id'], $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
 
 				'_createby_username' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 				'_modifyby_username' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
