@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../../server/core/database/menus"
+		},
+		{
+			"path": "../../server/public/images/icons"
 		}
 	]
 }
