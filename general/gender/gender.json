@@ -1,5 +1,6 @@
 {
 	"title" : "Gender",
+	"icon" : "icon-gender-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

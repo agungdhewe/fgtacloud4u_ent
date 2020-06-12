@@ -1,5 +1,6 @@
 {
 	"title" : "Religion",
+	"icon" : "icon-religion-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {
