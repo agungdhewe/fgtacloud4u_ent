@@ -15,6 +15,7 @@ module.exports = {
 			data: {
 				auth_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true, options:{required:true,invalidMessage:'ID harus diisi'}},
 				auth_name: {text:'Auth Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Authorisasi harus diisi'}},
+				auth_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				auth_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
 				
 				//TODO Buat modul HRMS, relasikan empl_id ke table mst_empl

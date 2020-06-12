@@ -46,7 +46,7 @@ class DataOpen extends WebAPI {
 			);
 
 			$sql = \FGTA4\utils\SqlUtility::Select('mst_auth', [
-				'auth_id', 'auth_name', 'auth_descr', 'empl_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
+				'auth_id', 'auth_name', 'auth_isdisabled', 'auth_descr', 'empl_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
 			], $where->sql);
 
 			$stmt = $this->db->prepare($sql);

@@ -10,6 +10,7 @@ const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_auth_id: $('#pnl_edit-txt_auth_id'),
 	txt_auth_name: $('#pnl_edit-txt_auth_name'),
+	chk_auth_isdisabled: $('#pnl_edit-chk_auth_isdisabled'),
 	txt_auth_descr: $('#pnl_edit-txt_auth_descr'),
 	cbo_empl_id: $('#pnl_edit-cbo_empl_id')
 }
@@ -237,7 +238,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-
+	options.skipmappingresponse = ["empl_id"];
 
 }
 
@@ -266,6 +267,7 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 
+	form.setValue(obj.cbo_empl_id, result.dataresponse.empl_name!=='--NULL--'?result.dataresponse.empl_id:'--NULL--', result.dataresponse.empl_name!=='--NULL--'?result.dataresponse.empl_name:'NONE')
 
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
 }
