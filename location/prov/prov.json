@@ -1,5 +1,6 @@
 {
 	"title" : "Propinsi",
+	"icon":"icon-prov-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

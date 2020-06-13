@@ -1,5 +1,6 @@
 {
 	"title" : "Site Model",
+	"icon" : "icon-sitemodel-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

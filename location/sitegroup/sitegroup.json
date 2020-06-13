@@ -1,5 +1,6 @@
 {
 	"title" : "Site Group",
+	"icon" : "icon-sitegroup-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

@@ -1,5 +1,6 @@
 {
 	"title" : "Zone",
+	"icon" : "icon-zone-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

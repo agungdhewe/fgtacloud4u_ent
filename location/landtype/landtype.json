@@ -1,5 +1,6 @@
 {
 	"title" : "Land Type",
+	"icon" : "icon-landtype-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

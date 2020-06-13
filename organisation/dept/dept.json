@@ -1,5 +1,6 @@
 {
 	"title" : "Departement",
+	"icon" : "icon-dept-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

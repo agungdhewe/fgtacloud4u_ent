@@ -1,5 +1,6 @@
 {
 	"title" : "Area",
+	"icon" : "icon-area-white.png",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {
