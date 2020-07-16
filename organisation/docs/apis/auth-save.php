@@ -26,21 +26,16 @@ class DataSave extends WebAPI {
 	}
 	
 	public function execute($data, $options) {
-		$tablename = 'mst_auth';
-		$primarykey = 'auth_id';
+		$tablename = 'mst_docauth';
+		$primarykey = 'docauth_id';
 		$autoid = $options->autoid;
 		$datastate = $data->_state;
 
 		$userdata = $this->auth->session_get_user();
 
 		try {
-
-			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->RequestIsAllowedFor($this->reqinfo, "save", $userdata->groups)) {
-				throw new \Exception('your group authority is not allowed to do this action.');
-			}
-
 			$result = new \stdClass; 
+			
 			
 			$key = new \stdClass;
 			$obj = new \stdClass;
@@ -55,15 +50,12 @@ class DataSave extends WebAPI {
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
 
-			$obj->auth_id = strtoupper($obj->auth_id);
-			$obj->auth_name = strtoupper($obj->auth_name);
 			$obj->authlevel_id = strtoupper($obj->authlevel_id);
-			$obj->deptmodel_id = strtoupper($obj->deptmodel_id);
-			$obj->empl_id = strtoupper($obj->empl_id);
+			$obj->auth_id = strtoupper($obj->auth_id);
+			$obj->doc_id = strtoupper($obj->doc_id);
 
 
-			// if ($obj->auth_descr=='--NULL--') { unset($obj->auth_descr); }
-			// if ($obj->empl_id=='--NULL--') { unset($obj->empl_id); }
+			// if ($obj->docauth_descr=='--NULL--') { unset($obj->docauth_descr); }
 
 
 
@@ -87,11 +79,22 @@ class DataSave extends WebAPI {
 					$obj->_modifydate = date("Y-m-d H:i:s");				
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLUpdate($tablename, $obj, $key);
 				}
-	
+
 				$stmt = $this->db->prepare($cmd->sql);
 				$stmt->execute($cmd->params);
 
+				
+				$header_table = 'mst_doc';
+				$header_primarykey = 'doc_id';
+				$sqlrec = "update $header_table set _modifyby = :user_id, _modifydate=NOW() where $header_primarykey = :$header_primarykey";
+				$stmt = $this->db->prepare($sqlrec);
+				$stmt->execute([
+					":user_id" => $userdata->username,
+					":$header_primarykey" => $obj->{$header_primarykey}
+				]);
+				
 				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $tablename, $obj->{$primarykey}, $action, $userdata->username, (object)[]);
+				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $header_table, $obj->{$header_primarykey}, $action . "_DETIL", $userdata->username, (object)[]);
 
 				$this->db->commit();
 			} catch (\Exception $ex) {
@@ -104,7 +107,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'auth_id', 'auth_name', 'auth_isdisabled', 'auth_descr', 'authlevel_id', 'deptmodel_id', 'empl_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey,  'docauth_id', 'docauth_descr', 'docauth_order', 'docauth_value', 'docauth_min', 'authlevel_id', 'auth_id', 'doc_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -115,10 +118,9 @@ class DataSave extends WebAPI {
 				$dataresponse[$key] = $value;
 			}
 			$result->dataresponse = (object) array_merge($dataresponse, [
-				//  untuk lookup atau modify response ditaruh disini
+				// untuk lookup atau modify response ditaruh disini
 				'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($data->authlevel_id, $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
-				'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($data->deptmodel_id, $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
-				'empl_name' => \FGTA4\utils\SqlUtility::Lookup($data->empl_id, $this->db, 'mst_empl', 'empl_id', 'empl_name'),
+				'auth_name' => \FGTA4\utils\SqlUtility::Lookup($data->auth_id, $this->db, 'mst_deptauth', 'auth_id', 'auth_name'),
 				
 			]);
 

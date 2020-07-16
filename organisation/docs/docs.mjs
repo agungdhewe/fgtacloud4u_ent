@@ -2,18 +2,18 @@ import {fgta4grid} from  '../../../../../index.php/asset/fgta/framework/fgta4lib
 import {fgta4form} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4form.mjs'
 import * as fgta4pages from '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4pages.mjs'
 import * as fgta4pageslider from '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4pageslider.mjs'
-import * as apis from './auth.apis.mjs'
-import * as pList from './auth-list.mjs'
-import * as pEdit from './auth-edit.mjs'
-import * as pEditDelegategrid from './auth-delegategrid.mjs'
-import * as pEditDelegateform from './auth-delegateform.mjs'
+import * as apis from './docs.apis.mjs'
+import * as pList from './docs-list.mjs'
+import * as pEdit from './docs-edit.mjs'
+import * as pEditAuthgrid from './docs-authgrid.mjs'
+import * as pEditAuthform from './docs-authform.mjs'
 
 
 
 const pnl_list = $('#pnl_list')
 const pnl_edit = $('#pnl_edit')
-const pnl_editdelegategrid = $('#pnl_editdelegategrid')
-const pnl_editdelegateform = $('#pnl_editdelegateform')
+const pnl_editauthgrid = $('#pnl_editauthgrid')
+const pnl_editauthform = $('#pnl_editauthform')
 
 
 
@@ -39,8 +39,8 @@ export async function init(opt) {
 		.initPages([
 			{panel: pnl_list, handler: pList},
 			{panel: pnl_edit, handler: pEdit},
-			{panel: pnl_editdelegategrid, handler: pEditDelegategrid},
-			{panel: pnl_editdelegateform, handler: pEditDelegateform}			
+			{panel: pnl_editauthgrid, handler: pEditAuthgrid},
+			{panel: pnl_editauthform, handler: pEditAuthform}			
 		], opt)
 
 	$ui.setPages(pages)

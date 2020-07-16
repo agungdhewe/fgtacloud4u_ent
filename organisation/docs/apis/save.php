@@ -26,8 +26,8 @@ class DataSave extends WebAPI {
 	}
 	
 	public function execute($data, $options) {
-		$tablename = 'mst_auth';
-		$primarykey = 'auth_id';
+		$tablename = 'mst_doc';
+		$primarykey = 'doc_id';
 		$autoid = $options->autoid;
 		$datastate = $data->_state;
 
@@ -55,15 +55,11 @@ class DataSave extends WebAPI {
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
 
-			$obj->auth_id = strtoupper($obj->auth_id);
-			$obj->auth_name = strtoupper($obj->auth_name);
-			$obj->authlevel_id = strtoupper($obj->authlevel_id);
-			$obj->deptmodel_id = strtoupper($obj->deptmodel_id);
-			$obj->empl_id = strtoupper($obj->empl_id);
+			$obj->doc_id = strtoupper($obj->doc_id);
+			$obj->doc_code = strtoupper($obj->doc_code);
 
 
-			// if ($obj->auth_descr=='--NULL--') { unset($obj->auth_descr); }
-			// if ($obj->empl_id=='--NULL--') { unset($obj->empl_id); }
+			// if ($obj->doc_descr=='--NULL--') { unset($obj->doc_descr); }
 
 
 
@@ -104,7 +100,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'auth_id', 'auth_name', 'auth_isdisabled', 'auth_descr', 'authlevel_id', 'deptmodel_id', 'empl_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'doc_id', 'doc_code', 'doc_isdisabled', 'doc_descr', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -116,9 +112,6 @@ class DataSave extends WebAPI {
 			}
 			$result->dataresponse = (object) array_merge($dataresponse, [
 				//  untuk lookup atau modify response ditaruh disini
-				'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($data->authlevel_id, $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
-				'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($data->deptmodel_id, $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
-				'empl_name' => \FGTA4\utils\SqlUtility::Lookup($data->empl_id, $this->db, 'mst_empl', 'empl_id', 'empl_name'),
 				
 			]);
 

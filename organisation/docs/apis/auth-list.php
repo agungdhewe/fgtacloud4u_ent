@@ -26,21 +26,14 @@ class DataList extends WebAPI {
 	}
 
 	public function execute($options) {
-
 		$userdata = $this->auth->session_get_user();
-
-		try {
 		
-			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->RequestIsAllowedFor($this->reqinfo, "list", $userdata->groups)) {
-				throw new \Exception('your group authority is not allowed to do this action.');
-			}
-
+		try {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"search" => " A.auth_id LIKE CONCAT('%', :search, '%') OR A.auth_name LIKE CONCAT('%', :search, '%') "
+					"id" => " A.doc_id = :id"
 				]
 			);
 
@@ -48,16 +41,20 @@ class DataList extends WebAPI {
 			$maxrow = 30;
 			$offset = (property_exists($options, 'offset')) ? $options->offset : 0;
 
-			$stmt = $this->db->prepare("select count(*) as n from mst_auth A" . $where->sql);
+			$stmt = $this->db->prepare("select count(*) as n from mst_docauth A" . $where->sql);
 			$stmt->execute($where->params);
 			$row  = $stmt->fetch(\PDO::FETCH_ASSOC);
 			$total = (float) $row['n'];
 
+
+			// agar semua baris muncul
+			// $maxrow = $total;
+
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				auth_id, auth_name, auth_isdisabled, auth_descr, authlevel_id, deptmodel_id, empl_id, _createby, _createdate, _modifyby, _modifydate 
-				from mst_auth A
+				docauth_id, docauth_descr, docauth_order, docauth_value, docauth_min, authlevel_id, auth_id, doc_id, _createby, _createdate, _modifyby, _modifydate 
+				from mst_docauth A
 			" . $where->sql . $limit);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
@@ -73,9 +70,9 @@ class DataList extends WebAPI {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
+
 					'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($record['authlevel_id'], $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
-					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
-					'empl_name' => \FGTA4\utils\SqlUtility::Lookup($record['empl_id'], $this->db, 'mst_empl', 'empl_id', 'empl_name'),
+					'auth_name' => \FGTA4\utils\SqlUtility::Lookup($record['auth_id'], $this->db, 'mst_deptauth', 'auth_id', 'auth_name'),
 					 
 				]));
 			}
