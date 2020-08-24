@@ -60,6 +60,7 @@ class DataSave extends WebAPI {
 
 
 			// if ($obj->doc_descr=='--NULL--') { unset($obj->doc_descr); }
+			// if ($obj->doc_config=='--NULL--') { unset($obj->doc_config); }
 
 
 
@@ -100,7 +101,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'doc_id', 'doc_code', 'doc_isdisabled', 'doc_descr', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'doc_id', 'doc_code', 'doc_isdisabled', 'doc_descr', 'doc_config', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);

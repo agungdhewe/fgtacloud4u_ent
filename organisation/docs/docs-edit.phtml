@@ -1,4 +1,4 @@
-<div id="pnl_edit">
+<div id="pnl_edit" style="width: 100%; position:absolute;">
 	<div class="fgta-page-title" style="display: flex; align-items: center ">
 		<div>Edit Document</div>
 		<a id="pnl_edit-btn_edit" href="javascript:void(0)" class="easyui-linkbutton" style="margin-left:10px;" data-options="plain:true,iconCls:'fgta-icon-edit'">edit</a>
@@ -34,6 +34,14 @@
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Descr</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_doc_descr" class="easyui-textbox" mapping="doc_descr"  maxlength="90" style="width: 400px" data-options="multiline: false  ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row">
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Config</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_doc_config" class="easyui-textbox" mapping="doc_config"  maxlength="2000" style="width: 400px" data-options="multiline: false  ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>

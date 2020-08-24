@@ -90,7 +90,7 @@ export async function init(opt) {
 		],
 		OnDataLoading: (criteria) => {},
 		OnDataLoaded : (result, options) => {
-				
+			result.records.unshift({auth_id:'--NULL--', auth_name:'NONE'});	
 		},
 		OnSelected: (value, display, record) => {}
 	})				
@@ -190,6 +190,7 @@ export function open(data, rowid, hdata) {
 
 	var fn_dataopened = async (result, options) => {
 
+		if (result.record.auth_id==null) { result.record.auth_id='--NULL--'; result.record.auth_name='NONE'; }
 
 
 		form
@@ -242,10 +243,10 @@ export function createnew(hdata) {
 		data.auth_value = 0
 
 
-			data.authlevel_id = '0'
-			data.authlevel_name = '-- PILIH --'
-			data.auth_id = '0'
-			data.auth_name = '-- PILIH --'
+		data.authlevel_id = '0'
+		data.authlevel_name = '-- PILIH --'
+		data.auth_id = '--NULL--'
+		data.auth_name = 'NONE'
 
 
 
@@ -260,7 +261,7 @@ export function createnew(hdata) {
 async function form_datasaving(data, options) {
 	options.api = `${global.modulefullname}/auth-save`
 
-
+	options.skipmappingresponse = ["auth_id"];
 
 }
 
@@ -268,6 +269,8 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 
+
+	form.setValue(obj.cbo_auth_id, result.dataresponse.auth_name!=='--NULL--' ? result.dataresponse.auth_id : '--NULL--', result.dataresponse.auth_name!=='--NULL--'?result.dataresponse.auth_name:'NONE')
 
 	form.rowid = $ui.getPages().ITEMS['pnl_editauthgrid'].handler.updategrid(data, form.rowid)
 

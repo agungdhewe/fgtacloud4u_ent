@@ -18,11 +18,12 @@ module.exports = {
 				doc_code: {text:'Doc Name', type: dbtype.varchar(5), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Authorisasi harus diisi'}},
 				doc_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				doc_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
+				doc_config: {text:'Config', type: dbtype.varchar(2000), null:true, uppercase: false, suppresslist: true},
 			},
 			defaultsearch: ['doc_id', 'doc_code', 'doc_descr'],
-			uniques: {
-				'auth_name' : ['auth_name']
-			}
+			// uniques: {
+			// 	'auth_name' : ['auth_name']
+			// }
 		},
 
 		'mst_docauth' : {
@@ -33,7 +34,7 @@ module.exports = {
 				docauth_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
 				docauth_order: {text:'Order', type: dbtype.int(4), null:false, default:0, suppresslist: true},
 				docauth_value: {text:'Value', type: dbtype.int(4), null:false, default:100, suppresslist: true},
-				docauth_min: {text:'Value', type: dbtype.int(4), null:false, default:0, suppresslist: true},
+				docauth_min: {text:'Min', type: dbtype.int(4), null:false, default:0, suppresslist: true},
 
 				authlevel_id: {
 					text:'Level', type: dbtype.varchar(10), null:false, uppercase: true,
@@ -45,10 +46,10 @@ module.exports = {
 				},	
 
 				auth_id: {
-					text:'Authorisasi', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
+					text:'Authorisasi', type: dbtype.varchar(10), null:true, uppercase: true, suppresslist: true,
 					options:{prompt:'NONE'},
 					comp: comp.Combo({
-						table: 'mst_deptauth', 
+						table: 'mst_auth', 
 						field_value: 'auth_id', field_display: 'auth_name', 
 						api: 'ent/organisation/auth/list'})				
 				},				

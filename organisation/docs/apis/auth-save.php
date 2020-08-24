@@ -56,6 +56,7 @@ class DataSave extends WebAPI {
 
 
 			// if ($obj->docauth_descr=='--NULL--') { unset($obj->docauth_descr); }
+			// if ($obj->auth_id=='--NULL--') { unset($obj->auth_id); }
 
 
 
@@ -120,7 +121,7 @@ class DataSave extends WebAPI {
 			$result->dataresponse = (object) array_merge($dataresponse, [
 				// untuk lookup atau modify response ditaruh disini
 				'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($data->authlevel_id, $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
-				'auth_name' => \FGTA4\utils\SqlUtility::Lookup($data->auth_id, $this->db, 'mst_deptauth', 'auth_id', 'auth_name'),
+				'auth_name' => \FGTA4\utils\SqlUtility::Lookup($data->auth_id, $this->db, 'mst_auth', 'auth_id', 'auth_name'),
 				
 			]);
 

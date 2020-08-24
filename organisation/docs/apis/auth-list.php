@@ -55,7 +55,11 @@ class DataList extends WebAPI {
 				select 
 				docauth_id, docauth_descr, docauth_order, docauth_value, docauth_min, authlevel_id, auth_id, doc_id, _createby, _createdate, _modifyby, _modifydate 
 				from mst_docauth A
-			" . $where->sql . $limit);
+			" 
+			. $where->sql 
+			. " order by A.docauth_order  "
+			. $limit);
+			
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
@@ -72,7 +76,7 @@ class DataList extends WebAPI {
 				 	//'tambahan' => 'dta'
 
 					'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($record['authlevel_id'], $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
-					'auth_name' => \FGTA4\utils\SqlUtility::Lookup($record['auth_id'], $this->db, 'mst_deptauth', 'auth_id', 'auth_name'),
+					'auth_name' => \FGTA4\utils\SqlUtility::Lookup($record['auth_id'], $this->db, 'mst_auth', 'auth_id', 'auth_name'),
 					 
 				]));
 			}

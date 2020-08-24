@@ -56,7 +56,7 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				doc_id, doc_code, doc_isdisabled, doc_descr, _createby, _createdate, _modifyby, _modifydate 
+				doc_id, doc_code, doc_isdisabled, doc_descr, doc_config, _createby, _createdate, _modifyby, _modifydate 
 				from mst_doc A
 			" . $where->sql . $limit);
 			$stmt->execute($where->params);

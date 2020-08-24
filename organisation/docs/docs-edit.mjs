@@ -12,7 +12,8 @@ const obj = {
 	txt_doc_id: $('#pnl_edit-txt_doc_id'),
 	txt_doc_code: $('#pnl_edit-txt_doc_code'),
 	chk_doc_isdisabled: $('#pnl_edit-chk_doc_isdisabled'),
-	txt_doc_descr: $('#pnl_edit-txt_doc_descr')
+	txt_doc_descr: $('#pnl_edit-txt_doc_descr'),
+	txt_doc_config: $('#pnl_edit-txt_doc_config')
 }
 
 
