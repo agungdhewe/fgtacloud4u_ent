@@ -24,7 +24,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_brandtype', 
 						field_value: 'brandtype_id', field_display: 'brandtype_name', 
-						api: 'ent/mst/brandtype/list'})					
+						api: 'ent/affiliation/brandtype/list'})					
 				
 				},
 				unit_id: {
