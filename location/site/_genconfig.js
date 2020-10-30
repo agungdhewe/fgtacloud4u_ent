@@ -59,7 +59,27 @@ module.exports = {
 						table: 'mst_dept', 
 						field_value: 'dept_id', field_display: 'dept_name', 
 						api: 'ent/organisation/dept/list'})
-				}
+				},
+
+				config_id: {
+					suppresslist: true,
+					options:{required:true,invalidMessage:'Config harus diisi', prompt:'-- PILIH --'},
+					text:'Config', type: dbtype.varchar(30), null:false, 
+					comp: comp.Combo({
+						table: 'mst_config', 
+						field_value: 'config_id', field_display: 'config_name', 
+						api: 'ent/general/config/list'})
+				},
+				
+				taxtype_id: {
+					suppresslist: true,
+					options:{required:true,invalidMessage:'Taxtype harus diisi', prompt:'-- PILIH --'},
+					text:'Tax Type', type: dbtype.varchar(10), null:false, 
+					comp: comp.Combo({
+						table: 'mst_taxtype', 
+						field_value: 'taxtype_id', field_display: 'taxtype_name', 
+						api: 'ent/general/taxtype/list'})
+				}				
 
 			},
 

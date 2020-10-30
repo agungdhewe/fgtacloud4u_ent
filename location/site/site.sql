@@ -12,6 +12,8 @@ CREATE TABLE `mst_site` (
 	`sitegroup_id` varchar(10) NOT NULL , 
 	`land_id` varchar(30) NOT NULL , 
 	`dept_id` varchar(30) NOT NULL , 
+	`config_id` varchar(30) NOT NULL , 
+	`taxtype_id` varchar(10) NOT NULL , 
 	`_createby` varchar(13) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(13)  , 
@@ -26,11 +28,16 @@ ALTER TABLE `mst_site` ADD KEY `sitemodel_id` (`sitemodel_id`);
 ALTER TABLE `mst_site` ADD KEY `sitegroup_id` (`sitegroup_id`);
 ALTER TABLE `mst_site` ADD KEY `land_id` (`land_id`);
 ALTER TABLE `mst_site` ADD KEY `dept_id` (`dept_id`);
+ALTER TABLE `mst_site` ADD KEY `config_id` (`config_id`);
+ALTER TABLE `mst_site` ADD KEY `taxtype_id` (`taxtype_id`);
+
 
 ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_sitemodel` FOREIGN KEY (`sitemodel_id`) REFERENCES `mst_sitemodel` (`sitemodel_id`);
 ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_sitegroup` FOREIGN KEY (`sitegroup_id`) REFERENCES `mst_sitegroup` (`sitegroup_id`);
 ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_land` FOREIGN KEY (`land_id`) REFERENCES `mst_land` (`land_id`);
 ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_dept` FOREIGN KEY (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
+ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_config` FOREIGN KEY (`config_id`) REFERENCES `mst_config` (`config_id`);
+ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_taxtype` FOREIGN KEY (`taxtype_id`) REFERENCES `mst_taxtype` (`taxtype_id`);
 
 
 

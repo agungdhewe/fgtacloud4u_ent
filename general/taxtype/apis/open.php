@@ -41,12 +41,12 @@ class DataOpen extends WebAPI {
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"site_id" => " site_id = :site_id "
+					"taxtype_id" => " taxtype_id = :taxtype_id "
 				]
 			);
 
-			$sql = \FGTA4\utils\SqlUtility::Select('mst_site', [
-				'site_id', 'site_name', 'site_address', 'site_phone', 'site_email', 'site_sqmwide', 'site_isdisabled', 'site_geoloc', 'site_opendate', 'sitemodel_id', 'sitegroup_id', 'land_id', 'dept_id', 'config_id', 'taxtype_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
+			$sql = \FGTA4\utils\SqlUtility::Select('mst_taxtype', [
+				'taxtype_id', 'taxtype_name', 'taxtype_descr', 'taxtype_value', 'taxtype_include', '_createby', '_createdate', '_modifyby', '_modifydate' 
 			], $where->sql);
 
 			$stmt = $this->db->prepare($sql);
@@ -59,19 +59,12 @@ class DataOpen extends WebAPI {
 			}
 
 			$result->record = array_merge($record, [
-				'site_opendate' => date("d/m/Y", strtotime($record['site_opendate'])),
 				
 				// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 				// 'tambahan' => 'dta',
 				//'tanggal' => date("d/m/Y", strtotime($record['tanggal'])),
 				//'gendername' => $record['gender']
 				
-				'sitemodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['sitemodel_id'], $this->db, 'mst_sitemodel', 'sitemodel_id', 'sitemodel_name'),
-				'sitegroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['sitegroup_id'], $this->db, 'mst_sitegroup', 'sitegroup_id', 'sitegroup_name'),
-				'land_name' => \FGTA4\utils\SqlUtility::Lookup($record['land_id'], $this->db, 'mst_land', 'land_id', 'land_name'),
-				'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
-				'config_name' => \FGTA4\utils\SqlUtility::Lookup($record['config_id'], $this->db, 'mst_config', 'config_id', 'config_name'),
-				'taxtype_name' => \FGTA4\utils\SqlUtility::Lookup($record['taxtype_id'], $this->db, 'mst_taxtype', 'taxtype_id', 'taxtype_name'),
 
 				'_createby_username' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 				'_modifyby_username' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

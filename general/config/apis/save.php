@@ -26,8 +26,8 @@ class DataSave extends WebAPI {
 	}
 	
 	public function execute($data, $options) {
-		$tablename = 'mst_site';
-		$primarykey = 'site_id';
+		$tablename = 'mst_config';
+		$primarykey = 'config_id';
 		$autoid = $options->autoid;
 		$datastate = $data->_state;
 
@@ -54,13 +54,9 @@ class DataSave extends WebAPI {
 
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
-			$obj->site_opendate = (\DateTime::createFromFormat('d/m/Y',$obj->site_opendate))->format('Y-m-d');
-			$obj->site_id = strtoupper($obj->site_id);
-			$obj->site_name = strtoupper($obj->site_name);
-			$obj->site_address = strtoupper($obj->site_address);
-			$obj->site_phone = strtoupper($obj->site_phone);
-			$obj->site_email = strtoupper($obj->site_email);
-			$obj->site_sqmwide = strtoupper($obj->site_sqmwide);
+
+			$obj->config_id = strtoupper($obj->config_id);
+			$obj->config_name = strtoupper($obj->config_name);
 
 
 
@@ -103,7 +99,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'site_id', 'site_name', 'site_address', 'site_phone', 'site_email', 'site_sqmwide', 'site_isdisabled', 'site_geoloc', 'site_opendate', 'sitemodel_id', 'sitegroup_id', 'land_id', 'dept_id', 'config_id', 'taxtype_id',  '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'config_id', 'config_name', 'config_dir', 'config_filename', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -114,13 +110,8 @@ class DataSave extends WebAPI {
 				$dataresponse[$key] = $value;
 			}
 			$result->dataresponse = (object) array_merge($dataresponse, [
-				// misalnya ada data yang perlu dilookup ditaruh disini
-				'sitemodel_name' => \FGTA4\utils\SqlUtility::Lookup($data->sitemodel_id, $this->db, 'mst_sitemodel', 'sitemodel_id', 'sitemodel_name'),
-				'sitegroup_name' => \FGTA4\utils\SqlUtility::Lookup($data->sitegroup_id, $this->db, 'mst_sitegroup', 'sitegroup_id', 'sitegroup_name'),
-				'land_name' => \FGTA4\utils\SqlUtility::Lookup($data->land_id, $this->db, 'mst_land', 'land_id', 'land_name'),
-				'dept_name' => \FGTA4\utils\SqlUtility::Lookup($data->dept_id, $this->db, 'mst_dept', 'dept_id', 'dept_name'),
-				'config_name' => \FGTA4\utils\SqlUtility::Lookup($data->config_id, $this->db, 'mst_config', 'config_id', 'config_name'),
-				'taxtype_name' => \FGTA4\utils\SqlUtility::Lookup($data->taxtype_id, $this->db, 'mst_taxtype', 'taxtype_id', 'taxtype_name'),
+				//  untuk lookup atau modify response ditaruh disini
+				
 			]);
 
 			return $result;

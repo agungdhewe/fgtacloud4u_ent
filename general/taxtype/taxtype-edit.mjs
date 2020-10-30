@@ -1,6 +1,7 @@
 var this_page_id;
+var this_page_options;
 
-import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
+
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
@@ -8,37 +9,39 @@ const btn_delete = $('#pnl_edit-btn_delete')
 
 const pnl_form = $('#pnl_edit-form')
 const obj = {
-	txt_site_id: $('#pnl_edit-txt_site_id'),
-	txt_site_name: $('#pnl_edit-txt_site_name'),
-	txt_site_address: $('#pnl_edit-txt_site_address'),
-	txt_site_phone: $('#pnl_edit-txt_site_phone'),
-	txt_site_email: $('#pnl_edit-txt_site_email'),
-	txt_site_sqmwide: $('#pnl_edit-txt_site_sqmwide'),
-	chk_site_isdisabled: $('#pnl_edit-chk_site_isdisabled'),
-	txt_site_geoloc: $('#pnl_edit-txt_site_geoloc'),
-	dt_site_opendate: $('#pnl_edit-dt_site_opendate'),
-	cbo_sitemodel_id: $('#pnl_edit-cbo_sitemodel_id'),
-	cbo_sitegroup_id: $('#pnl_edit-cbo_sitegroup_id'),
-	cbo_land_id: $('#pnl_edit-cbo_land_id'),
-	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
-	cbo_config_id: $('#pnl_edit-cbo_config_id'),
-	cbo_taxtype_id: $('#pnl_edit-cbo_taxtype_id')
+	txt_taxtype_id: $('#pnl_edit-txt_taxtype_id'),
+	txt_taxtype_name: $('#pnl_edit-txt_taxtype_name'),
+	txt_taxtype_descr: $('#pnl_edit-txt_taxtype_descr'),
+	txt_taxtype_value: $('#pnl_edit-txt_taxtype_value'),
+	chk_taxtype_include: $('#pnl_edit-chk_taxtype_include')
 }
 
 
 let form = {}
 
 export async function init(opt) {
-	this_page_id = opt.id
+	this_page_id = opt.id;
+	this_page_options = opt;
+
+
+	var disableedit = false;
+	// switch (this_page_options.variancename) {
+	// 	case 'commit' :
+	//		disableedit = true;
+	//		btn_edit.linkbutton('disable');
+	//		btn_save.linkbutton('disable');
+	//		btn_delete.linkbutton('disable');
+	//		break;
+	// }
 
 
 	form = new global.fgta4form(pnl_form, {
-		primary: obj.txt_site_id,
+		primary: obj.txt_taxtype_id,
 		autoid: false,
-		logview: 'mst_site',
-		btn_edit: btn_edit,
-		btn_save: btn_save,
-		btn_delete: btn_delete,		
+		logview: 'mst_taxtype',
+		btn_edit: disableedit==true? $('<a>edit</a>') : btn_edit,
+		btn_save: disableedit==true? $('<a>save</a>') : btn_save,
+		btn_delete: disableedit==true? $('<a>delete</a>') : btn_delete,		
 		objects : obj,
 		OnDataSaving: async (data, options) => { await form_datasaving(data, options) },
 		OnDataSaveError: async (data, options) => { await form_datasaveerror(data, options) },
@@ -51,114 +54,7 @@ export async function init(opt) {
 
 
 
-	new fgta4slideselect(obj.cbo_sitemodel_id, {
-		title: 'Pilih sitemodel_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_sitemodel_id,
-		fieldValue: 'sitemodel_id',
-		fieldValueMap: 'sitemodel_id',
-		fieldDisplay: 'sitemodel_name',
-		fields: [
-			{mapping: 'sitemodel_id', text: 'sitemodel_id'},
-			{mapping: 'sitemodel_name', text: 'sitemodel_name'},
-		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
-	})				
-				
-	new fgta4slideselect(obj.cbo_sitegroup_id, {
-		title: 'Pilih sitegroup_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_sitegroup_id,
-		fieldValue: 'sitegroup_id',
-		fieldValueMap: 'sitegroup_id',
-		fieldDisplay: 'sitegroup_name',
-		fields: [
-			{mapping: 'sitegroup_id', text: 'sitegroup_id'},
-			{mapping: 'sitegroup_name', text: 'sitegroup_name'},
-		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
-	})				
-				
-	new fgta4slideselect(obj.cbo_land_id, {
-		title: 'Pilih land_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_land_id,
-		fieldValue: 'land_id',
-		fieldValueMap: 'land_id',
-		fieldDisplay: 'land_name',
-		fields: [
-			{mapping: 'land_id', text: 'land_id'},
-			{mapping: 'land_name', text: 'land_name'},
-		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
-	})				
-				
-	new fgta4slideselect(obj.cbo_dept_id, {
-		title: 'Pilih dept_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_dept_id,
-		fieldValue: 'dept_id',
-		fieldValueMap: 'dept_id',
-		fieldDisplay: 'dept_name',
-		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'},
-		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
-	})				
 
-	new fgta4slideselect(obj.cbo_config_id, {
-		title: 'Pilih config_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_config_id,
-		fieldValue: 'config_id',
-		fieldValueMap: 'config_id',
-		fieldDisplay: 'config_name',
-		fields: [
-			{mapping: 'config_id', text: 'config_id'},
-			{mapping: 'config_name', text: 'config_name'},
-		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
-	})	
-	
-				
-	new fgta4slideselect(obj.cbo_taxtype_id, {
-		title: 'Pilih taxtype_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_taxtype_id,
-		fieldValue: 'taxtype_id',
-		fieldValueMap: 'taxtype_id',
-		fieldDisplay: 'taxtype_name',
-		fields: [
-			{mapping: 'taxtype_id', text: 'taxtype_id'},
-			{mapping: 'taxtype_name', text: 'taxtype_name'},
-		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
-	})	
 
 
 	document.addEventListener('keydown', (ev)=>{
@@ -230,10 +126,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 		form
 			.fill(result.record)
-			.setValue(obj.cbo_sitemodel_id, result.record.sitemodel_id, result.record.sitemodel_name)
-			.setValue(obj.cbo_sitegroup_id, result.record.sitegroup_id, result.record.sitegroup_name)
-			.setValue(obj.cbo_land_id, result.record.land_id, result.record.land_name)
-			.setValue(obj.cbo_dept_id, result.record.dept_id, result.record.dept_name)
 			.commit()
 			.setViewMode(viewmode)
 			.lock(false)
@@ -273,17 +165,8 @@ export function createnew() {
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
-			data.site_sqmwide = 0
-			data.site_opendate = global.now()
+			data.taxtype_value = 0
 
-			data.sitemodel_id = '0'
-			data.sitemodel_name = '-- PILIH --'
-			data.sitegroup_id = '0'
-			data.sitegroup_name = '-- PILIH --'
-			data.land_id = '0'
-			data.land_name = '-- PILIH --'
-			data.dept_id = '0'
-			data.dept_name = '-- PILIH --'
 
 
 
@@ -291,9 +174,6 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
-		$ui.getPages().ITEMS['pnl_editunitgrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_editmappinggrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_editeventgrid'].handler.createnew(data, options)
 
 
 	})
@@ -321,7 +201,7 @@ function form_viewmodechanged(viewmode) {
 }
 
 function form_idsetup(options) {
-	var objid = obj.txt_site_id
+	var objid = obj.txt_taxtype_id
 	switch (options.action) {
 		case 'fill' :
 			objid.textbox('disable') 
