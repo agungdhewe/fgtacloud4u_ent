@@ -5,10 +5,14 @@ import * as fgta4pageslider from '../../../../../index.php/asset/fgta/framework/
 import * as apis from './partner.apis.mjs'
 import * as pList from './partner-list.mjs'
 import * as pEdit from './partner-edit.mjs'
-import * as pEditBankgrid from './partner-bankgrid.js'
-import * as pEditBankform from './partner-bankform.js'
-import * as pEditContactgrid from './partner-contactgrid.js'
-import * as pEditContactform from './partner-contactform.js'
+import * as pEditBankgrid from './partner-bankgrid.mjs'
+import * as pEditBankform from './partner-bankform.mjs'
+import * as pEditContactgrid from './partner-contactgrid.mjs'
+import * as pEditContactform from './partner-contactform.mjs'
+import * as pEditSitegrid from './partner-sitegrid.mjs'
+import * as pEditSiteform from './partner-siteform.mjs'
+import * as pEditModeltransaksigrid from './partner-modeltransaksigrid.mjs'
+import * as pEditModeltransaksiform from './partner-modeltransaksiform.mjs'
 
 
 
@@ -18,6 +22,10 @@ const pnl_editbankgrid = $('#pnl_editbankgrid')
 const pnl_editbankform = $('#pnl_editbankform')
 const pnl_editcontactgrid = $('#pnl_editcontactgrid')
 const pnl_editcontactform = $('#pnl_editcontactform')
+const pnl_editsitegrid = $('#pnl_editsitegrid')
+const pnl_editsiteform = $('#pnl_editsiteform')
+const pnl_editmodeltransaksigrid = $('#pnl_editmodeltransaksigrid')
+const pnl_editmodeltransaksiform = $('#pnl_editmodeltransaksiform')
 
 
 
@@ -28,7 +36,7 @@ var slider = fgta4pageslider;
 export const SIZE = {width:0, height:0}
 
 
-export async function init() {
+export async function init(opt) {
 	// $ui.grd_list = new fgta4grid()
 	// $ui.grd_edit = new fgta4grid()
 
@@ -46,8 +54,12 @@ export async function init() {
 			{panel: pnl_editbankgrid, handler: pEditBankgrid},
 			{panel: pnl_editbankform, handler: pEditBankform},
 			{panel: pnl_editcontactgrid, handler: pEditContactgrid},
-			{panel: pnl_editcontactform, handler: pEditContactform}			
-		])
+			{panel: pnl_editcontactform, handler: pEditContactform},
+			{panel: pnl_editsitegrid, handler: pEditSitegrid},
+			{panel: pnl_editsiteform, handler: pEditSiteform},
+			{panel: pnl_editmodeltransaksigrid, handler: pEditModeltransaksigrid},
+			{panel: pnl_editmodeltransaksiform, handler: pEditModeltransaksiform}			
+		], opt)
 
 	$ui.setPages(pages)
 

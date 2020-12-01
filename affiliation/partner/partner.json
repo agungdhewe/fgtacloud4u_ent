@@ -1,6 +1,6 @@
 {
 	"title" : "Partner",
-	"icon" : "icon-partner-white.png",
+	"variance" : {},
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

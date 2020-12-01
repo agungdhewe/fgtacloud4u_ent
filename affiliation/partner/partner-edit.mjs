@@ -1,4 +1,5 @@
 var this_page_id;
+var this_page_options;
 
 import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 
@@ -19,6 +20,8 @@ const obj = {
 	txt_partner_mobilephone: $('#pnl_edit-txt_partner_mobilephone'),
 	txt_partner_email: $('#pnl_edit-txt_partner_email'),
 	chk_partner_isdisabled: $('#pnl_edit-chk_partner_isdisabled'),
+	chk_partner_isparent: $('#pnl_edit-chk_partner_isparent'),
+	cbo_partner_parent: $('#pnl_edit-cbo_partner_parent'),
 	cbo_partnertype_id: $('#pnl_edit-cbo_partnertype_id'),
 	cbo_partnerorg_id: $('#pnl_edit-cbo_partnerorg_id')
 }
@@ -27,16 +30,28 @@ const obj = {
 let form = {}
 
 export async function init(opt) {
-	this_page_id = opt.id
+	this_page_id = opt.id;
+	this_page_options = opt;
+
+
+	var disableedit = false;
+	// switch (this_page_options.variancename) {
+	// 	case 'commit' :
+	//		disableedit = true;
+	//		btn_edit.linkbutton('disable');
+	//		btn_save.linkbutton('disable');
+	//		btn_delete.linkbutton('disable');
+	//		break;
+	// }
 
 
 	form = new global.fgta4form(pnl_form, {
 		primary: obj.txt_partner_id,
 		autoid: true,
 		logview: 'mst_partner',
-		btn_edit: btn_edit,
-		btn_save: btn_save,
-		btn_delete: btn_delete,		
+		btn_edit: disableedit==true? $('<a>edit</a>') : btn_edit,
+		btn_save: disableedit==true? $('<a>save</a>') : btn_save,
+		btn_delete: disableedit==true? $('<a>delete</a>') : btn_delete,		
 		objects : obj,
 		OnDataSaving: async (data, options) => { await form_datasaving(data, options) },
 		OnDataSaveError: async (data, options) => { await form_datasaveerror(data, options) },
@@ -59,7 +74,40 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'country_id', text: 'country_id'},
 			{mapping: 'country_name', text: 'country_name'},
-		]
+		],
+		OnDataLoading: (criteria) => {},
+		OnDataLoaded : (result, options) => {
+				
+		},
+		OnSelected: (value, display, record) => {}
+	})				
+				
+	new fgta4slideselect(obj.cbo_partner_parent, {
+		title: 'Pilih partner_parent',
+		returnpage: this_page_id,
+		api: $ui.apis.load_partner_parent,
+		fieldValue: 'partner_parent',
+		fieldValueMap: 'partner_id',
+		fieldDisplay: 'partner_name',
+		fields: [
+			{mapping: 'partner_id', text: 'partner_id'},
+			{mapping: 'partner_name', text: 'partner_name'},
+		],
+		OnDataLoading: (criteria) => {},
+		OnDataLoaded : (result, options) => {
+			
+			// hapus pilihan yang sama dengan data saat ini
+			var id = obj.txt_partner_id.textbox('getText')
+			var i = 0; var idx = -1;
+			for (var d of result.records) {
+				if (d.partner_id==id) { idx = i; }
+				i++;
+			}
+			if (idx>=0) { result.records.splice(idx, 1); }					
+			
+			result.records.unshift({partner_id:'--NULL--', partner_name:'NONE'});	
+		},
+		OnSelected: (value, display, record) => {}
 	})				
 				
 	new fgta4slideselect(obj.cbo_partnertype_id, {
@@ -72,7 +120,12 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'partnertype_id', text: 'partnertype_id'},
 			{mapping: 'partnertype_name', text: 'partnertype_name'},
-		]
+		],
+		OnDataLoading: (criteria) => {},
+		OnDataLoaded : (result, options) => {
+				
+		},
+		OnSelected: (value, display, record) => {}
 	})				
 				
 	new fgta4slideselect(obj.cbo_partnerorg_id, {
@@ -85,7 +138,12 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'partnerorg_id', text: 'partnerorg_id'},
 			{mapping: 'partnerorg_name', text: 'partnerorg_name'},
-		]
+		],
+		OnDataLoading: (criteria) => {},
+		OnDataLoaded : (result, options) => {
+				
+		},
+		OnSelected: (value, display, record) => {}
 	})				
 				
 
@@ -156,9 +214,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 	var fn_dataopened = async (result, options) => {
 
+		if (result.record.partner_parent==null) { result.record.partner_parent='--NULL--'; result.record.partner_parent_name='NONE'; }
+
+
 		form
 			.fill(result.record)
 			.setValue(obj.cbo_partner_country, result.record.partner_country, result.record.country_name)
+			.setValue(obj.cbo_partner_parent, result.record.partner_parent, result.record.partner_parent_name)
 			.setValue(obj.cbo_partnertype_id, result.record.partnertype_id, result.record.partnertype_name)
 			.setValue(obj.cbo_partnerorg_id, result.record.partnerorg_id, result.record.partnerorg_name)
 			.commit()
@@ -201,6 +263,16 @@ export function createnew() {
 
 		// set nilai-nilai default untuk form
 
+			data.partner_country = '0'
+			data.country_name = '-- PILIH --'
+			data.partner_parent = '--NULL--'
+			data.partner_parent_name = 'NONE'
+			data.partnertype_id = '0'
+			data.partnertype_name = '-- PILIH --'
+			data.partnerorg_id = '0'
+			data.partnerorg_name = '-- PILIH --'
+
+
 
 		options.OnCanceled = () => {
 			$ui.getPages().show('pnl_list')
@@ -208,6 +280,8 @@ export function createnew() {
 
 		$ui.getPages().ITEMS['pnl_editbankgrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editcontactgrid'].handler.createnew(data, options)
+		$ui.getPages().ITEMS['pnl_editsitegrid'].handler.createnew(data, options)
+		$ui.getPages().ITEMS['pnl_editmodeltransaksigrid'].handler.createnew(data, options)
 
 
 	})
@@ -265,6 +339,7 @@ async function form_datasaving(data, options) {
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
 
+	options.skipmappingresponse = ["partner_parent"];
 
 }
 
@@ -292,6 +367,9 @@ async function form_datasaved(result, options) {
 
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
+
+	form.setValue(obj.cbo_partner_parent, result.dataresponse.partner_parent_name!=='--NULL--' ? result.dataresponse.partner_parent : '--NULL--', result.dataresponse.partner_parent_name!=='--NULL--'?result.dataresponse.partner_parent_name:'NONE')
+
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
 }
 

@@ -30,6 +30,20 @@ module.exports = {
 				partner_mobilephone: {text:'HP', type: dbtype.varchar(30), null:false, uppercase: true, suppresslist: true},
 				partner_email: {text:'Email', type: dbtype.varchar(150), null:false, uppercase: true, suppresslist: true},				
 				partner_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
+				partner_isparent: {text:'Parent', type: dbtype.boolean, null:false, default:'0'},
+
+				partner_parent: {
+					text: 'Parent', type: dbtype.varchar(14), null: true, uppercase: true, suppresslist: true,
+					options: { prompt: 'NONE' },
+					comp: comp.Combo({
+						table: 'mst_partner',
+						field_value: 'partner_id',
+						field_display: 'partner_name',
+						field_display_name: 'partner_parent_name',
+						api: 'ent/affiliation/partner/list'
+					})
+				},
+
 				partnertype_id: {
 					text:'Type', type: dbtype.varchar(10), null:false, uppercase: true, 
 					options:{required:true,invalidMessage:'Type harus diisi'},
@@ -47,6 +61,9 @@ module.exports = {
 						field_value: 'partnerorg_id', field_display: 'partnerorg_name', 
 						api: 'ent/affiliation/partnerorg/list'})					
 				},
+
+
+
 			},
 
 			defaultsearch : ['partner_id', 'partner_name'],
@@ -95,7 +112,75 @@ module.exports = {
 			uniques: {
 				'partnercontact_mobilephone' : ['partner_id', 'partnercontact_mobilephone']
 			}			
-		}
+		},
+
+
+		'mst_partnersite' : {
+			primarykeys: ['partnersite_id'],
+			comment: 'Daftar partner yang bisa diakses dari site tertentu',
+			data: {				
+				partnersite_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+				site_id: {
+					text:'Site', type: dbtype.varchar(30), null:false, uppercase: true, suppresslist: true,
+					options:{required:true,invalidMessage:'Site harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_site', 
+						field_value: 'site_id', field_display: 'site_name', 
+						api: 'ent/location/site/list'})				
+				},			
+				partner_id: {text:'Partner', type: dbtype.varchar(14), null:false, uppercase: true},
+			},
+
+			uniques: {
+				'partnersite_pair' : ['partner_id', 'site_id']
+			}	
+
+		},
+
+		'mst_partnertrxmodel' : {
+			comment: 'Model transaksi yang bisa dilayani partner',
+			primarykeys: ['partnertrxmodel_id'],
+			data: {
+				partnertrxmodel_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+				trxmodel_id: { 
+					text: 'Transaksi', type: dbtype.varchar(10), uppercase: true, null: false, 
+					options: { required: true, invalidMessage: 'Model Transaksi harus diisi' }, 
+					comp: comp.Combo({
+						table: 'mst_trxmodel', 
+						field_value: 'trxmodel_id', field_display: 'trxmodel_name', field_display_name: 'trxmodel_name', 
+						api: 'finact/master/trxmodel/list'})				
+				
+				},
+
+				coa_id: {
+					text:'Account', type: dbtype.varchar(20), null:false,
+					options:{required:true,invalidMessage:'Account harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_coa', 
+						field_value: 'coa_id', field_display: 'coa_name',  field_display_name: 'coa_name',
+						api: 'finact/master/coa/list'})
+				},
+
+				unbill_coa_id: {
+					text:'Account (unbill)', type: dbtype.varchar(20), null:false,  suppresslist: true,
+					options:{required:true,invalidMessage:'Account Unbill harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_coa', 
+						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'unbill_coa_name',
+						api: 'finact/master/coa/list'})
+				},
+
+				partner_id: {text:'Partner', type: dbtype.varchar(14), null:false, uppercase: true},
+			},
+
+			uniques: {
+				'partnertrxmodel_pair': ['partner_id', 'trxmodel_id']
+			},
+
+		},
+
+
+
 	},
 
 	schema: {
@@ -104,7 +189,10 @@ module.exports = {
 		detils: {
 			'bank' : {title: 'Bank', table:'mst_partnerbank', form: true, headerview:'partner_name'},
 			'contact' : {title: 'Contact', table:'mst_partnercontact', form: true, headerview:'partner_name'},
+			'site' : {title: 'Site', table:'mst_partnersite', form: true, headerview:'partner_name'},
+			'modeltransaksi': {title: 'Model Transaksi', table: 'mst_partnertrxmodel', form: true, headerview: 'partner_name' },
+
 		}
+
 	}
 }
-

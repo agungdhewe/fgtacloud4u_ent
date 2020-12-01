@@ -36,11 +36,16 @@ class DataList extends WebAPI {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
+			$options->criteria->empl_id = $userdata->employee_id;
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"search" => " A.partner_id LIKE CONCAT('%', :search, '%') OR A.partner_name LIKE CONCAT('%', :search, '%') "
+					"search" => " A.dept_id LIKE CONCAT('%', :search, '%') OR A.dept_name LIKE CONCAT('%', :search, '%') ",
+					"isparent" => " A.dept_isparent = :isparent ",
+					"isdisabled" => " A.dept_isdisabled = :isdisabled ",
+					"deptmodel_id" => " A.deptmodel_id = :deptmodel_id ",
+					"empl_id" => " B.empl_id = :empl_id "
 				]
 			);
 
@@ -48,7 +53,7 @@ class DataList extends WebAPI {
 			$maxrow = 30;
 			$offset = (property_exists($options, 'offset')) ? $options->offset : 0;
 
-			$stmt = $this->db->prepare("select count(*) as n from mst_partner A" . $where->sql);
+			$stmt = $this->db->prepare("select count(*) as n from mst_dept A inner join view_userdept B ON A.dept_id = B.dept_id " . $where->sql);
 			$stmt->execute($where->params);
 			$row  = $stmt->fetch(\PDO::FETCH_ASSOC);
 			$total = (float) $row['n'];
@@ -56,9 +61,14 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				partner_id, partner_name, partner_addressline1, partner_addressline2, partner_postcode, partner_city, partner_country, partner_phone, partner_mobilephone, partner_email, partner_isdisabled, partner_isparent, partner_parent, partnertype_id, partnerorg_id, _createby, _createdate, _modifyby, _modifydate 
-				from mst_partner A
-			" . $where->sql . $limit);
+					A.dept_id, A.dept_name, A.dept_descr, A.dept_isparent, A.dept_isdisabled, A.dept_path, A.dept_level, A.deptgroup_id, 
+					A.dept_parent, A.depttype_id, A.deptmodel_id, A.auth_id, 
+					(select dept_path from mst_dept where dept_id=A.dept_parent) deptparent_path,
+					COALESCE((select dept_level from mst_dept where dept_id=A.dept_parent),0) deptparent_level,				
+					A._createby, A._createdate, A._modifyby, A._modifydate 
+				from mst_dept A
+					inner join view_userdept B ON A.dept_id = B.dept_id
+			" . $where->sql . " ORDER BY A.dept_path, deptparent_path, A.dept_name " . $limit);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
@@ -73,10 +83,11 @@ class DataList extends WebAPI {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
-					'country_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_country'], $this->db, 'mst_country', 'country_id', 'country_name'),
-					'partner_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_parent'], $this->db, 'mst_partner', 'partner_id', 'partner_name'),
-					'partnertype_name' => \FGTA4\utils\SqlUtility::Lookup($record['partnertype_id'], $this->db, 'mst_partnertype', 'partnertype_id', 'partnertype_name'),
-					'partnerorg_name' => \FGTA4\utils\SqlUtility::Lookup($record['partnerorg_id'], $this->db, 'mst_partnerorg', 'partnerorg_id', 'partnerorg_name'),
+					'deptgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_id'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
+					'dept_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_parent'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
+					'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
+					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
+					'auth_name' => \FGTA4\utils\SqlUtility::Lookup($record['auth_id'], $this->db, 'mst_auth', 'auth_id', 'auth_name'),
 					 
 				]));
 			}

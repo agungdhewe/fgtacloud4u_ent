@@ -65,9 +65,12 @@ class DataSave extends WebAPI {
 			$obj->partner_phone = strtoupper($obj->partner_phone);
 			$obj->partner_mobilephone = strtoupper($obj->partner_mobilephone);
 			$obj->partner_email = strtoupper($obj->partner_email);
+			$obj->partner_parent = strtoupper($obj->partner_parent);
 			$obj->partnertype_id = strtoupper($obj->partnertype_id);
 			$obj->partnerorg_id = strtoupper($obj->partnerorg_id);
 
+
+			// if ($obj->partner_parent=='--NULL--') { unset($obj->partner_parent); }
 
 
 
@@ -108,7 +111,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'partner_id', 'partner_name', 'partner_addressline1', 'partner_addressline2', 'partner_postcode', 'partner_city', 'partner_country', 'partner_phone', 'partner_mobilephone', 'partner_email', 'partnertype_id', 'partnerorg_id', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'partner_id', 'partner_name', 'partner_addressline1', 'partner_addressline2', 'partner_postcode', 'partner_city', 'partner_country', 'partner_phone', 'partner_mobilephone', 'partner_email', 'partner_isdisabled', 'partner_isparent', 'partner_parent', 'partnertype_id', 'partnerorg_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -119,8 +122,9 @@ class DataSave extends WebAPI {
 				$dataresponse[$key] = $value;
 			}
 			$result->dataresponse = (object) array_merge($dataresponse, [
-				// misalnya ada data yang perlu dilookup ditaruh disini
+				//  untuk lookup atau modify response ditaruh disini
 				'country_name' => \FGTA4\utils\SqlUtility::Lookup($data->partner_country, $this->db, 'mst_country', 'country_id', 'country_name'),
+				'partner_parent_name' => \FGTA4\utils\SqlUtility::Lookup($data->partner_parent, $this->db, 'mst_partner', 'partner_id', 'partner_name'),
 				'partnertype_name' => \FGTA4\utils\SqlUtility::Lookup($data->partnertype_id, $this->db, 'mst_partnertype', 'partnertype_id', 'partnertype_name'),
 				'partnerorg_name' => \FGTA4\utils\SqlUtility::Lookup($data->partnerorg_id, $this->db, 'mst_partnerorg', 'partnerorg_id', 'partnerorg_name'),
 				

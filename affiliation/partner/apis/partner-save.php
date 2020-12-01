@@ -26,8 +26,8 @@ class DataSave extends WebAPI {
 	}
 	
 	public function execute($data, $options) {
-		$tablename = 'mst_partnerbank';
-		$primarykey = 'partnerbank_id';
+		$tablename = 'mst_partnersite';
+		$primarykey = 'partnersite_id';
 		$autoid = $options->autoid;
 		$datastate = $data->_state;
 
@@ -50,10 +50,8 @@ class DataSave extends WebAPI {
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
 
-			$obj->partnerbank_id = strtoupper($obj->partnerbank_id);
-			$obj->partnerbank_accnum = strtoupper($obj->partnerbank_accnum);
-			$obj->partnerbank_accname = strtoupper($obj->partnerbank_accname);
-			$obj->bank_id = strtoupper($obj->bank_id);
+			$obj->partnersite_id = strtoupper($obj->partnersite_id);
+			$obj->site_id = strtoupper($obj->site_id);
 			$obj->partner_id = strtoupper($obj->partner_id);
 
 
@@ -108,7 +106,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey,  'partnerbank_id', 'partnerbank_accnum', 'partnerbank_accname', 'partnerbank_isdisabled', 'bank_id', 'partner_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey,  'partnersite_id', 'site_id', 'partner_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -120,7 +118,7 @@ class DataSave extends WebAPI {
 			}
 			$result->dataresponse = (object) array_merge($dataresponse, [
 				// untuk lookup atau modify response ditaruh disini
-				'bank_name' => \FGTA4\utils\SqlUtility::Lookup($data->bank_id, $this->db, 'mst_bank', 'bank_id', 'bank_name'),
+				'site_name' => \FGTA4\utils\SqlUtility::Lookup($data->site_id, $this->db, 'mst_site', 'site_id', 'site_name'),
 				
 			]);
 

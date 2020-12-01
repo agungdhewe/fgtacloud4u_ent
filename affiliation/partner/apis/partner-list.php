@@ -26,21 +26,14 @@ class DataList extends WebAPI {
 	}
 
 	public function execute($options) {
-
 		$userdata = $this->auth->session_get_user();
-
-		try {
 		
-			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->RequestIsAllowedFor($this->reqinfo, "list", $userdata->groups)) {
-				throw new \Exception('your group authority is not allowed to do this action.');
-			}
-
+		try {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"search" => " A.partner_id LIKE CONCAT('%', :search, '%') OR A.partner_name LIKE CONCAT('%', :search, '%') "
+					"id" => " A.partner_id = :id"
 				]
 			);
 
@@ -48,16 +41,20 @@ class DataList extends WebAPI {
 			$maxrow = 30;
 			$offset = (property_exists($options, 'offset')) ? $options->offset : 0;
 
-			$stmt = $this->db->prepare("select count(*) as n from mst_partner A" . $where->sql);
+			$stmt = $this->db->prepare("select count(*) as n from mst_partnersite A" . $where->sql);
 			$stmt->execute($where->params);
 			$row  = $stmt->fetch(\PDO::FETCH_ASSOC);
 			$total = (float) $row['n'];
 
+
+			// agar semua baris muncul
+			// $maxrow = $total;
+
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				partner_id, partner_name, partner_addressline1, partner_addressline2, partner_postcode, partner_city, partner_country, partner_phone, partner_mobilephone, partner_email, partner_isdisabled, partner_isparent, partner_parent, partnertype_id, partnerorg_id, _createby, _createdate, _modifyby, _modifydate 
-				from mst_partner A
+				partnersite_id, site_id, partner_id, _createby, _createdate, _modifyby, _modifydate 
+				from mst_partnersite A
 			" . $where->sql . $limit);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
@@ -73,10 +70,8 @@ class DataList extends WebAPI {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
-					'country_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_country'], $this->db, 'mst_country', 'country_id', 'country_name'),
-					'partner_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_parent'], $this->db, 'mst_partner', 'partner_id', 'partner_name'),
-					'partnertype_name' => \FGTA4\utils\SqlUtility::Lookup($record['partnertype_id'], $this->db, 'mst_partnertype', 'partnertype_id', 'partnertype_name'),
-					'partnerorg_name' => \FGTA4\utils\SqlUtility::Lookup($record['partnerorg_id'], $this->db, 'mst_partnerorg', 'partnerorg_id', 'partnerorg_name'),
+
+					'site_name' => \FGTA4\utils\SqlUtility::Lookup($record['site_id'], $this->db, 'mst_site', 'site_id', 'site_name'),
 					 
 				]));
 			}

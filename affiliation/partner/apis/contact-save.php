@@ -59,6 +59,8 @@ class DataSave extends WebAPI {
 
 
 
+
+
 			$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
 			$this->db->beginTransaction();
 
@@ -107,7 +109,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey,  'partnercontact_id', 'partnercontact_name', 'partnercontact_position', 'partnercontact_mobilephone', 'partnercontact_email', 'partner_id', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey,  'partnercontact_id', 'partnercontact_name', 'partnercontact_position', 'partnercontact_mobilephone', 'partnercontact_email', 'partnecontact_isdisabled', 'partner_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -118,7 +120,7 @@ class DataSave extends WebAPI {
 				$dataresponse[$key] = $value;
 			}
 			$result->dataresponse = (object) array_merge($dataresponse, [
-				// misalnya ada data yang perlu dilookup ditaruh disini
+				// untuk lookup atau modify response ditaruh disini
 				
 			]);
 
