@@ -74,7 +74,8 @@ class DataList extends WebAPI {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
-					 
+					 'curr_islocal' => $record['curr_id'] == 'IDR' ? 1 : 0,
+					 'curr_rate' => $this-> getCurrentRate($record['curr_id'])
 				]));
 			}
 
@@ -86,6 +87,15 @@ class DataList extends WebAPI {
 			return $result;
 		} catch (\Exception $ex) {
 			throw $ex;
+		}
+	}
+
+
+	function getCurrentRate($curr_id) {
+		if ($curr_id='USD') {
+			return 14000;
+		} else {
+			return 1;
 		}
 	}
 
