@@ -114,10 +114,9 @@ ALTER TABLE `mst_partnersite` ADD CONSTRAINT `fk_mst_partnersite_mst_partner` FO
 
 
 
-
-CREATE TABLE `mst_partnertrxmodel` (
-	`partnertrxmodel_id` varchar(14) NOT NULL , 
-	`trxmodel_id` varchar(10) NOT NULL , 
+CREATE TABLE `mst_partnerbilltype` (
+	`partnerbilltype_id` varchar(14) NOT NULL , 
+	`billtype_id` varchar(3) NOT NULL , 
 	`coa_id` varchar(20) NOT NULL , 
 	`unbill_coa_id` varchar(20) NOT NULL , 
 	`partner_id` varchar(14) NOT NULL , 
@@ -125,23 +124,20 @@ CREATE TABLE `mst_partnertrxmodel` (
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(13)  , 
 	`_modifydate` datetime  , 
-	UNIQUE KEY `partnertrxmodel_pair` (`partner_id`, `trxmodel_id`),
-	PRIMARY KEY (`partnertrxmodel_id`)
+	UNIQUE KEY `partnerbilltype_pair` (`partner_id`, `billtype_id`),
+	PRIMARY KEY (`partnerbilltype_id`)
 ) 
 ENGINE=InnoDB
-COMMENT='Model transaksi yang bisa dilayani partner';
+COMMENT='Assign Bill Account Partner';
 
-ALTER TABLE `mst_partnertrxmodel` ADD KEY `trxmodel_id` (`trxmodel_id`);
-ALTER TABLE `mst_partnertrxmodel` ADD KEY `coa_id` (`coa_id`);
-ALTER TABLE `mst_partnertrxmodel` ADD KEY `unbill_coa_id` (`unbill_coa_id`);
-ALTER TABLE `mst_partnertrxmodel` ADD KEY `partner_id` (`partner_id`);
+ALTER TABLE `mst_partnerbilltype` ADD KEY `billtype_id` (`billtype_id`);
+ALTER TABLE `mst_partnerbilltype` ADD KEY `coa_id` (`coa_id`);
+ALTER TABLE `mst_partnerbilltype` ADD KEY `unbill_coa_id` (`unbill_coa_id`);
+ALTER TABLE `mst_partnerbilltype` ADD KEY `partner_id` (`partner_id`);
 
-ALTER TABLE `mst_partnertrxmodel` ADD CONSTRAINT `fk_mst_partnertrxmodel_mst_trxmodel` FOREIGN KEY (`trxmodel_id`) REFERENCES `mst_trxmodel` (`trxmodel_id`);
-ALTER TABLE `mst_partnertrxmodel` ADD CONSTRAINT `fk_mst_partnertrxmodel_mst_coa` FOREIGN KEY (`coa_id`) REFERENCES `mst_coa` (`coa_id`);
-ALTER TABLE `mst_partnertrxmodel` ADD CONSTRAINT `fk_mst_partnertrxmodel_mst_coa` FOREIGN KEY (`unbill_coa_id`) REFERENCES `mst_coa` (`coa_id`);
-ALTER TABLE `mst_partnertrxmodel` ADD CONSTRAINT `fk_mst_partnertrxmodel_mst_partner` FOREIGN KEY (`partner_id`) REFERENCES `mst_partner` (`partner_id`);
-
-
-
+ALTER TABLE `mst_partnerbilltype` ADD CONSTRAINT `fk_mst_partnerbilltype_mst_billtype` FOREIGN KEY (`billtype_id`) REFERENCES `mst_billtype` (`billtype_id`);
+ALTER TABLE `mst_partnerbilltype` ADD CONSTRAINT `fk_mst_partnerbilltype_mst_coa` FOREIGN KEY (`coa_id`) REFERENCES `mst_coa` (`coa_id`);
+ALTER TABLE `mst_partnerbilltype` ADD CONSTRAINT `fk_mst_partnerbilltype_mst_coa_2` FOREIGN KEY (`unbill_coa_id`) REFERENCES `mst_coa` (`coa_id`);
+ALTER TABLE `mst_partnerbilltype` ADD CONSTRAINT `fk_mst_partnerbilltype_mst_partner` FOREIGN KEY (`partner_id`) REFERENCES `mst_partner` (`partner_id`);
 
 

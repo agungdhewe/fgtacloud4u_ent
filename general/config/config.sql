@@ -16,6 +16,9 @@ COMMENT='Daftar Config';
 
 
 
+INSERT INTO mst_config (`config_id`, `config_name`, `config_dir`, `config_filename`, `_createby`, `_createdate`) VALUES ('C001', 'MARIADB', '', '', 'root', NOW());
+INSERT INTO mst_config (`config_id`, `config_name`, `config_dir`, `config_filename`, `_createby`, `_createdate`) VALUES ('C002', 'SQLSERVER', '', '', 'root', NOW());
+INSERT INTO mst_config (`config_id`, `config_name`, `config_dir`, `config_filename`, `_createby`, `_createdate`) VALUES ('C003', 'POSGRE', '', '', 'root', NOW());
 
 
 

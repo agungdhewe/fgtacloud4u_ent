@@ -141,11 +141,22 @@
 			<div class="form_label_col"></div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<div class="fgtable-head" style="height: 25px; padding: 5px 0px 0px 5px">Detil Informations</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 0px 0px 5px" onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editbankgrid')">Bank</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 0px 0px 5px" onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editcontactgrid')">Contact</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 0px 0px 5px" onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editsitegrid')">Site</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 0px 0px 5px" onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editmodeltransaksigrid')">Model Transaksi</div>
-
+				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px" onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editbankgrid')">
+					<div id="pnl_edit-txt_bank_title" class="detilgrid-text">Bank</div>
+					<div id="pnl_edit-txt_bank_value" class="detilgrid-value">&nbsp;</div>
+				</div>
+				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px" onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editcontactgrid')">
+					<div id="pnl_edit-txt_contact_title" class="detilgrid-text">Contact</div>
+					<div id="pnl_edit-txt_contact_value" class="detilgrid-value">&nbsp;</div>
+				</div>
+				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px" onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editsitegrid')">
+					<div id="pnl_edit-txt_site_title" class="detilgrid-text">Site</div>
+					<div id="pnl_edit-txt_site_value" class="detilgrid-value">&nbsp;</div>
+				</div>
+				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px" onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editbilltypegrid')">
+					<div id="pnl_edit-txt_billtype_title" class="detilgrid-text">Bill Account</div>
+					<div id="pnl_edit-txt_billtype_value" class="detilgrid-value">&nbsp;</div>
+				</div>
 			</div>		
 		</div>		
 		

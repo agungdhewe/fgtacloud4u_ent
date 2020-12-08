@@ -22,7 +22,13 @@ module.exports = {
 
 			uniques: {
 				'config_name' : ['config_name']
-			}
+			},
+
+			values: [
+				{config_id:'C001', config_name:'MARIADB', config_dir:'', config_filename:''},
+				{config_id:'C002', config_name:'SQLSERVER', config_dir:'', config_filename:''},
+				{config_id:'C003', config_name:'POSGRE', config_dir:'', config_filename:''}
+			]
 		},
 	},
 

@@ -63,6 +63,9 @@ export async function init(opt) {
 	})
 
 
+	form.addAboutInfo('Description', 'Program untuk manage daftar partner');
+	form.addAboutInfo('Lain', 'ini lain lain');
+
 
 	new fgta4slideselect(obj.cbo_partner_country, {
 		title: 'Pilih partner_country',
