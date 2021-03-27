@@ -5,14 +5,24 @@ if (!defined('FGTA4')) {
 }
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
-
+// require_once __ROOT_DIR . "/core/sequencer.php";
 
 use \FGTA4\exceptions\WebException;
+// use \FGTA4\utils\Sequencer;
 
+
+
+// /* Enable Debugging */
+// require_once __ROOT_DIR.'/core/debug.php';
+// use \FGTA4\debug;
 
 
 class DataSave extends WebAPI {
 	function __construct() {
+		$logfilepath = __LOCALDB_DIR . "/output/brandtype-save.txt";
+		// debug::disable();
+		// debug::start($logfilepath, "w");
+
 		$this->debugoutput = true;
 		$DB_CONFIG = DB_CONFIG[$GLOBALS['MAINDB']];
 		$DB_CONFIG['param'] = DB_CONFIG_PARAM[$GLOBALS['MAINDBTYPE']];
@@ -61,6 +71,9 @@ class DataSave extends WebAPI {
 
 
 
+
+
+
 			$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
 			$this->db->beginTransaction();
 
@@ -98,7 +111,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'brandtype_id', 'brandtype_name', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'brandtype_id', 'brandtype_name', 'brandtype_descr', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -109,7 +122,7 @@ class DataSave extends WebAPI {
 				$dataresponse[$key] = $value;
 			}
 			$result->dataresponse = (object) array_merge($dataresponse, [
-				// misalnya ada data yang perlu dilookup ditaruh disini
+				//  untuk lookup atau modify response ditaruh disini
 				
 			]);
 
@@ -120,7 +133,7 @@ class DataSave extends WebAPI {
 	}
 
 	public function NewId($param) {
-		return uniqid();
+					return uniqid();
 	}
 
 }

@@ -46,7 +46,7 @@ class DataOpen extends WebAPI {
 			);
 
 			$sql = \FGTA4\utils\SqlUtility::Select('mst_partnertype', [
-				'partnertype_id', 'partnertype_name', 'partnertype_descr', 'partnertype_isdisabled', '_createby', '_createdate', '_modifyby', '_modifydate' 
+				'partnertype_id', 'partnertype_name', 'partnertype_descr', 'partnertype_isempl', 'partnertype_isdisabled', '_createby', '_createdate', '_modifyby', '_modifydate' 
 			], $where->sql);
 
 			$stmt = $this->db->prepare($sql);

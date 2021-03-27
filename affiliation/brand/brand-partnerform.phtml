@@ -8,24 +8,27 @@
 
 	<form id="pnl_editpartnerform-form">
 
-		<div class="form_row">
-			<div class="form_label_col">ID</div>
+		<div class="form_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">ID</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_editpartnerform-txt_brandpartner_id" class="easyui-textbox" mapping="brandpartner_id" uppercase="true" maxlength="14"  style="width: 400px" data-options="multiline:false  ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
-		<div class="form_row">
-			<div class="form_label_col">Partner</div>
+		<div class="form_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Partner</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_editpartnerform-cbo_partner_id" class="easyui-combo" style="width: 400px" mapping="partner_id" display="partner_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Partner harus diisi'">
+				<input id="pnl_editpartnerform-cbo_partner_id" class="easyui-combo" style="width: 400px" mapping="partner_id" display="partner_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Partner harus diisi'"  validType="requiredcombo['pnl_editpartnerform-cbo_partner_id']" >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
-		<div class="form_row">
-			<div class="form_label_col">Brand</div>
+		<div class="form_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Brand</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_editpartnerform-txt_brand_id" class="easyui-textbox" mapping="brand_id" uppercase="true" maxlength="14"  style="width: 400px" data-options="multiline:false  , disabled: true">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 

@@ -1,6 +1,7 @@
 {
 	"title" : "Bank",
 	"icon" : "icon-bank-white.png",
+	"backcolor" : "#d0bf71",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

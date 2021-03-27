@@ -1,5 +1,6 @@
 {
 	"title" : "Config",
+	"backcolor" : "#6a6a6a",
 	"variance" : {},
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],

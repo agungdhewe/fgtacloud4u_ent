@@ -5,10 +5,10 @@ if (!defined('FGTA4')) {
 }
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
-
+//require_once __ROOT_DIR . "/core/sequencer.php";
 
 use \FGTA4\exceptions\WebException;
-
+//use \FGTA4\utils\Sequencer;
 
 
 class DataSave extends WebAPI {
@@ -53,6 +53,10 @@ class DataSave extends WebAPI {
 			$obj->brandpartner_id = strtoupper($obj->brandpartner_id);
 			$obj->partner_id = strtoupper($obj->partner_id);
 			$obj->brand_id = strtoupper($obj->brand_id);
+
+
+
+
 
 
 
@@ -104,7 +108,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey,  'brandpartner_id', 'partner_id', 'brand_id', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey,  'brandpartner_id', 'partner_id', 'brand_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -115,7 +119,7 @@ class DataSave extends WebAPI {
 				$dataresponse[$key] = $value;
 			}
 			$result->dataresponse = (object) array_merge($dataresponse, [
-				// misalnya ada data yang perlu dilookup ditaruh disini
+				// untuk lookup atau modify response ditaruh disini
 				'partner_name' => \FGTA4\utils\SqlUtility::Lookup($data->partner_id, $this->db, 'mst_partner', 'partner_id', 'partner_name'),
 				
 			]);
@@ -127,6 +131,12 @@ class DataSave extends WebAPI {
 	}
 
 	public function NewId($param) {
+		//$dt = new \DateTime();	
+		//$ye = $dt->format("y");
+		//$mo = $dt->format("m");
+		//$seq = new Sequencer($this->db, 'seq_generalmonthly', 'TF', ['ye', 'mo']);
+		//$id = $seq->get(['ye'=>$ye, 'mo'=>$mo]);
+		//return $id;		
 		return uniqid();
 	}
 

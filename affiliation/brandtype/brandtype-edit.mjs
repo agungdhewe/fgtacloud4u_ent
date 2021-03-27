@@ -1,10 +1,12 @@
 var this_page_id;
+var this_page_options;
 
 
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
 const btn_delete = $('#pnl_edit-btn_delete')
+
 
 const pnl_form = $('#pnl_edit-form')
 const obj = {
@@ -17,16 +19,28 @@ const obj = {
 let form = {}
 
 export async function init(opt) {
-	this_page_id = opt.id
+	this_page_id = opt.id;
+	this_page_options = opt;
+
+
+	var disableedit = false;
+	// switch (this_page_options.variancename) {
+	// 	case 'commit' :
+	//		disableedit = true;
+	//		btn_edit.linkbutton('disable');
+	//		btn_save.linkbutton('disable');
+	//		btn_delete.linkbutton('disable');
+	//		break;
+	// }
 
 
 	form = new global.fgta4form(pnl_form, {
 		primary: obj.txt_brandtype_id,
 		autoid: false,
 		logview: 'mst_brandtype',
-		btn_edit: btn_edit,
-		btn_save: btn_save,
-		btn_delete: btn_delete,		
+		btn_edit: disableedit==true? $('<a>edit</a>') : btn_edit,
+		btn_save: disableedit==true? $('<a>save</a>') : btn_save,
+		btn_delete: disableedit==true? $('<a>delete</a>') : btn_delete,		
 		objects : obj,
 		OnDataSaving: async (data, options) => { await form_datasaving(data, options) },
 		OnDataSaveError: async (data, options) => { await form_datasaveerror(data, options) },
@@ -36,6 +50,7 @@ export async function init(opt) {
 		OnIdSetup : (options) => { form_idsetup(options) },
 		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) }
 	})
+
 
 
 
@@ -107,6 +122,9 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 	var fn_dataopened = async (result, options) => {
 
+
+
+		form.SuspendEvent(true);
 		form
 			.fill(result.record)
 			.commit()
@@ -116,6 +134,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 		// tampilkan form untuk data editor
 		fn_callback()
+		form.SuspendEvent(false);
 
 
 		// fill data, bisa dilakukan secara manual dengan cara berikut:	
@@ -133,7 +152,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 	}
 
 	var fn_dataopenerror = (err) => {
-		$ui.ShowMessage(err.errormessage);
+		$ui.ShowMessage('[ERROR]'+err.errormessage);
 	}
 
 	form.dataload(fn_dataopening, fn_dataopened, fn_dataopenerror)
@@ -148,6 +167,8 @@ export function createnew() {
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
+
+
 
 
 		options.OnCanceled = () => {
@@ -238,6 +259,8 @@ async function form_datasaved(result, options) {
 
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
+
+
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
 }
 

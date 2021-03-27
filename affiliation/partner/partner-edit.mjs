@@ -7,6 +7,7 @@ const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
 const btn_delete = $('#pnl_edit-btn_delete')
 
+
 const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_partner_id: $('#pnl_edit-txt_partner_id'),
@@ -23,7 +24,8 @@ const obj = {
 	chk_partner_isparent: $('#pnl_edit-chk_partner_isparent'),
 	cbo_partner_parent: $('#pnl_edit-cbo_partner_parent'),
 	cbo_partnertype_id: $('#pnl_edit-cbo_partnertype_id'),
-	cbo_partnerorg_id: $('#pnl_edit-cbo_partnerorg_id')
+	cbo_partnerorg_id: $('#pnl_edit-cbo_partnerorg_id'),
+	cbo_empl_id: $('#pnl_edit-cbo_empl_id')
 }
 
 
@@ -62,9 +64,6 @@ export async function init(opt) {
 		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) }
 	})
 
-
-	form.addAboutInfo('Description', 'Program untuk manage daftar partner');
-	form.addAboutInfo('Lain', 'ini lain lain');
 
 
 	new fgta4slideselect(obj.cbo_partner_country, {
@@ -149,6 +148,25 @@ export async function init(opt) {
 		OnSelected: (value, display, record) => {}
 	})				
 				
+	new fgta4slideselect(obj.cbo_empl_id, {
+		title: 'Pilih empl_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_empl_id,
+		fieldValue: 'empl_id',
+		fieldValueMap: 'empl_id',
+		fieldDisplay: 'empl_name',
+		fields: [
+			{mapping: 'empl_id', text: 'empl_id'},
+			{mapping: 'empl_name', text: 'empl_name'},
+		],
+		OnDataLoading: (criteria) => {},
+		OnDataLoaded : (result, options) => {
+			result.records.unshift({empl_id:'--NULL--', empl_name:'NONE'});	
+		},
+		OnSelected: (value, display, record) => {}
+	})				
+				
+
 
 
 
@@ -218,14 +236,17 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 	var fn_dataopened = async (result, options) => {
 
 		if (result.record.partner_parent==null) { result.record.partner_parent='--NULL--'; result.record.partner_parent_name='NONE'; }
+		if (result.record.empl_id==null) { result.record.empl_id='--NULL--'; result.record.empl_name='NONE'; }
 
 
+		form.SuspendEvent(true);
 		form
 			.fill(result.record)
 			.setValue(obj.cbo_partner_country, result.record.partner_country, result.record.country_name)
 			.setValue(obj.cbo_partner_parent, result.record.partner_parent, result.record.partner_parent_name)
 			.setValue(obj.cbo_partnertype_id, result.record.partnertype_id, result.record.partnertype_name)
 			.setValue(obj.cbo_partnerorg_id, result.record.partnerorg_id, result.record.partnerorg_name)
+			.setValue(obj.cbo_empl_id, result.record.empl_id, result.record.empl_name)
 			.commit()
 			.setViewMode(viewmode)
 			.lock(false)
@@ -233,6 +254,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 		// tampilkan form untuk data editor
 		fn_callback()
+		form.SuspendEvent(false);
 
 
 		// fill data, bisa dilakukan secara manual dengan cara berikut:	
@@ -250,7 +272,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 	}
 
 	var fn_dataopenerror = (err) => {
-		$ui.ShowMessage(err.errormessage);
+		$ui.ShowMessage('[ERROR]'+err.errormessage);
 	}
 
 	form.dataload(fn_dataopening, fn_dataopened, fn_dataopenerror)
@@ -274,6 +296,8 @@ export function createnew() {
 			data.partnertype_name = '-- PILIH --'
 			data.partnerorg_id = '0'
 			data.partnerorg_name = '-- PILIH --'
+			data.empl_id = '--NULL--'
+			data.empl_name = 'NONE'
 
 
 
@@ -285,6 +309,7 @@ export function createnew() {
 		$ui.getPages().ITEMS['pnl_editcontactgrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editsitegrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editmodeltransaksigrid'].handler.createnew(data, options)
+		$ui.getPages().ITEMS['pnl_editrefgrid'].handler.createnew(data, options)
 
 
 	})
@@ -343,6 +368,7 @@ async function form_datasaving(data, options) {
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
 
 	options.skipmappingresponse = ["partner_parent"];
+	options.skipmappingresponse = ["empl_id"];
 
 }
 
@@ -372,6 +398,7 @@ async function form_datasaved(result, options) {
 	Object.assign(data, form.getData(), result.dataresponse)
 
 	form.setValue(obj.cbo_partner_parent, result.dataresponse.partner_parent_name!=='--NULL--' ? result.dataresponse.partner_parent : '--NULL--', result.dataresponse.partner_parent_name!=='--NULL--'?result.dataresponse.partner_parent_name:'NONE')
+	form.setValue(obj.cbo_empl_id, result.dataresponse.empl_name!=='--NULL--' ? result.dataresponse.empl_id : '--NULL--', result.dataresponse.empl_name!=='--NULL--'?result.dataresponse.empl_name:'NONE')
 
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
 }

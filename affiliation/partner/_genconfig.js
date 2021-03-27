@@ -62,6 +62,15 @@ module.exports = {
 						api: 'ent/affiliation/partnerorg/list'})					
 				},
 
+				empl_id: {
+					text:'Empl', type: dbtype.varchar(14), null:true, uppercase: true,
+					options:{prompt:'NONE'},
+					comp: comp.Combo({
+						table: 'mst_empl', 
+						field_value: 'empl_id', field_display: 'empl_name', 
+						api: 'hrms/master/empl/list'})
+				}					
+
 
 
 			},
@@ -179,6 +188,27 @@ module.exports = {
 
 		},
 
+		'mst_partnerref' : {
+			comment: 'Kode referensi partner untuk keperluan interfacing dengan system lain',
+			primarykeys: ['partnerref_id'],		
+			data: {
+				partnerref_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+				interface_id: { 
+					text: 'Interface', type: dbtype.varchar(7), uppercase: true, null: false, 
+					options: { required: true, invalidMessage: 'Interface harus diisi' }, 
+					comp: comp.Combo({
+						table: 'mst_interface', 
+						field_value: 'interface_id', field_display: 'interface_name', field_display_name: 'interface_name', 
+						api: 'ent/general/interface/list'})				
+				
+				},
+				partnerref_code: {text:'Code', type: dbtype.varchar(30), null:false, uppercase: true},			
+				partner_id: {text:'Partner', type: dbtype.varchar(14), null:false, uppercase: true},
+			},
+			uniques: {
+				'partnerref_pair': ['partner_id', 'interface_id']
+			},			
+		}
 
 
 	},
@@ -191,7 +221,7 @@ module.exports = {
 			'contact' : {title: 'Contact', table:'mst_partnercontact', form: true, headerview:'partner_name'},
 			'site' : {title: 'Site', table:'mst_partnersite', form: true, headerview:'partner_name'},
 			'modeltransaksi': {title: 'Model Transaksi', table: 'mst_partnertrxmodel', form: true, headerview: 'partner_name' },
-
+			'ref': {title: 'Referensi', table: 'mst_partnerref', form: true, headerview: 'partner_name' },
 		}
 
 	}

@@ -34,7 +34,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_unit', 
 						field_value: 'unit_id', field_display: 'unit_name', 
-						api: 'ent/mst/unit/list'})					
+						api: 'ent/organisation/unit/list'})					
 				
 				}				
 			},
@@ -79,7 +79,32 @@ module.exports = {
 			uniques: {
 				'brandpartner_name' : ['brand_id', 'partner_id']
 			}
+		},
+
+
+		'mst_brandref' : {
+			comment: 'Kode referensi brand untuk keperluan interfacing dengan system lain',
+			primarykeys: ['brandref_id'],		
+			data: {
+				brandref_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+				interface_id: { 
+					text: 'Interface', type: dbtype.varchar(7), uppercase: true, null: false, 
+					options: { required: true, invalidMessage: 'Interface harus diisi' }, 
+					comp: comp.Combo({
+						table: 'mst_interface', 
+						field_value: 'interface_id', field_display: 'interface_name', field_display_name: 'interface_name', 
+						api: 'ent/general/interface/list'})				
+				
+				},
+				brandref_code: {text:'Code', type: dbtype.varchar(30), null:false, uppercase: true},			
+				brand_id: {text:'Partner', type: dbtype.varchar(14), null:false, uppercase: true},
+			},
+			uniques: {
+				'brandref_pair': ['brand_id', 'interface_id'],
+				'brandref_code': ['interface_id', 'brandref_code'],
+			},			
 		}
+
 	},
 
 	schema: {
@@ -87,6 +112,7 @@ module.exports = {
 		header: 'mst_brand',
 		detils: {
 			'partner' : {title: 'Partners', table:'mst_brandpartner', form: true, headerview:'brand_name'},
+			'ref' : {title: 'Refernsi', table:'mst_brandref', form: true, headerview:'brand_name'},
 		}
 	}
 }

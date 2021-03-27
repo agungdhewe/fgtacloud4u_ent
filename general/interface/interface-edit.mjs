@@ -7,13 +7,11 @@ const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
 const btn_delete = $('#pnl_edit-btn_delete')
 
+
 const pnl_form = $('#pnl_edit-form')
 const obj = {
-	txt_taxtype_id: $('#pnl_edit-txt_taxtype_id'),
-	txt_taxtype_name: $('#pnl_edit-txt_taxtype_name'),
-	txt_taxtype_descr: $('#pnl_edit-txt_taxtype_descr'),
-	txt_taxtype_value: $('#pnl_edit-txt_taxtype_value'),
-	chk_taxtype_include: $('#pnl_edit-chk_taxtype_include')
+	txt_interface_id: $('#pnl_edit-txt_interface_id'),
+	txt_interface_name: $('#pnl_edit-txt_interface_name')
 }
 
 
@@ -36,9 +34,9 @@ export async function init(opt) {
 
 
 	form = new global.fgta4form(pnl_form, {
-		primary: obj.txt_taxtype_id,
+		primary: obj.txt_interface_id,
 		autoid: false,
-		logview: 'mst_taxtype',
+		logview: 'mst_interface',
 		btn_edit: disableedit==true? $('<a>edit</a>') : btn_edit,
 		btn_save: disableedit==true? $('<a>save</a>') : btn_save,
 		btn_delete: disableedit==true? $('<a>delete</a>') : btn_delete,		
@@ -51,6 +49,7 @@ export async function init(opt) {
 		OnIdSetup : (options) => { form_idsetup(options) },
 		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) }
 	})
+
 
 
 
@@ -124,6 +123,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 
+		form.SuspendEvent(true);
 		form
 			.fill(result.record)
 			.commit()
@@ -133,6 +133,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 		// tampilkan form untuk data editor
 		fn_callback()
+		form.SuspendEvent(false);
 
 
 		// fill data, bisa dilakukan secara manual dengan cara berikut:	
@@ -150,7 +151,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 	}
 
 	var fn_dataopenerror = (err) => {
-		$ui.ShowMessage(err.errormessage);
+		$ui.ShowMessage('[ERROR]'+err.errormessage);
 	}
 
 	form.dataload(fn_dataopening, fn_dataopened, fn_dataopenerror)
@@ -165,7 +166,6 @@ export function createnew() {
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
-			data.taxtype_value = 0
 
 
 
@@ -201,7 +201,7 @@ function form_viewmodechanged(viewmode) {
 }
 
 function form_idsetup(options) {
-	var objid = obj.txt_taxtype_id
+	var objid = obj.txt_interface_id
 	switch (options.action) {
 		case 'fill' :
 			objid.textbox('disable') 

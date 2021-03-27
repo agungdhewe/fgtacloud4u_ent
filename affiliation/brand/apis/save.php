@@ -5,14 +5,24 @@ if (!defined('FGTA4')) {
 }
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
-
+// require_once __ROOT_DIR . "/core/sequencer.php";
 
 use \FGTA4\exceptions\WebException;
+// use \FGTA4\utils\Sequencer;
 
+
+
+// /* Enable Debugging */
+// require_once __ROOT_DIR.'/core/debug.php';
+// use \FGTA4\debug;
 
 
 class DataSave extends WebAPI {
 	function __construct() {
+		$logfilepath = __LOCALDB_DIR . "/output/brand-save.txt";
+		// debug::disable();
+		// debug::start($logfilepath, "w");
+
 		$this->debugoutput = true;
 		$DB_CONFIG = DB_CONFIG[$GLOBALS['MAINDB']];
 		$DB_CONFIG['param'] = DB_CONFIG_PARAM[$GLOBALS['MAINDBTYPE']];
@@ -63,6 +73,12 @@ class DataSave extends WebAPI {
 			$obj->unit_id = strtoupper($obj->unit_id);
 
 
+			// if ($obj->brand_descr=='--NULL--') { unset($obj->brand_descr); }
+			// if ($obj->brand_grouping01=='--NULL--') { unset($obj->brand_grouping01); }
+			// if ($obj->brand_grouping02=='--NULL--') { unset($obj->brand_grouping02); }
+
+
+
 
 
 			$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
@@ -102,7 +118,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'brand_id', 'brand_name', 'brand_grouping01', 'brand_grouping02', 'brandtype_id', 'unit_id', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'brand_id', 'brand_name', 'brand_descr', 'brand_isdisabled', 'brand_grouping01', 'brand_grouping02', 'brandtype_id', 'unit_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -113,7 +129,7 @@ class DataSave extends WebAPI {
 				$dataresponse[$key] = $value;
 			}
 			$result->dataresponse = (object) array_merge($dataresponse, [
-				// misalnya ada data yang perlu dilookup ditaruh disini
+				//  untuk lookup atau modify response ditaruh disini
 				'brandtype_name' => \FGTA4\utils\SqlUtility::Lookup($data->brandtype_id, $this->db, 'mst_brandtype', 'brandtype_id', 'brandtype_name'),
 				'unit_name' => \FGTA4\utils\SqlUtility::Lookup($data->unit_id, $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 				
@@ -126,7 +142,7 @@ class DataSave extends WebAPI {
 	}
 
 	public function NewId($param) {
-		return uniqid();
+					return uniqid();
 	}
 
 }

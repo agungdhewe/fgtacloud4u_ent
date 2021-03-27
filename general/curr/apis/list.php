@@ -74,7 +74,7 @@ class DataList extends WebAPI {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
-					 'curr_islocal' => $record['curr_id'] == 'IDR' ? 1 : 0,
+					 'curr_islocal' => $record['curr_id'] == __LOCAL_CURR ? 1 : 0,
 					 'curr_rate' => $this-> getCurrentRate($record['curr_id'])
 				]));
 			}

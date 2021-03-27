@@ -53,6 +53,7 @@ export async function init(opt) {
 
 	form.AllowAddRecord = true
 	form.AllowRemoveRecord = true
+	form.AllowEditRecord = true
 	form.CreateRecordStatusPage(this_page_id)
 	form.CreateLogPage(this_page_id)
 
@@ -70,10 +71,10 @@ export async function init(opt) {
 			{mapping: 'authlevel_name', text: 'authlevel_name'},
 		],
 		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
+		OnDataLoaded : (result, options) => {},
+		OnSelected: (value, display, record) => {
+			form.setValue(obj.cbo_auth_id, '--NULL--', 'NONE');
+		}
 	})				
 			
 	obj.cbo_auth_id.name = 'pnl_editauthform-cbo_auth_id'		
@@ -88,7 +89,9 @@ export async function init(opt) {
 			{mapping: 'auth_id', text: 'auth_id'},
 			{mapping: 'auth_name', text: 'auth_name'},
 		],
-		OnDataLoading: (criteria) => {},
+		OnDataLoading: (criteria) => {
+			criteria['authlevel_id'] = obj.cbo_authlevel_id.combo('getValue');
+		},
 		OnDataLoaded : (result, options) => {
 			result.records.unshift({auth_id:'--NULL--', auth_name:'NONE'});	
 		},
@@ -193,6 +196,7 @@ export function open(data, rowid, hdata) {
 		if (result.record.auth_id==null) { result.record.auth_id='--NULL--'; result.record.auth_name='NONE'; }
 
 
+		form.SuspendEvent(true);
 		form
 			.fill(result.record)
 			.setValue(obj.cbo_authlevel_id, result.record.authlevel_id, result.record.authlevel_name)
@@ -201,6 +205,16 @@ export function open(data, rowid, hdata) {
 			.setViewMode()
 			.rowid = rowid
 
+		form.SuspendEvent(false);
+
+
+		// Editable
+		if (form.AllowEditRecord!=true) {
+			btn_edit.hide();
+			btn_save.hide();
+			btn_delete.hide();
+		}
+		
 
 		// tambah baris
 		if (form.AllowAddRecord) {
@@ -231,7 +245,11 @@ export function open(data, rowid, hdata) {
 		}		
 	}
 
-	form.dataload(fn_dataopening, fn_dataopened)	
+	var fn_dataopenerror = (err) => {
+		$ui.ShowMessage('[ERROR]'+err.errormessage);
+	}
+
+	form.dataload(fn_dataopening, fn_dataopened, fn_dataopenerror)	
 }
 
 export function createnew(hdata) {
@@ -242,11 +260,14 @@ export function createnew(hdata) {
 		data.doc_id= hdata.doc_id
 		data.auth_value = 0
 
+			data.docauth_order = 0
+			data.docauth_value = 0
+			data.docauth_min = 0
 
-		data.authlevel_id = '0'
-		data.authlevel_name = '-- PILIH --'
-		data.auth_id = '--NULL--'
-		data.auth_name = 'NONE'
+			data.authlevel_id = '0'
+			data.authlevel_name = '-- PILIH --'
+			data.auth_id = '--NULL--'
+			data.auth_name = 'NONE'
 
 
 
@@ -263,12 +284,12 @@ async function form_datasaving(data, options) {
 
 	options.skipmappingresponse = ["auth_id"];
 
+
 }
 
 async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
-
 
 	form.setValue(obj.cbo_auth_id, result.dataresponse.auth_name!=='--NULL--' ? result.dataresponse.auth_id : '--NULL--', result.dataresponse.auth_name!=='--NULL--'?result.dataresponse.auth_name:'NONE')
 

@@ -172,12 +172,15 @@ export function open(data, rowid, hdata) {
 
 
 
+		form.SuspendEvent(true);
 		form
 			.fill(result.record)
 			.setValue(obj.cbo_bank_id, result.record.bank_id, result.record.bank_name)
 			.commit()
 			.setViewMode()
 			.rowid = rowid
+
+		form.SuspendEvent(false);
 
 
 		// Editable
@@ -217,7 +220,11 @@ export function open(data, rowid, hdata) {
 		}		
 	}
 
-	form.dataload(fn_dataopening, fn_dataopened)	
+	var fn_dataopenerror = (err) => {
+		$ui.ShowMessage('[ERROR]'+err.errormessage);
+	}
+
+	form.dataload(fn_dataopening, fn_dataopened, fn_dataopenerror)	
 }
 
 export function createnew(hdata) {

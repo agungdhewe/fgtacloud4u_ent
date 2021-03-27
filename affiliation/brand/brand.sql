@@ -59,3 +59,29 @@ ALTER TABLE `mst_brandpartner` ADD CONSTRAINT `fk_mst_brandpartner_mst_brand` FO
 
 
 
+CREATE TABLE `mst_brandref` (
+	`brandref_id` varchar(14) NOT NULL , 
+	`interface_id` varchar(7) NOT NULL , 
+	`brandref_code` varchar(30) NOT NULL , 
+	`brand_id` varchar(14) NOT NULL , 
+	`_createby` varchar(13) NOT NULL , 
+	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
+	`_modifyby` varchar(13)  , 
+	`_modifydate` datetime  , 
+	UNIQUE KEY `brandref_pair` (`brand_id`, `interface_id`),
+	UNIQUE KEY `brandref_code` (`interface_id`, `brandref_code`),
+	PRIMARY KEY (`brandref_id`)
+) 
+ENGINE=InnoDB
+COMMENT='Kode referensi brand untuk keperluan interfacing dengan system lain';
+
+ALTER TABLE `mst_brandref` ADD KEY `interface_id` (`interface_id`);
+ALTER TABLE `mst_brandref` ADD KEY `brand_id` (`brand_id`);
+
+ALTER TABLE `mst_brandref` ADD CONSTRAINT `fk_mst_brandref_mst_interface` FOREIGN KEY (`interface_id`) REFERENCES `mst_interface` (`interface_id`);
+ALTER TABLE `mst_brandref` ADD CONSTRAINT `fk_mst_brandref_mst_brand` FOREIGN KEY (`brand_id`) REFERENCES `mst_brand` (`brand_id`);
+
+
+
+
+

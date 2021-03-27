@@ -5,14 +5,24 @@ if (!defined('FGTA4')) {
 }
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
-
+// require_once __ROOT_DIR . "/core/sequencer.php";
 
 use \FGTA4\exceptions\WebException;
+// use \FGTA4\utils\Sequencer;
 
+
+
+// /* Enable Debugging */
+// require_once __ROOT_DIR.'/core/debug.php';
+// use \FGTA4\debug;
 
 
 class DataSave extends WebAPI {
 	function __construct() {
+		$logfilepath = __LOCALDB_DIR . "/output/docs-save.txt";
+		// debug::disable();
+		// debug::start($logfilepath, "w");
+
 		$this->debugoutput = true;
 		$DB_CONFIG = DB_CONFIG[$GLOBALS['MAINDB']];
 		$DB_CONFIG['param'] = DB_CONFIG_PARAM[$GLOBALS['MAINDBTYPE']];
@@ -61,6 +71,8 @@ class DataSave extends WebAPI {
 
 			// if ($obj->doc_descr=='--NULL--') { unset($obj->doc_descr); }
 			// if ($obj->doc_config=='--NULL--') { unset($obj->doc_config); }
+
+
 
 
 
@@ -123,7 +135,7 @@ class DataSave extends WebAPI {
 	}
 
 	public function NewId($param) {
-		return uniqid();
+					return uniqid();
 	}
 
 }

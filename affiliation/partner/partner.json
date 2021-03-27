@@ -1,5 +1,7 @@
 {
 	"title" : "Partner",
+	
+	
 	"variance" : {},
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],

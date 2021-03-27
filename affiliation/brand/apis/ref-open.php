@@ -26,27 +26,20 @@ class DataOpen extends WebAPI {
 	}
 	
 	public function execute($options) {
-
 		$userdata = $this->auth->session_get_user();
-
+		
 		try {
-
-			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->RequestIsAllowedFor($this->reqinfo, "open", $userdata->groups)) {
-				throw new \Exception('your group authority is not allowed to do this action.');
-			}
-
 			$result = new \stdClass; 
 			
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
 				$options->criteria,
 				[
-					"taxtype_id" => " taxtype_id = :taxtype_id "
+					"brandref_id" => " brandref_id = :brandref_id "
 				]
 			);
 
-			$sql = \FGTA4\utils\SqlUtility::Select('mst_taxtype', [
-				'taxtype_id', 'taxtype_name', 'taxtype_descr', 'taxtype_value', 'taxtype_include', '_createby', '_createdate', '_modifyby', '_modifydate' 
+			$sql = \FGTA4\utils\SqlUtility::Select('mst_brandref', [
+				'brandref_id', 'interface_id', 'brandref_code', 'brand_id', '_createby', '_createdate', '_modifyby', '_modifydate' 
 			], $where->sql);
 
 			$stmt = $this->db->prepare($sql);
@@ -59,16 +52,16 @@ class DataOpen extends WebAPI {
 			}
 
 			$result->record = array_merge($record, [
-				
+					
 				// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 				// 'tambahan' => 'dta',
 				//'tanggal' => date("d/m/Y", strtotime($record['tanggal'])),
 				//'gendername' => $record['gender']
-				
 
+				'interface_name' => \FGTA4\utils\SqlUtility::Lookup($record['interface_id'], $this->db, 'mst_interface', 'interface_id', 'interface_name'),
+				
 				'_createby_username' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 				'_modifyby_username' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
-
 			]);
 
 			// $date = DateTime::createFromFormat('d/m/Y', "24/04/2012");

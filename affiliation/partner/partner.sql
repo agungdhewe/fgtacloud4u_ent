@@ -14,6 +14,7 @@ CREATE TABLE `mst_partner` (
 	`partner_parent` varchar(14)  , 
 	`partnertype_id` varchar(10) NOT NULL , 
 	`partnerorg_id` varchar(10) NOT NULL , 
+	`empl_id` varchar(14)  , 
 	`_createby` varchar(13) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(13)  , 
@@ -28,11 +29,13 @@ ALTER TABLE `mst_partner` ADD KEY `partner_country` (`partner_country`);
 ALTER TABLE `mst_partner` ADD KEY `partner_parent` (`partner_parent`);
 ALTER TABLE `mst_partner` ADD KEY `partnertype_id` (`partnertype_id`);
 ALTER TABLE `mst_partner` ADD KEY `partnerorg_id` (`partnerorg_id`);
+ALTER TABLE `mst_partner` ADD KEY `empl_id` (`empl_id`);
 
 ALTER TABLE `mst_partner` ADD CONSTRAINT `fk_mst_partner_mst_country` FOREIGN KEY (`partner_country`) REFERENCES `mst_country` (`country_id`);
 ALTER TABLE `mst_partner` ADD CONSTRAINT `fk_mst_partner_mst_partner` FOREIGN KEY (`partner_parent`) REFERENCES `mst_partner` (`partner_id`);
 ALTER TABLE `mst_partner` ADD CONSTRAINT `fk_mst_partner_mst_partnertype` FOREIGN KEY (`partnertype_id`) REFERENCES `mst_partnertype` (`partnertype_id`);
 ALTER TABLE `mst_partner` ADD CONSTRAINT `fk_mst_partner_mst_partnerorg` FOREIGN KEY (`partnerorg_id`) REFERENCES `mst_partnerorg` (`partnerorg_id`);
+ALTER TABLE `mst_partner` ADD CONSTRAINT `fk_mst_partner_mst_empl` FOREIGN KEY (`empl_id`) REFERENCES `mst_empl` (`empl_id`);
 
 
 
@@ -114,9 +117,10 @@ ALTER TABLE `mst_partnersite` ADD CONSTRAINT `fk_mst_partnersite_mst_partner` FO
 
 
 
-CREATE TABLE `mst_partnerbilltype` (
-	`partnerbilltype_id` varchar(14) NOT NULL , 
-	`billtype_id` varchar(3) NOT NULL , 
+
+CREATE TABLE `mst_partnertrxmodel` (
+	`partnertrxmodel_id` varchar(14) NOT NULL , 
+	`trxmodel_id` varchar(10) NOT NULL , 
 	`coa_id` varchar(20) NOT NULL , 
 	`unbill_coa_id` varchar(20) NOT NULL , 
 	`partner_id` varchar(14) NOT NULL , 
@@ -124,20 +128,48 @@ CREATE TABLE `mst_partnerbilltype` (
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(13)  , 
 	`_modifydate` datetime  , 
-	UNIQUE KEY `partnerbilltype_pair` (`partner_id`, `billtype_id`),
-	PRIMARY KEY (`partnerbilltype_id`)
+	UNIQUE KEY `partnertrxmodel_pair` (`partner_id`, `trxmodel_id`),
+	PRIMARY KEY (`partnertrxmodel_id`)
 ) 
 ENGINE=InnoDB
-COMMENT='Assign Bill Account Partner';
+COMMENT='Model transaksi yang bisa dilayani partner';
 
-ALTER TABLE `mst_partnerbilltype` ADD KEY `billtype_id` (`billtype_id`);
-ALTER TABLE `mst_partnerbilltype` ADD KEY `coa_id` (`coa_id`);
-ALTER TABLE `mst_partnerbilltype` ADD KEY `unbill_coa_id` (`unbill_coa_id`);
-ALTER TABLE `mst_partnerbilltype` ADD KEY `partner_id` (`partner_id`);
+ALTER TABLE `mst_partnertrxmodel` ADD KEY `trxmodel_id` (`trxmodel_id`);
+ALTER TABLE `mst_partnertrxmodel` ADD KEY `coa_id` (`coa_id`);
+ALTER TABLE `mst_partnertrxmodel` ADD KEY `unbill_coa_id` (`unbill_coa_id`);
+ALTER TABLE `mst_partnertrxmodel` ADD KEY `partner_id` (`partner_id`);
 
-ALTER TABLE `mst_partnerbilltype` ADD CONSTRAINT `fk_mst_partnerbilltype_mst_billtype` FOREIGN KEY (`billtype_id`) REFERENCES `mst_billtype` (`billtype_id`);
-ALTER TABLE `mst_partnerbilltype` ADD CONSTRAINT `fk_mst_partnerbilltype_mst_coa` FOREIGN KEY (`coa_id`) REFERENCES `mst_coa` (`coa_id`);
-ALTER TABLE `mst_partnerbilltype` ADD CONSTRAINT `fk_mst_partnerbilltype_mst_coa_2` FOREIGN KEY (`unbill_coa_id`) REFERENCES `mst_coa` (`coa_id`);
-ALTER TABLE `mst_partnerbilltype` ADD CONSTRAINT `fk_mst_partnerbilltype_mst_partner` FOREIGN KEY (`partner_id`) REFERENCES `mst_partner` (`partner_id`);
+ALTER TABLE `mst_partnertrxmodel` ADD CONSTRAINT `fk_mst_partnertrxmodel_mst_trxmodel` FOREIGN KEY (`trxmodel_id`) REFERENCES `mst_trxmodel` (`trxmodel_id`);
+ALTER TABLE `mst_partnertrxmodel` ADD CONSTRAINT `fk_mst_partnertrxmodel_mst_coa` FOREIGN KEY (`coa_id`) REFERENCES `mst_coa` (`coa_id`);
+ALTER TABLE `mst_partnertrxmodel` ADD CONSTRAINT `fk_mst_partnertrxmodel_mst_coa_2` FOREIGN KEY (`unbill_coa_id`) REFERENCES `mst_coa` (`coa_id`);
+ALTER TABLE `mst_partnertrxmodel` ADD CONSTRAINT `fk_mst_partnertrxmodel_mst_partner` FOREIGN KEY (`partner_id`) REFERENCES `mst_partner` (`partner_id`);
+
+
+
+
+
+CREATE TABLE `mst_partnerref` (
+	`partnerref_id` varchar(14) NOT NULL , 
+	`interface_id` varchar(7) NOT NULL , 
+	`partnerref_code` varchar(30) NOT NULL , 
+	`partner_id` varchar(14) NOT NULL , 
+	`_createby` varchar(13) NOT NULL , 
+	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
+	`_modifyby` varchar(13)  , 
+	`_modifydate` datetime  , 
+	UNIQUE KEY `partnerref_pair` (`partner_id`, `interface_id`),
+	PRIMARY KEY (`partnerref_id`)
+) 
+ENGINE=InnoDB
+COMMENT='Kode referensi partner untuk keperluan interfacing dengan system lain';
+
+ALTER TABLE `mst_partnerref` ADD KEY `interface_id` (`interface_id`);
+ALTER TABLE `mst_partnerref` ADD KEY `partner_id` (`partner_id`);
+
+ALTER TABLE `mst_partnerref` ADD CONSTRAINT `fk_mst_partnerref_mst_interface` FOREIGN KEY (`interface_id`) REFERENCES `mst_interface` (`interface_id`);
+ALTER TABLE `mst_partnerref` ADD CONSTRAINT `fk_mst_partnerref_mst_partner` FOREIGN KEY (`partner_id`) REFERENCES `mst_partner` (`partner_id`);
+
+
+
 
 

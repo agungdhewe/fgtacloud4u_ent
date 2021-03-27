@@ -7,6 +7,7 @@ const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
 const btn_delete = $('#pnl_edit-btn_delete')
 
+
 const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_doc_id: $('#pnl_edit-txt_doc_id'),
@@ -27,8 +28,10 @@ export async function init(opt) {
 	var disableedit = false;
 	// switch (this_page_options.variancename) {
 	// 	case 'commit' :
-	//		btn_edit.linkbutton('disable');
 	//		disableedit = true;
+	//		btn_edit.linkbutton('disable');
+	//		btn_save.linkbutton('disable');
+	//		btn_delete.linkbutton('disable');
 	//		break;
 	// }
 
@@ -47,8 +50,13 @@ export async function init(opt) {
 		OnDataDeleting: async (data, options) => { await form_deleting(data, options) },
 		OnDataDeleted: async (result, options) => { await form_deleted(result, options) },
 		OnIdSetup : (options) => { form_idsetup(options) },
-		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) }
+		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) },
+		OnRecordStatusCreated: () => {
+		//	$('#pnl_edit_record_custom').detach().appendTo("#pnl_edit_record");
+		//	$('#pnl_edit_record_custom').show();
+		}		
 	})
+
 
 
 
@@ -122,6 +130,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 
+		form.SuspendEvent(true);
 		form
 			.fill(result.record)
 			.commit()
@@ -131,6 +140,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 		// tampilkan form untuk data editor
 		fn_callback()
+		form.SuspendEvent(false);
 
 
 		// fill data, bisa dilakukan secara manual dengan cara berikut:	
@@ -148,7 +158,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 	}
 
 	var fn_dataopenerror = (err) => {
-		$ui.ShowMessage(err.errormessage);
+		$ui.ShowMessage('[ERROR]'+err.errormessage);
 	}
 
 	form.dataload(fn_dataopening, fn_dataopened, fn_dataopenerror)

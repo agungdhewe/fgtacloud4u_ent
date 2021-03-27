@@ -5,14 +5,24 @@ if (!defined('FGTA4')) {
 }
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
-
+// require_once __ROOT_DIR . "/core/sequencer.php";
 
 use \FGTA4\exceptions\WebException;
+// use \FGTA4\utils\Sequencer;
 
+
+
+// /* Enable Debugging */
+// require_once __ROOT_DIR.'/core/debug.php';
+// use \FGTA4\debug;
 
 
 class DataSave extends WebAPI {
 	function __construct() {
+		$logfilepath = __LOCALDB_DIR . "/output/partner-save.txt";
+		// debug::disable();
+		// debug::start($logfilepath, "w");
+
 		$this->debugoutput = true;
 		$DB_CONFIG = DB_CONFIG[$GLOBALS['MAINDB']];
 		$DB_CONFIG['param'] = DB_CONFIG_PARAM[$GLOBALS['MAINDBTYPE']];
@@ -68,9 +78,13 @@ class DataSave extends WebAPI {
 			$obj->partner_parent = strtoupper($obj->partner_parent);
 			$obj->partnertype_id = strtoupper($obj->partnertype_id);
 			$obj->partnerorg_id = strtoupper($obj->partnerorg_id);
+			$obj->empl_id = strtoupper($obj->empl_id);
 
 
 			// if ($obj->partner_parent=='--NULL--') { unset($obj->partner_parent); }
+			// if ($obj->empl_id=='--NULL--') { unset($obj->empl_id); }
+
+
 
 
 
@@ -111,7 +125,7 @@ class DataSave extends WebAPI {
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
 			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey, 'partner_id', 'partner_name', 'partner_addressline1', 'partner_addressline2', 'partner_postcode', 'partner_city', 'partner_country', 'partner_phone', 'partner_mobilephone', 'partner_email', 'partner_isdisabled', 'partner_isparent', 'partner_parent', 'partnertype_id', 'partnerorg_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
+				$primarykey, 'partner_id', 'partner_name', 'partner_addressline1', 'partner_addressline2', 'partner_postcode', 'partner_city', 'partner_country', 'partner_phone', 'partner_mobilephone', 'partner_email', 'partner_isdisabled', 'partner_isparent', 'partner_parent', 'partnertype_id', 'partnerorg_id', 'empl_id', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
 			], $where->sql);
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute($where->params);
@@ -127,6 +141,7 @@ class DataSave extends WebAPI {
 				'partner_parent_name' => \FGTA4\utils\SqlUtility::Lookup($data->partner_parent, $this->db, 'mst_partner', 'partner_id', 'partner_name'),
 				'partnertype_name' => \FGTA4\utils\SqlUtility::Lookup($data->partnertype_id, $this->db, 'mst_partnertype', 'partnertype_id', 'partnertype_name'),
 				'partnerorg_name' => \FGTA4\utils\SqlUtility::Lookup($data->partnerorg_id, $this->db, 'mst_partnerorg', 'partnerorg_id', 'partnerorg_name'),
+				'empl_name' => \FGTA4\utils\SqlUtility::Lookup($data->empl_id, $this->db, 'mst_empl', 'empl_id', 'empl_name'),
 				
 			]);
 
@@ -137,7 +152,7 @@ class DataSave extends WebAPI {
 	}
 
 	public function NewId($param) {
-		return uniqid();
+					return uniqid();
 	}
 
 }

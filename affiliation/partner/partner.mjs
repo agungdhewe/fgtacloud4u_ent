@@ -11,8 +11,11 @@ import * as pEditContactgrid from './partner-contactgrid.mjs'
 import * as pEditContactform from './partner-contactform.mjs'
 import * as pEditSitegrid from './partner-sitegrid.mjs'
 import * as pEditSiteform from './partner-siteform.mjs'
-import * as pEditBilltypegrid from './partner-billtypegrid.mjs'
-import * as pEditBilltypeform from './partner-billtypeform.mjs'
+import * as pEditModeltransaksigrid from './partner-modeltransaksigrid.mjs'
+import * as pEditModeltransaksiform from './partner-modeltransaksiform.mjs'
+import * as pEditRefgrid from './partner-refgrid.mjs'
+import * as pEditRefform from './partner-refform.mjs'
+
 
 
 const pnl_list = $('#pnl_list')
@@ -23,8 +26,12 @@ const pnl_editcontactgrid = $('#pnl_editcontactgrid')
 const pnl_editcontactform = $('#pnl_editcontactform')
 const pnl_editsitegrid = $('#pnl_editsitegrid')
 const pnl_editsiteform = $('#pnl_editsiteform')
-const pnl_editbilltypegrid = $('#pnl_editbilltypegrid')
-const pnl_editbilltypeform = $('#pnl_editbilltypeform')
+const pnl_editmodeltransaksigrid = $('#pnl_editmodeltransaksigrid')
+const pnl_editmodeltransaksiform = $('#pnl_editmodeltransaksiform')
+const pnl_editrefgrid = $('#pnl_editrefgrid')
+const pnl_editrefform = $('#pnl_editrefform')
+
+
 
 var pages = fgta4pages;
 var slider = fgta4pageslider;
@@ -54,8 +61,10 @@ export async function init(opt) {
 			{panel: pnl_editcontactform, handler: pEditContactform},
 			{panel: pnl_editsitegrid, handler: pEditSitegrid},
 			{panel: pnl_editsiteform, handler: pEditSiteform},
-			{panel: pnl_editbilltypegrid, handler: pEditBilltypegrid},
-			{panel: pnl_editbilltypeform, handler: pEditBilltypeform}				
+			{panel: pnl_editmodeltransaksigrid, handler: pEditModeltransaksigrid},
+			{panel: pnl_editmodeltransaksiform, handler: pEditModeltransaksiform},
+			{panel: pnl_editrefgrid, handler: pEditRefgrid},
+			{panel: pnl_editrefform, handler: pEditRefform}			
 		], opt)
 
 	$ui.setPages(pages)

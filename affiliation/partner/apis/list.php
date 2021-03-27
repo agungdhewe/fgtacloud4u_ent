@@ -56,7 +56,7 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-				partner_id, partner_name, partner_addressline1, partner_addressline2, partner_postcode, partner_city, partner_country, partner_phone, partner_mobilephone, partner_email, partner_isdisabled, partner_isparent, partner_parent, partnertype_id, partnerorg_id, _createby, _createdate, _modifyby, _modifydate 
+				partner_id, partner_name, partner_addressline1, partner_addressline2, partner_postcode, partner_city, partner_country, partner_phone, partner_mobilephone, partner_email, partner_isdisabled, partner_isparent, partner_parent, partnertype_id, partnerorg_id, empl_id, _createby, _createdate, _modifyby, _modifydate 
 				from mst_partner A
 			" . $where->sql . $limit);
 			$stmt->execute($where->params);
@@ -77,6 +77,7 @@ class DataList extends WebAPI {
 					'partner_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_parent'], $this->db, 'mst_partner', 'partner_id', 'partner_name'),
 					'partnertype_name' => \FGTA4\utils\SqlUtility::Lookup($record['partnertype_id'], $this->db, 'mst_partnertype', 'partnertype_id', 'partnertype_name'),
 					'partnerorg_name' => \FGTA4\utils\SqlUtility::Lookup($record['partnerorg_id'], $this->db, 'mst_partnerorg', 'partnerorg_id', 'partnerorg_name'),
+					'empl_name' => \FGTA4\utils\SqlUtility::Lookup($record['empl_id'], $this->db, 'mst_empl', 'empl_id', 'empl_name'),
 					 
 				]));
 			}

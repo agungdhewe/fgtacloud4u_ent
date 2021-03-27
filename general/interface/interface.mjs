@@ -2,9 +2,9 @@ import {fgta4grid} from  '../../../../../index.php/asset/fgta/framework/fgta4lib
 import {fgta4form} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4form.mjs'
 import * as fgta4pages from '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4pages.mjs'
 import * as fgta4pageslider from '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4pageslider.mjs'
-import * as apis from './taxtype.apis.mjs'
-import * as pList from './taxtype-list.mjs'
-import * as pEdit from './taxtype-edit.mjs'
+import * as apis from './interface.apis.mjs'
+import * as pList from './interface-list.mjs'
+import * as pEdit from './interface-edit.mjs'
 
 
 

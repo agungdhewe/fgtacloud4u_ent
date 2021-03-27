@@ -52,14 +52,14 @@ class DataList extends WebAPI {
 
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
-				select 
-				docauth_id, docauth_descr, docauth_order, docauth_value, docauth_min, authlevel_id, auth_id, doc_id, _createby, _createdate, _modifyby, _modifydate 
-				from mst_docauth A
-			" 
-			. $where->sql 
-			. " order by A.docauth_order  "
-			. $limit);
-			
+					select 
+					docauth_id, docauth_descr, docauth_order, docauth_value, docauth_min, authlevel_id, auth_id, doc_id, _createby, _createdate, _modifyby, _modifydate 
+					from mst_docauth A
+				" 
+				. $where->sql 
+				. " order by docauth_order "
+				. $limit
+			);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 

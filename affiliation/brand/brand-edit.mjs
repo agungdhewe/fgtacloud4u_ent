@@ -1,10 +1,12 @@
 var this_page_id;
+var this_page_options;
 
 import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
 const btn_delete = $('#pnl_edit-btn_delete')
+
 
 const pnl_form = $('#pnl_edit-form')
 const obj = {
@@ -22,16 +24,28 @@ const obj = {
 let form = {}
 
 export async function init(opt) {
-	this_page_id = opt.id
+	this_page_id = opt.id;
+	this_page_options = opt;
+
+
+	var disableedit = false;
+	// switch (this_page_options.variancename) {
+	// 	case 'commit' :
+	//		disableedit = true;
+	//		btn_edit.linkbutton('disable');
+	//		btn_save.linkbutton('disable');
+	//		btn_delete.linkbutton('disable');
+	//		break;
+	// }
 
 
 	form = new global.fgta4form(pnl_form, {
 		primary: obj.txt_brand_id,
 		autoid: false,
 		logview: 'mst_brand',
-		btn_edit: btn_edit,
-		btn_save: btn_save,
-		btn_delete: btn_delete,		
+		btn_edit: disableedit==true? $('<a>edit</a>') : btn_edit,
+		btn_save: disableedit==true? $('<a>save</a>') : btn_save,
+		btn_delete: disableedit==true? $('<a>delete</a>') : btn_delete,		
 		objects : obj,
 		OnDataSaving: async (data, options) => { await form_datasaving(data, options) },
 		OnDataSaveError: async (data, options) => { await form_datasaveerror(data, options) },
@@ -54,7 +68,12 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'brandtype_id', text: 'brandtype_id'},
 			{mapping: 'brandtype_name', text: 'brandtype_name'},
-		]
+		],
+		OnDataLoading: (criteria) => {},
+		OnDataLoaded : (result, options) => {
+				
+		},
+		OnSelected: (value, display, record) => {}
 	})				
 				
 	new fgta4slideselect(obj.cbo_unit_id, {
@@ -67,9 +86,15 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'unit_id', text: 'unit_id'},
 			{mapping: 'unit_name', text: 'unit_name'},
-		]
+		],
+		OnDataLoading: (criteria) => {},
+		OnDataLoaded : (result, options) => {
+				
+		},
+		OnSelected: (value, display, record) => {}
 	})				
 				
+
 
 
 
@@ -138,6 +163,9 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 	var fn_dataopened = async (result, options) => {
 
+
+
+		form.SuspendEvent(true);
 		form
 			.fill(result.record)
 			.setValue(obj.cbo_brandtype_id, result.record.brandtype_id, result.record.brandtype_name)
@@ -149,6 +177,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 		// tampilkan form untuk data editor
 		fn_callback()
+		form.SuspendEvent(false);
 
 
 		// fill data, bisa dilakukan secara manual dengan cara berikut:	
@@ -166,7 +195,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 	}
 
 	var fn_dataopenerror = (err) => {
-		$ui.ShowMessage(err.errormessage);
+		$ui.ShowMessage('[ERROR]'+err.errormessage);
 	}
 
 	form.dataload(fn_dataopening, fn_dataopened, fn_dataopenerror)
@@ -182,12 +211,19 @@ export function createnew() {
 
 		// set nilai-nilai default untuk form
 
+			data.brandtype_id = '0'
+			data.brandtype_name = '-- PILIH --'
+			data.unit_id = '0'
+			data.unit_name = '-- PILIH --'
+
+
 
 		options.OnCanceled = () => {
 			$ui.getPages().show('pnl_list')
 		}
 
 		$ui.getPages().ITEMS['pnl_editpartnergrid'].handler.createnew(data, options)
+		$ui.getPages().ITEMS['pnl_editrefgrid'].handler.createnew(data, options)
 
 
 	})
@@ -272,6 +308,8 @@ async function form_datasaved(result, options) {
 
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
+
+
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
 }
 

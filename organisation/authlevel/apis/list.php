@@ -55,10 +55,14 @@ class DataList extends WebAPI {
 
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
-				select 
-				authlevel_id, authlevel_name, authlevel_descr, authlevel_order, _createby, _createdate, _modifyby, _modifydate 
-				from mst_authlevel A
-			" . $where->sql . $limit);
+					select 
+					authlevel_id, authlevel_name, authlevel_descr, authlevel_order, _createby, _createdate, _modifyby, _modifydate 
+					from mst_authlevel A
+				" 
+				. $where->sql 
+				. " order by authlevel_order "
+				. $limit
+			);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 

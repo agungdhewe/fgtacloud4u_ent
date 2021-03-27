@@ -1,6 +1,7 @@
 {
 	"title" : "Currency",
 	"icon" : "icon-currencies-white.png",
+	"backcolor" : "#9e4d53",
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

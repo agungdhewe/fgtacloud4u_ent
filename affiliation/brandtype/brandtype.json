@@ -1,6 +1,6 @@
 {
 	"title" : "Brand Type",
-	"icon" : "icon-brandtype-white.png",
+	"variance" : {},
 	"allowanonymous" : true,
 	"allowedgroups" : ["public"],
 	"apis" : {

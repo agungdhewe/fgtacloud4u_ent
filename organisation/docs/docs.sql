@@ -16,6 +16,9 @@ COMMENT='Daftar Dokumen';
 
 
 
+
+
+
 CREATE TABLE `mst_docauth` (
 	`docauth_id` varchar(14) NOT NULL , 
 	`docauth_descr` varchar(90)  , 

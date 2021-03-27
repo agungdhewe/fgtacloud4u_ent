@@ -209,6 +209,7 @@ export function open(data, rowid, hdata) {
 
 
 
+		form.SuspendEvent(true);
 		form
 			.fill(result.record)
 			.setValue(obj.cbo_trxmodel_id, result.record.trxmodel_id, result.record.trxmodel_name)
@@ -217,6 +218,8 @@ export function open(data, rowid, hdata) {
 			.commit()
 			.setViewMode()
 			.rowid = rowid
+
+		form.SuspendEvent(false);
 
 
 		// Editable
@@ -256,7 +259,11 @@ export function open(data, rowid, hdata) {
 		}		
 	}
 
-	form.dataload(fn_dataopening, fn_dataopened)	
+	var fn_dataopenerror = (err) => {
+		$ui.ShowMessage('[ERROR]'+err.errormessage);
+	}
+
+	form.dataload(fn_dataopening, fn_dataopened, fn_dataopenerror)	
 }
 
 export function createnew(hdata) {

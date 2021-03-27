@@ -26,18 +26,12 @@ class DataSave extends WebAPI {
 	}
 	
 	public function execute($data, $options) {
-		$tablename = 'mst_taxtype';
-		$primarykey = 'taxtype_id';
+		$tablename = 'mst_partnerref';
+		$primarykey = 'partnerref_id';
 
 		$userdata = $this->auth->session_get_user();
 
 		try {
-
-			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->RequestIsAllowedFor($this->reqinfo, "delete", $userdata->groups)) {
-				throw new \Exception('your group authority is not allowed to do this action.');
-			}
-
 			$result = new \stdClass; 
 			
 			$key = new \stdClass;
@@ -51,7 +45,18 @@ class DataSave extends WebAPI {
 				$stmt = $this->db->prepare($cmd->sql);
 				$stmt->execute($cmd->params);
 
+
+				$header_table = 'mst_partner';
+				$header_primarykey = 'partner_id';
+				$sqlrec = "update $header_table set _modifyby = :user_id, _modifydate=NOW() where $header_primarykey = :$header_primarykey";
+				$stmt = $this->db->prepare($sqlrec);
+				$stmt->execute([
+					":user_id" => $userdata->username,
+					":$header_primarykey" => $data->{$header_primarykey}
+				]);
+
 				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $tablename, $key->{$primarykey}, 'DELETE', $userdata->username, (object)[]);
+				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $header_table, $data->{$header_primarykey}, 'DELETE_DETIL', $userdata->username, (object)[]);
 
 				$this->db->commit();
 
